@@ -1,2 +1,1 @@
-# oddc
-oddc package development 
+This repository will be used for developing the package 'download oceaographic data' or 'dod'. The goal of this package is to make it easier to find and download oceanographic data of various types from various servers.    
