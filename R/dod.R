@@ -1,13 +1,13 @@
 #' General function for downloading data
 #'
-#' bfbwyfbfbwhfyeerwhbdbgdfgf
+#' For example if `type` is `"topo"`, [oce::download.topo()] is called.
 #'
-#' @param type a character value indicating the type of data eg. `"ctd"`
+#' @param type a character value indicating the type of data eg. `"topo"`
 #'
 #' @author Annie Howard, Jaimie Harbin
 #'
 #' @export
-download <- function(type, ...)
+dod <- function(type, ...)
 {
 	message(type)
 	if (type == "topo") {
