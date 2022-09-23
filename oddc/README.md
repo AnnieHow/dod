@@ -1,2 +1,0 @@
-# oddc
-oddc package development 
