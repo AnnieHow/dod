@@ -14,6 +14,8 @@
 #'  @param debug integer value indicating level of debugging.
 #'  If this is less than 1, no debugging is done. Otherwise,
 #'  some functions will print debugging information.
+#'
+#'  @export
 
 dod.ctd <- function(program, year, item, debug=0)
 {

@@ -17,7 +17,9 @@ For example, \code{index} or \code{data}.
 
 @param debug integer value indicating level of debugging.
 If this is less than 1, no debugging is done. Otherwise,
-some functions will print debugging information.}
+some functions will print debugging information.
+
+@export}
 }
 \description{
 This function downloads ctd data from various programs

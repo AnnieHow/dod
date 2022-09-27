@@ -27,16 +27,20 @@ You can install the development version of oddc from [GitHub](https://github.com
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("AnnieHow/oddc")
+devtools::install_github("AnnieHow/dod")
 ```
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example which shows you how to download ctd index from the BBMP program in the year 2022 and read it using the `oce` package. 
 
 ```{r example}
-library(oddc)
-## basic example code
+library(dod)
+library(oce)
+index <- dod.ctd("BBMP", 2022, "index") 
+item <- index[1,"file"]
+file <- dod.ctd("BBMP", 2022, item)
+plot(read.ctd(file))
 ```
 
 What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
