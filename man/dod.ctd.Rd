@@ -13,13 +13,11 @@ program to download ctd data from. Options include BBMP, etc.}
 \item{year}{argument specifying the year of interest.}
 
 \item{item}{the type of data the user wishes to download.
-For example, \code{index} or \code{data}.
+For example, \code{index} or \code{data}.}
 
-@param debug integer value indicating level of debugging.
+\item{debug}{integer value indicating level of debugging.
 If this is less than 1, no debugging is done. Otherwise,
-some functions will print debugging information.
-
-@export}
+some functions will print debugging information.}
 }
 \description{
 This function downloads ctd data from various programs

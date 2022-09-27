@@ -11,11 +11,13 @@
 #' @param item the type of data the user wishes to download.
 #' For example, `index` or `data`.
 #'
-#'  @param debug integer value indicating level of debugging.
-#'  If this is less than 1, no debugging is done. Otherwise,
-#'  some functions will print debugging information.
+#' @param debug integer value indicating level of debugging.
+#' If this is less than 1, no debugging is done. Otherwise,
+#' some functions will print debugging information.
 #'
-#'  @export
+#' @importFrom utils download.file
+#' @importFrom utils read.csv
+#' @export
 
 dod.ctd <- function(program, year, item, debug=0)
 {

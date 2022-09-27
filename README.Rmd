@@ -13,17 +13,17 @@ knitr::opts_chunk$set(
 )
 ```
 
-# oddc
+# dod
 
 <!-- badges: start -->
-[![CRAN status](https://www.r-pkg.org/badges/version/oddc)](https://CRAN.R-project.org/package=oddc)
+[![CRAN status](https://www.r-pkg.org/badges/version/dod)](https://CRAN.R-project.org/package=dod)
 <!-- badges: end -->
 
-The goal of oddc is to ...
+The goal of dod is to ...
 
 ## Installation
 
-You can install the development version of oddc from [GitHub](https://github.com/) with:
+You can install the development version of dod from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
