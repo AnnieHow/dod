@@ -1,22 +1,55 @@
-#' General function for downloading data
+#' For example
+#' # ftp://ftp.dfo-mpo.gc.ca/BIOWebMaster/BBMP/ODF/2022/2022667ODFSUMMARY.tsv
+#' index <- dod.ctd("BBMP", 2022, "index")
+#' i <- read.delim(index, sep="\t", skip=2)
+#' l <- readLines(i)
+#' # ftp://ftp.dfo-mpo.gc.ca/BIOWebMaster/BBMP/ODF/2022/D22667002.ODF
+#' dod.ctd("BBMP", 2022, "D22667002")
+
+
+#' Download ctd data
 #'
-#' For example if `type` is `"topo"`, [oce::download.topo()] is called.
+#' This function downloads ctd data from various programs
+#' including the Bedford Basin Mooring Program (BBMP), etc.
 #'
-#' @param type a character value indicating the type of data eg. `"topo"`
+#' @param program argument specifying the desired oceanographic
+#' program to download ctd data from. Options include BBMP, etc.
 #'
-#' @author Annie Howard, Jaimie Harbin
+#' @param year argument specifying the year of interest.
 #'
-#' @export
-dod <- function(type, ...)
+#' @param item the type of data the user wishes to download.
+#' For example, `index` or `data`.
+#'
+#'  @param debug integer value indicating level of debugging.
+#'  If this is less than 1, no debugging is done. Otherwise,
+#'  some functions will print debugging information.
+
+dod.ctd <- function(program, year, item, debug=0)
 {
-	message(type)
-	if (type == "topo") {
-		oce::download.topo(...)
-	} else if (type == "met") {
-		oce::download.met(...)
-	} else {
-		stop("dog")
-	}
+  if (program == "?") {
+    stop("Must provide a program argument, possibilities include: BBMP")
+  }
+  if (program == "BBMP") {
+    server <- "ftp://ftp.dfo-mpo.gc.ca/BIOWebMaster/BBMP/ODF"
+    if (missing(year))
+      stop("must give 'year'")
+    server <- paste0(server, "/", year)
+    if (item == "index") {
+      file <- paste0(year, "667ODFSUMMARY.tsv")
+      if (debug)
+        cat(oce::vectorShow(file))
+      url <- paste0(server, "/", file)
+      if (debug)
+        cat(oce::vectorShow(url))
+      download.file(url, file)
+      if (debug)
+        cat(oce::vectorShow(file))
+      url <- paste0(server, "/", file)
+      return(read.csv(file, header=FALSE, skip=3, col.names=c("file", "time")))
+    } else {
+      url <- paste0(server, "/", item)
+      download.file(url, item)
+      return(item)
+    }
+  }
 }
-
-
