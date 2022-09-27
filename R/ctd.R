@@ -1,12 +1,3 @@
-#' For example
-#' # ftp://ftp.dfo-mpo.gc.ca/BIOWebMaster/BBMP/ODF/2022/2022667ODFSUMMARY.tsv
-#' index <- dod.ctd("BBMP", 2022, "index")
-#' i <- read.delim(index, sep="\t", skip=2)
-#' l <- readLines(i)
-#' # ftp://ftp.dfo-mpo.gc.ca/BIOWebMaster/BBMP/ODF/2022/D22667002.ODF
-#' dod.ctd("BBMP", 2022, "D22667002")
-
-
 #' Download ctd data
 #'
 #' This function downloads ctd data from various programs
