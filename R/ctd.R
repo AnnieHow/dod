@@ -19,6 +19,11 @@
 #'
 #' @importFrom utils download.file
 #' @importFrom utils read.csv
+#' @importFrom oce read.odf
+#'
+#' @return If program = "BBMP", an `oce` object is returned.
+#' If program = "BATS", a data frame is returned.
+#'
 #' @export
 
 dod.ctd <- function(program, year, item = "index", debug=0)
@@ -68,6 +73,32 @@ if (program == "BATS") {
     message("The program is equal to ", program)
   }
   server <- "http://batsftp.bios.edu/BATS/ctd/ASCII/"
+  if (item == "index") {
+    message("We will code this in")
+  }
+  else {
+    if (debug) {
+    message("The item type is ",item)
+    }
+
+  url <- paste0(server, "b",item, "_ctd.txt")
+
+  if (debug) {
+    cat(oce::vectorShow(url))
+  }
+  f <- download.file(url, item)
+
+  if (debug) {
+    cat(oce::vectorShow(f))
+  }
+
+  names <- c("ID", "date","latitude", "longitude", "pressure","depth","temperature","conductivity", "salinity", "oxygen", "beamAttenuationCoefficient",
+             "fluorescence", "PAR")
+  t <- read.csv(item, sep="\t", header=FALSE, col.names= names)
+
+  return(t)
+  }
+
 
 }
 }

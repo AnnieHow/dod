@@ -12,12 +12,18 @@ program to download ctd data from. Options include BBMP, etc.}
 
 \item{year}{argument specifying the year of interest.}
 
-\item{item}{the type of data the user wishes to download.
-For example, \code{index} or \code{data}.}
+\item{item}{enter \code{index} for this argument, to see a list
+of possible files to download. Once you've selected your
+file(s), use those as the input for \code{item} to download
+them.}
 
 \item{debug}{integer value indicating level of debugging.
 If this is less than 1, no debugging is done. Otherwise,
 some functions will print debugging information.}
+}
+\value{
+If program = "BBMP", an \code{oce} object is returned.
+If program = "BATS", a data frame is returned.
 }
 \description{
 This function downloads ctd data from various programs
