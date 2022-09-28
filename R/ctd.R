@@ -8,8 +8,9 @@
 #'
 #' @param year argument specifying the year of interest.
 #'
-#' @param item the type of data the user wishes to download.
-#' For example, `index` or `data`.
+#' @param item use the default , `index`, to see a list of
+#' possible files to download. Once you've selected your file,
+#' use
 #'
 #' @param debug integer value indicating level of debugging.
 #' If this is less than 1, no debugging is done. Otherwise,
@@ -19,16 +20,19 @@
 #' @importFrom utils read.csv
 #' @export
 
-dod.ctd <- function(program, year, item, debug=0)
+dod.ctd <- function(program, year, item = "index", debug=0)
 {
   if (program == "?") {
-    stop("Must provide a program argument, possibilities include: BBMP")
+    stop("Must provide a program argument, possibilities include: BBMP, BATS")
   }
   if (program == "BBMP") {
     server <- "ftp://ftp.dfo-mpo.gc.ca/BIOWebMaster/BBMP/ODF"
     if (missing(year))
       stop("must give 'year'")
     server <- paste0(server, "/", year)
+
+    if (debug)
+      cat(oce::vectorShow(server))
     if (item == "index") {
       file <- paste0(year, "667ODFSUMMARY.tsv")
       if (debug)
@@ -43,8 +47,26 @@ dod.ctd <- function(program, year, item, debug=0)
       return(read.csv(file, header=FALSE, skip=3, col.names=c("file", "time")))
     } else {
       url <- paste0(server, "/", item)
-      download.file(url, item)
-      return(item)
+      if (debug) {
+        cat(oce::vectorShow(url))
+      }
+      if (debug) {
+        cat(oce::vectorShow(item))
+      }
+      f <- download.file(url, item)
+
+      if (debug) {
+        cat(oce::vectorShow(f))
+      }
+      t <- read.odf(item)
+      return(t)
     }
   }
+if (program == "BATS") {
+  if (debug) {
+    message("The program is equal to ", program)
+  }
+  server <- "http://batsftp.bios.edu/BATS/ctd/ASCII/"
+
+}
 }
