@@ -8,10 +8,11 @@
 #'
 #' @param year argument specifying the year of interest.
 #'
-#' @param item enter `index` for this argument, to see a list
-#' of possible files to download. Once you've selected your
-#' file(s), use those as the input for `item` to download
-#' them.
+#' @param index a boolean value indicating whether the index
+#' should be downloaded.
+#'
+#' @param ID for BBMP, this is the desired file from the index.
+#' For BATS, is the 5 digit cruise ID.
 #'
 #' @param debug integer value indicating level of debugging.
 #' If this is less than 1, no debugging is done. Otherwise,
@@ -26,7 +27,7 @@
 #'
 #' @export
 
-dod.ctd <- function(program, year, item = "index", debug=0)
+dod.ctd <- function(program, year, ID=NULL, index= FALSE, debug=0)
 {
   if (program == "?") {
     stop("Must provide a program argument, possibilities include: BBMP, BATS")
@@ -39,7 +40,7 @@ dod.ctd <- function(program, year, item = "index", debug=0)
 
     if (debug)
       cat(oce::vectorShow(server))
-    if (item == "index") {
+    if (index == TRUE) {
       file <- paste0(year, "667ODFSUMMARY.tsv")
       if (debug)
         cat(oce::vectorShow(file))
@@ -52,19 +53,19 @@ dod.ctd <- function(program, year, item = "index", debug=0)
       url <- paste0(server, "/", file)
       return(read.csv(file, header=FALSE, skip=3, col.names=c("file", "time")))
     } else {
-      url <- paste0(server, "/", item)
+      url <- paste0(server, "/", ID)
       if (debug) {
         cat(oce::vectorShow(url))
       }
       if (debug) {
-        cat(oce::vectorShow(item))
+        cat(oce::vectorShow(ID))
       }
-      f <- download.file(url, item)
+      f <- download.file(url, ID)
 
       if (debug) {
         cat(oce::vectorShow(f))
       }
-      t <- read.odf(item)
+      t <- read.odf(ID)
       return(t)
     }
   }
@@ -73,20 +74,32 @@ if (program == "BATS") {
     message("The program is equal to ", program)
   }
   server <- "http://batsftp.bios.edu/BATS/ctd/ASCII/"
-  if (item == "index") {
-    message("We will code this in")
+  if (index==TRUE) {
+    if (is.null(ID) | ID < 10000)
+    stop("Must provide an ID number greater than 10000")
+
+    url <- paste0(server, "b",ID, "_info.txt")
+    if (debug) {
+      message("The url is equal to ",url)
+    }
+    f <- download.file(url, ID)
+    namesInfo <- c("ID", "dateDeployed","dateRecovered","decimalDateDeployed","decimalDateRecovered",
+                   "decimalDayDeployed", "timeDeployed", "timeRecovered", "latitudeDeployed", "latitudeRecovered",
+                   "longitudeDeployed", "longitudeRecovered")
+    t <- read.csv(ID, sep="\t", header=FALSE, col.names= namesInfo)
+    return(t)
   }
   else {
     if (debug) {
-    message("The item type is ",item)
+    message("The ID type is ",ID)
     }
 
-  url <- paste0(server, "b",item, "_ctd.txt")
+  url <- paste0(server, "b",ID, "_ctd.txt")
 
   if (debug) {
     cat(oce::vectorShow(url))
   }
-  f <- download.file(url, item)
+  f <- download.file(url, ID)
 
   if (debug) {
     cat(oce::vectorShow(f))
@@ -94,7 +107,7 @@ if (program == "BATS") {
 
   names <- c("ID", "date","latitude", "longitude", "pressure","depth","temperature","conductivity", "salinity", "oxygen", "beamAttenuationCoefficient",
              "fluorescence", "PAR")
-  t <- read.csv(item, sep="\t", header=FALSE, col.names= names)
+  t <- read.csv(ID, sep="\t", header=FALSE, col.names= names)
 
   return(t)
   }

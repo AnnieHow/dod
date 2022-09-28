@@ -4,7 +4,7 @@
 \alias{dod.ctd}
 \title{Download ctd data}
 \usage{
-dod.ctd(program, year, item = "index", debug = 0)
+dod.ctd(program, year, ID = NULL, index = FALSE, debug = 0)
 }
 \arguments{
 \item{program}{argument specifying the desired oceanographic
@@ -12,10 +12,11 @@ program to download ctd data from. Options include BBMP, etc.}
 
 \item{year}{argument specifying the year of interest.}
 
-\item{item}{enter \code{index} for this argument, to see a list
-of possible files to download. Once you've selected your
-file(s), use those as the input for \code{item} to download
-them.}
+\item{ID}{for BBMP, this is the desired file from the index.
+For BATS, is the 5 digit cruise ID.}
+
+\item{index}{a boolean value indicating whether the index
+should be downloaded.}
 
 \item{debug}{integer value indicating level of debugging.
 If this is less than 1, no debugging is done. Otherwise,
