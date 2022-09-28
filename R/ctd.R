@@ -8,9 +8,10 @@
 #'
 #' @param year argument specifying the year of interest.
 #'
-#' @param item use the default , `index`, to see a list of
-#' possible files to download. Once you've selected your file,
-#' use
+#' @param item enter `index` for this argument, to see a list
+#' of possible files to download. Once you've selected your
+#' file(s), use those as the input for `item` to download
+#' them.
 #'
 #' @param debug integer value indicating level of debugging.
 #' If this is less than 1, no debugging is done. Otherwise,
