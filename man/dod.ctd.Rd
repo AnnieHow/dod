@@ -33,3 +33,15 @@ If program = "BATS", a data frame is returned.
 This function downloads ctd data from various programs
 including the Bedford Basin Mooring Program (BBMP), etc.
 }
+\examples{
+\dontrun{
+# Download the first file of year 2022.
+destdir <- "~/data/ctd"
+i <- dod.ctd("BBMP", year=2022, index=TRUE)
+f <- dod.ctd("BBMP", year=2022, ID=i$file[1], destdir=destdir)
+library(oce)
+ctd <- read.ctd(f)
+plot(ctd)
+}
+
+}

@@ -28,9 +28,20 @@
 #' @return If program = "BBMP", an `oce` object is returned.
 #' If program = "BATS", a data frame is returned.
 #'
+#' @examples
+#'\dontrun{
+#' # Download the first file of year 2022.
+#' destdir <- "~/data/ctd"
+#' i <- dod.ctd("BBMP", year=2022, index=TRUE)
+#' f <- dod.ctd("BBMP", year=2022, ID=i$file[1], destdir=destdir)
+#' library(oce)
+#' ctd <- read.ctd(f)
+#' plot(ctd)
+#'}
+#'
 #' @export
 
-dod.ctd <- function(program, year, ID=NULL, index= FALSE, destdir=".", debug=0)
+dod.ctd <- function(program, year, ID=NULL, index=FALSE, destdir=".", debug=0)
 {
   if (program == "?") {
     stop("Must provide a program argument, possibilities include: BBMP, BATS")
@@ -64,14 +75,11 @@ dod.ctd <- function(program, year, ID=NULL, index= FALSE, destdir=".", debug=0)
       if (debug) {
         cat(oce::vectorShow(ID))
       }
-      f <- download.file(url, ID)
-
-      if (debug) {
-        cat(oce::vectorShow(f))
-      }
+      #f <- download.file(url, ID)
+      return(dod.download(url, ID, destdir=destdir, debug=debug))
       #t <- read.odf(ID)
       #return(t)
-      return(ID)
+      #return(ID)
     }
   }
 if (program == "BATS") {
