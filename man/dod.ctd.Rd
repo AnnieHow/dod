@@ -18,6 +18,9 @@ For BATS, is the 5 digit cruise ID.}
 \item{index}{a boolean value indicating whether the index
 should be downloaded.}
 
+\item{destdir}{character value indicating the directory
+in which to store downloaded files.}
+
 \item{debug}{integer value indicating level of debugging.
 If this is less than 1, no debugging is done. Otherwise,
 some functions will print debugging information.}

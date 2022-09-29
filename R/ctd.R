@@ -14,6 +14,9 @@
 #' @param ID for BBMP, this is the desired file from the index.
 #' For BATS, is the 5 digit cruise ID.
 #'
+#' @param destdir character value indicating the directory
+#' in which to store downloaded files.
+#'
 #' @param debug integer value indicating level of debugging.
 #' If this is less than 1, no debugging is done. Otherwise,
 #' some functions will print debugging information.
