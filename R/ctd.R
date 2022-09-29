@@ -27,7 +27,7 @@
 #'
 #' @export
 
-dod.ctd <- function(program, year, ID=NULL, index= FALSE, debug=0)
+dod.ctd <- function(program, year, ID=NULL, index= FALSE, destdir=".", debug=0)
 {
   if (program == "?") {
     stop("Must provide a program argument, possibilities include: BBMP, BATS")
@@ -47,7 +47,8 @@ dod.ctd <- function(program, year, ID=NULL, index= FALSE, debug=0)
       url <- paste0(server, "/", file)
       if (debug)
         cat(oce::vectorShow(url))
-      download.file(url, file)
+      #download.file(url, file)
+      dod.download(url, file, destdir)
       if (debug)
         cat(oce::vectorShow(file))
       url <- paste0(server, "/", file)
@@ -65,8 +66,9 @@ dod.ctd <- function(program, year, ID=NULL, index= FALSE, debug=0)
       if (debug) {
         cat(oce::vectorShow(f))
       }
-      t <- read.odf(ID)
-      return(t)
+      #t <- read.odf(ID)
+      #return(t)
+      return(ID)
     }
   }
 if (program == "BATS") {
@@ -107,9 +109,10 @@ if (program == "BATS") {
 
   names <- c("ID", "date","latitude", "longitude", "pressure","depth","temperature","conductivity", "salinity", "oxygen", "beamAttenuationCoefficient",
              "fluorescence", "PAR")
-  t <- read.csv(ID, sep="\t", header=FALSE, col.names= names)
+  #t <- read.csv(ID, sep="\t", header=FALSE, col.names= names)
 
-  return(t)
+  #return(t)
+  return(ID)
   }
 
 

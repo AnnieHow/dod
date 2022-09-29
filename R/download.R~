@@ -1,0 +1,16 @@
+#' Download with diagnostics
+#'
+#' @param url hello
+#'
+#' @param file hello
+#'
+#' @param destdir hello
+#'
+#'
+#' @export
+download.dod <- function(url, file, destdir)
+{
+    message("coffee")
+    t<- try(download.file("Annie", "monkey"), silent=TRUE);
+    inherits(t,"try-error")
+}

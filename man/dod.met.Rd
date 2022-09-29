@@ -10,6 +10,9 @@ dod.met(...)
 \item{...}{additional arguments passed to
 \link[oce:download.met]{oce::download.met}.}
 }
+\value{
+fix me
+}
 \description{
 This function downloads topographic data using
 \link[oce:download.met]{oce::download.met}.

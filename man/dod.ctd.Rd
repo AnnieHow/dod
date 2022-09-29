@@ -4,7 +4,7 @@
 \alias{dod.ctd}
 \title{Download ctd data}
 \usage{
-dod.ctd(program, year, ID = NULL, index = FALSE, debug = 0)
+dod.ctd(program, year, ID = NULL, index = FALSE, destdir = ".", debug = 0)
 }
 \arguments{
 \item{program}{argument specifying the desired oceanographic
