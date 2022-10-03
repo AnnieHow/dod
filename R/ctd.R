@@ -25,8 +25,8 @@
 #' @importFrom utils read.csv
 #' @importFrom oce read.odf
 #'
-#' @return If program = "BBMP", an `oce` object is downloaded.
-#' If program = "BATS", a data frame is downloaded.
+#' @return If `index` is TRUE, and `program` is `"BBMP"` or `"BATS"`,
+#' return a data frame.  Otherwise, return the name of the downloaded file.
 #'
 #' @examples
 #'\dontrun{
