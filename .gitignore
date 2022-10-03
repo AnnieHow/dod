@@ -7,4 +7,5 @@ topo*.nc
 .Ruserdata
 *~
 /doc/
+f[0-9]{2}.*gz
 

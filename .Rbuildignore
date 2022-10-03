@@ -2,3 +2,4 @@
 ^\.Rproj\.user$
 ^CodeofConduct.md$
 ^README.Rmd$
+f[0-9]{2}.*gz
