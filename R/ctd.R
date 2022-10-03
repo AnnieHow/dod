@@ -45,87 +45,87 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, destdir=".", debug=0)
 {
     if (program == "?") {
         stop("Must provide a program argument, possibilities include: BBMP, BATS")
-}
+    }
     if (program == "BBMP") {
         server <- "ftp://ftp.dfo-mpo.gc.ca/BIOWebMaster/BBMP/ODF"
-    if (missing(year))
-        stop("must give 'year'")
+        if (missing(year))
+            stop("must give 'year'")
         server <- paste0(server, "/", year)
 
-    if (debug)
-        cat(oce::vectorShow(server))
-    if (index == TRUE) {
-    file <- paste0(year, "667ODFSUMMARY.tsv")
-    if (debug)
-        cat(oce::vectorShow(file))
-    url <- paste0(server, "/", file)
-    if (debug)
-        cat(oce::vectorShow(url))
-      #download.file(url, file)
-        dod.download(url, file, destdir)
-    if (debug)
-        cat(oce::vectorShow(file))
-    url <- paste0(server, "/", file)
-        return(read.csv(file, header=FALSE, skip=3, col.names=c("file", "time")))
-    } else {
-    url <- paste0(server, "/", ID)
-    if (debug) {
-        cat(oce::vectorShow(url))
-}
-    if (debug) {
-        cat(oce::vectorShow(ID))
-}
-      #f <- download.file(url, ID)
-        return(dod.download(url, ID, destdir=destdir, debug=debug))
-      #t <- read.odf(ID)
-      #return(t)
-      #return(ID)
-}
-}
+        if (debug)
+            cat(oce::vectorShow(server))
+        if (index == TRUE) {
+            file <- paste0(year, "667ODFSUMMARY.tsv")
+            if (debug)
+                cat(oce::vectorShow(file))
+            url <- paste0(server, "/", file)
+            if (debug)
+                cat(oce::vectorShow(url))
+            #download.file(url, file)
+            dod.download(url, file, destdir)
+            if (debug)
+                cat(oce::vectorShow(file))
+            url <- paste0(server, "/", file)
+            return(read.csv(file, header=FALSE, skip=3, col.names=c("file", "time")))
+        } else {
+            url <- paste0(server, "/", ID)
+            if (debug) {
+                cat(oce::vectorShow(url))
+            }
+            if (debug) {
+                cat(oce::vectorShow(ID))
+            }
+            #f <- download.file(url, ID)
+            return(dod.download(url, ID, destdir=destdir, debug=debug))
+            #t <- read.odf(ID)
+            #return(t)
+            #return(ID)
+        }
+    }
     if (program == "BATS") {
-    if (debug) {
-        message("The program is equal to ", program)
-}
-    server <- "http://batsftp.bios.edu/BATS/ctd/ASCII/"
-    if (index==TRUE) {
-    if (is.null(ID) | ID < 10000)
-        stop("Must provide an ID number greater than 10000")
+        if (debug) {
+            message("The program is equal to ", program)
+        }
+        server <- "http://batsftp.bios.edu/BATS/ctd/ASCII/"
+        if (index==TRUE) {
+            if (is.null(ID) | ID < 10000)
+                stop("Must provide an ID number greater than 10000")
 
-    url <- paste0(server, "b",ID, "_info.txt")
-    if (debug) {
-        message("The url is equal to ",url)
-}
-    f <- download.file(url, ID)
-    namesInfo <- c("ID", "dateDeployed","dateRecovered","decimalDateDeployed","decimalDateRecovered",
-                   "decimalDayDeployed", "timeDeployed", "timeRecovered", "latitudeDeployed", "latitudeRecovered",
-                   "longitudeDeployed", "longitudeRecovered")
-    t <- read.csv(ID, sep="\t", header=FALSE, col.names= namesInfo)
-        return(t)
-}
-    else {
-    if (debug) {
-        message("The ID type is ",ID)
-}
+            url <- paste0(server, "b",ID, "_info.txt")
+            if (debug) {
+                message("The url is equal to ",url)
+            }
+            f <- download.file(url, ID)
+            namesInfo <- c("ID", "dateDeployed","dateRecovered","decimalDateDeployed","decimalDateRecovered",
+                "decimalDayDeployed", "timeDeployed", "timeRecovered", "latitudeDeployed", "latitudeRecovered",
+                "longitudeDeployed", "longitudeRecovered")
+            t <- read.csv(ID, sep="\t", header=FALSE, col.names= namesInfo)
+            return(t)
+        }
+        else {
+            if (debug) {
+                message("The ID type is ",ID)
+            }
 
-    url <- paste0(server, "b",ID, "_ctd.txt")
+            url <- paste0(server, "b",ID, "_ctd.txt")
 
-    if (debug) {
-        cat(oce::vectorShow(url))
-}
-    f <- download.file(url, ID)
+            if (debug) {
+                cat(oce::vectorShow(url))
+            }
+            f <- download.file(url, ID)
 
-    if (debug) {
-        cat(oce::vectorShow(f))
-}
+            if (debug) {
+                cat(oce::vectorShow(f))
+            }
 
-    names <- c("ID", "date","latitude", "longitude", "pressure","depth","temperature","conductivity", "salinity", "oxygen", "beamAttenuationCoefficient",
-             "fluorescence", "PAR")
-  #t <- read.csv(ID, sep="\t", header=FALSE, col.names= names)
+            names <- c("ID", "date","latitude", "longitude", "pressure","depth","temperature","conductivity", "salinity", "oxygen", "beamAttenuationCoefficient",
+                "fluorescence", "PAR")
+            #t <- read.csv(ID, sep="\t", header=FALSE, col.names= names)
 
-  #return(t)
-        return(ID)
-}
+            #return(t)
+            return(ID)
+        }
 
 
-}
+    }
 }
