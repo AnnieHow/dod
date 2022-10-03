@@ -26,8 +26,8 @@ If this is less than 1, no debugging is done. Otherwise,
 some functions will print debugging information.}
 }
 \value{
-If program = "BBMP", an \code{oce} object is returned.
-If program = "BATS", a data frame is returned.
+If program = "BBMP", an \code{oce} object is downloaded.
+If program = "BATS", a data frame is downloaded.
 }
 \description{
 This function downloads ctd data from various programs
