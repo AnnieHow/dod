@@ -7,13 +7,13 @@
 dod.met(...)
 }
 \arguments{
-\item{...}{additional arguments passed to
-\link[oce:download.met]{oce::download.met}.}
+\item{...}{arguments passed to
+\code{\link[oce:download.met]{oce::download.met()}}.}
 }
 \value{
-fix me
+String indicating the full pathname to the downloaded file.
 }
 \description{
 This function downloads topographic data using
-\link[oce:download.met]{oce::download.met}.
+\code{\link[oce:download.met]{oce::download.met()}}.
 }

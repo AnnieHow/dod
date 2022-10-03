@@ -23,7 +23,7 @@ a way that corresponds to the longitude limits.}
 \link[oce:download.topo]{oce::download.topo}.}
 }
 \value{
-An oce topo object.
+String indicating the full pathname to the downloaded file.
 }
 \description{
 This function downloads topographic data using
