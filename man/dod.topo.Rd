@@ -4,28 +4,16 @@
 \alias{dod.topo}
 \title{Download topographic data}
 \usage{
-dod.topo(west = -66, east = -60, south = 43, north = 47, ...)
+dod.topo(...)
 }
 \arguments{
-\item{west, east}{numeric values for the limits
-of the data-selection box, in degrees. These
-are converted to the -180 to 180 degree notation,
-if needed. Then, west is rounded down to the nearest
-1/100th degree, and east is rounded up to the the
-nearest 1/100th degree. The results of these
-operations are used in constructing the query for
-the NOAA data server.}
-
-\item{south, north}{latitude limits, treated in
-a way that corresponds to the longitude limits.}
-
-\item{...}{additional arguments passed to
-\link[oce:download.topo]{oce::download.topo}.}
+\item{...}{arguments passed to
+\code{\link[oce:download.topo]{oce::download.topo()}}.}
 }
 \value{
 String indicating the full pathname to the downloaded file.
 }
 \description{
 This function downloads topographic data using
-\link[oce:download.topo]{oce::download.topo}.
+\code{\link[oce:download.topo]{oce::download.topo()}}.
 }
