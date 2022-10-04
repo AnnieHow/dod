@@ -46,6 +46,9 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, destdir=".", debug=0)
     if (program == "?") {
         stop("Must provide a program argument, possibilities include: BBMP, BATS")
     }
+    if (!is.logical(index)) {
+        stop("'index' must be a logical value")
+    }
     if (program == "BBMP") {
         server <- "ftp://ftp.dfo-mpo.gc.ca/BIOWebMaster/BBMP/ODF"
         if (missing(year))
@@ -54,7 +57,7 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, destdir=".", debug=0)
 
         if (debug)
             cat(oce::vectorShow(server))
-        if (index == TRUE) {
+        if (index) {
             file <- paste0(year, "667ODFSUMMARY.tsv")
             if (debug)
                 cat(oce::vectorShow(file))
@@ -87,7 +90,7 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, destdir=".", debug=0)
             message("The program is equal to ", program)
         }
         server <- "http://batsftp.bios.edu/BATS/ctd/ASCII/"
-        if (index==TRUE) {
+        if (index) {
             if (is.null(ID) | ID < 10000)
                 stop("Must provide an ID number greater than 10000")
 
