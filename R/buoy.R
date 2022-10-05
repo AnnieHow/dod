@@ -21,6 +21,7 @@
 #' some functions will print debugging information.
 #'
 #' @importFrom utils download.file
+#' @importFrom utils unzip
 #'
 #' @return If `index` is TRUE, and `program` is `"BBMP"` or `"BATS"`,
 #' return a data frame.  Otherwise, return the name of the downloaded file.
@@ -29,7 +30,7 @@
 
 #https://www.meds-sdmm.dfo-mpo.gc.ca/alphapro/wave/waveshare/csvData/c44258_csv.zip
 #https://www.meds-sdmm.dfo-mpo.gc.ca/alphapro/wave/waveshare/csvData/c44139_csv.zip
-#@importFrom unzip zipfile
+
 dod.buoy <- function(program, year, ID=NULL, index=FALSE, destdir=".", debug=0)
 {
     if (program == "?") {
