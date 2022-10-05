@@ -37,13 +37,13 @@ dod.buoy <- function(program, year, ID=NULL, index=FALSE, destdir=".", debug=0)
         stop("Must provide a program argument, possibilities include: MEDS")
     }
     if (program == "MEDS") {
-    server <- "https://www.meds-sdmm.dfo-mpo.gc.ca/alphapro/wave/waveshare/csvData"
-    url <- paste0(server, "/c", ID, "_csv.zip")
-    zipfile <- paste0("c", ID, "_csv.zip")
-    download.file(url, zipfile)
-    unzip(zipfile)
-    # NOTE: we should delete the zipfile too; see ?unlink
-    return(paste0("c", ID, ".csv"))
-}
-
+        server <- "https://www.meds-sdmm.dfo-mpo.gc.ca/alphapro/wave/waveshare/csvData"
+        url <- paste0(server, "/c", ID, "_csv.zip")
+        zipfile <- paste0("c", ID, "_csv.zip")
+        download.file(url, zipfile)
+        unzip(zipfile)
+        # NOTE: we should delete the zipfile too; see ?unlink
+        return(paste0("c", ID, ".csv"))
     }
+
+}
