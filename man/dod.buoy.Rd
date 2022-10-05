@@ -4,18 +4,13 @@
 \alias{dod.buoy}
 \title{Download buoy data}
 \usage{
-dod.buoy(program, year, ID = NULL, index = FALSE, destdir = ".", debug = 0)
+dod.buoy(program, ID = NULL, destdir = ".", debug = 0)
 }
 \arguments{
 \item{program}{argument specifying the desired oceanographic
 program to download buoy data from. Options include \code{MEDS}, etc.}
 
-\item{year}{argument specifying the year of interest.}
-
 \item{ID}{for \code{MEDS}...}
-
-\item{index}{a boolean value indicating whether the index
-should be downloaded.}
 
 \item{destdir}{character value indicating the directory
 in which to store downloaded files.}
@@ -23,6 +18,8 @@ in which to store downloaded files.}
 \item{debug}{integer value indicating level of debugging.
 If this is less than 1, no debugging is done. Otherwise,
 some functions will print debugging information.}
+
+\item{location}{}
 }
 \value{
 If \code{index} is TRUE, and \code{program} is \code{"BBMP"} or \code{"BATS"},

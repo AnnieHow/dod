@@ -6,10 +6,7 @@
 #' @param program argument specifying the desired oceanographic
 #' program to download buoy data from. Options include `MEDS`, etc.
 #'
-#' @param year argument specifying the year of interest.
-#'
-#' @param index a boolean value indicating whether the index
-#' should be downloaded.
+#' @param location
 #'
 #' @param ID for `MEDS`...
 #'
@@ -31,19 +28,27 @@
 #https://www.meds-sdmm.dfo-mpo.gc.ca/alphapro/wave/waveshare/csvData/c44258_csv.zip
 #https://www.meds-sdmm.dfo-mpo.gc.ca/alphapro/wave/waveshare/csvData/c44139_csv.zip
 
-dod.buoy <- function(program, year, ID=NULL, index=FALSE, destdir=".", debug=0)
+dod.buoy <- function(program, ID=NULL, destdir=".", debug=0)
 {
-    if (program == "?") {
+    if (program == "?")
         stop("Must provide a program argument, possibilities include: MEDS")
-    }
+    if (is.null(ID))
+        stop("Must provide an ID argument")
     if (program == "MEDS") {
+        loc <- list("East Scotian Slope"="44137","Banquereau Bank"="44139")
+        dodDebug(debug, "Initial ID=", ID,"\n")
+        if (ID %in% names(loc))
+            ID <- loc[[ID]]
+        dodDebug(debug, "Final ID=", ID,"\n")
         server <- "https://www.meds-sdmm.dfo-mpo.gc.ca/alphapro/wave/waveshare/csvData"
         url <- paste0(server, "/c", ID, "_csv.zip")
         zipfile <- paste0("c", ID, "_csv.zip")
+        message(url)
         download.file(url, zipfile)
         unzip(zipfile)
+        unlink(zipfile)
         # NOTE: we should delete the zipfile too; see ?unlink
-        return(paste0("c", ID, ".csv"))
+        return(paste0("C", ID, ".CSV"))
     }
 
 }
