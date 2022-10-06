@@ -10,7 +10,8 @@ dod.buoy(program, ID = NULL, destdir = ".", debug = 0)
 \item{program}{argument specifying the desired oceanographic
 program to download buoy data from. Options include \code{MEDS}, etc.}
 
-\item{ID}{for \code{MEDS}...}
+\item{ID}{For \code{MEDS} this argument is either a location name
+or ID number.}
 
 \item{destdir}{character value indicating the directory
 in which to store downloaded files.}
@@ -18,8 +19,6 @@ in which to store downloaded files.}
 \item{debug}{integer value indicating level of debugging.
 If this is less than 1, no debugging is done. Otherwise,
 some functions will print debugging information.}
-
-\item{location}{}
 }
 \value{
 If \code{index} is TRUE, and \code{program} is \code{"BBMP"} or \code{"BATS"},
