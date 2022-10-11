@@ -4,3 +4,6 @@
 ^README.Rmd$
 f[0-9]{2}.*gz
 ^\.github$
+^.*\.tsv$
+^.*\.ODF$
+
