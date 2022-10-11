@@ -16,3 +16,4 @@ BugReports: https://github.com/AnnieHow/dod/issues
 Roxygen: list(markdown = TRUE)
 BuildVignettes: true
 VignetteBuilder: knitr
+URL: https://anniehow.github.io/dod/
