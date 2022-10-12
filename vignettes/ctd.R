@@ -1,6 +1,14 @@
 ## ---- echo = FALSE------------------------------------------------------------
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 
+## ----example------------------------------------------------------------------
+library(dod)
+library(oce)
+index <- dod.ctd("BBMP", 2022, index=TRUE) 
+item <- index[1,"file"]
+file <- dod.ctd("BBMP", 2022, item)
+plot(read.ctd(file))
+
 ## ----fig.cap="**Figure 2.** An overview of a ctd dataset.", fig.width=6, fig.height=6, dpi=72, dev.args=list(pointsize=14), message=FALSE----
 library(oce)
 data(ctd)

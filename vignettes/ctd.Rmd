@@ -1,5 +1,5 @@
 ---
-title: "CTD data"
+title: "dod.ctd"
 author: "Annie Howard"
 date: "`r Sys.Date()`"
 output:
@@ -35,11 +35,52 @@ vignette: >
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
-**Abstract.** The basics of working with CTD data are outlined in this
+**Abstract.** The basics of downloading CTD data are outlined in this
 vignette, as a supplement to a shorter entry in the [main vignette](A_oce.html).
 
+# Basics
+This function can download ctd data from the Bedford Basin Mooring Program (BBMP), Bermuda Atlantic Time Series (BATS), etc.
+
+# Finding Desired ID
+**BBMP** For BBMP, this is the desired file from the index. Once the index is downloaded using the `dod.ctd` function, provide the item or file name from the index you want to download for the argument `ID`. 
+
+## BBMP Example
+
+This is a basic example which shows you how to download ctd index from the BBMP program in the year 2022 and download, read and plot the first item in the index using the `oce` package.
+
+```{r example}
+library(dod)
+library(oce)
+index <- dod.ctd("BBMP", 2022, index=TRUE) 
+item <- index[1,"file"]
+file <- dod.ctd("BBMP", 2022, item)
+plot(read.ctd(file))
+```
+
+**BATS** For BATS, is the 5 digit cruise ID. From BATS documentation, cruise ID format is as follows:
+Format:
+
+  8 digit cast_ID 	
+        $XXXX###  where,
+
+	$= cruise type
+	1=bats core
+	2=bats bloom a
+	3=bats bloom b
+ 	5=bats validation
+        6=Hydrostation
+	9=Ancillary cruise
+	XXXX= cruise number
+	### = cast number
+
+**eg.**	10155005  = bats core cruise, cruise 155, cast 5
+**eg.**	50050005  = bats validation , cruise 50 , cast 5
 
 
+
+
+
+Oce examples to pull from: 
 # Example with pre-trimmed data
 
 Many of the object types supported by `oce` come with built-in data.  For an
