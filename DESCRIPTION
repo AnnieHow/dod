@@ -9,7 +9,6 @@ License: GPL (>= 2)
 Imports: oce (>= 1.3.0), utils
 Encoding: UTF-8
 Suggests: knitr, testthat
-Depends: rmarkdown
 RoxygenNote: 7.2.1
 BugReports: https://github.com/AnnieHow/dod/issues
 Roxygen: list(markdown = TRUE)
