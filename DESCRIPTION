@@ -8,7 +8,7 @@ Description: The package is used to download various types of oceanographic data
 License: GPL (>= 2)
 Imports: oce (>= 1.3.0), utils
 Encoding: UTF-8
-Suggests: knitr, testthat
+Suggests: knitr, testthat, rmarkdown
 RoxygenNote: 7.2.1
 BugReports: https://github.com/AnnieHow/dod/issues
 Roxygen: list(markdown = TRUE)
