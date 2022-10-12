@@ -9,7 +9,7 @@
 status](https://www.r-pkg.org/badges/version/dod)](https://CRAN.R-project.org/package=dod)
 <!-- badges: end -->
 
-The goal of dod is to …
+The goal of dod is to make it easier to download various types of oceanographic data from common sources such as BATS, NAOO, MEDS, BBMP.
 
 ## Installation
 
