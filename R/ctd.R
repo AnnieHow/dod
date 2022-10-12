@@ -21,7 +21,6 @@
 #' If this is less than 1, no debugging is done. Otherwise,
 #' some functions will print debugging information.
 #'
-#' @importFrom utils download.file
 #' @importFrom utils read.csv
 #' @importFrom oce read.odf
 #'
@@ -64,7 +63,6 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, destdir=".", debug=0)
             url <- paste0(server, "/", file)
             if (debug)
                 cat(oce::vectorShow(url))
-            #download.file(url, file)
             dod.download(url, file, destdir)
             if (debug)
                 cat(oce::vectorShow(file))
@@ -78,7 +76,6 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, destdir=".", debug=0)
             if (debug) {
                 cat(oce::vectorShow(ID))
             }
-            #f <- download.file(url, ID)
             return(dod.download(url, ID, destdir=destdir, debug=debug))
             #t <- read.odf(ID)
             #return(t)
@@ -98,7 +95,7 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, destdir=".", debug=0)
             if (debug) {
                 message("The url is equal to ",url)
             }
-            f <- download.file(url, ID)
+            f <- dod.download(url, ID, destdir=destdir, debug=debug)
             namesInfo <- c("ID", "dateDeployed","dateRecovered","decimalDateDeployed","decimalDateRecovered",
                 "decimalDayDeployed", "timeDeployed", "timeRecovered", "latitudeDeployed", "latitudeRecovered",
                 "longitudeDeployed", "longitudeRecovered")
@@ -115,7 +112,8 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, destdir=".", debug=0)
             if (debug) {
                 cat(oce::vectorShow(url))
             }
-            f <- download.file(url, ID)
+
+            f <- dod.download(url, ID, destdir=destdir, debug=debug)
 
             if (debug) {
                 cat(oce::vectorShow(f))

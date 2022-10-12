@@ -16,7 +16,6 @@
 #' If this is less than 1, no debugging is done. Otherwise,
 #' some functions will print debugging information.
 #'
-#' @importFrom utils download.file
 #' @importFrom utils unzip
 #'
 #' @return If `index` is TRUE, and `program` is `"BBMP"` or `"BATS"`,
@@ -43,7 +42,7 @@ dod.buoy <- function(program, ID=NULL, destdir=".", debug=0)
         url <- paste0(server, "/c", ID, "_csv.zip")
         zipfile <- paste0("c", ID, "_csv.zip")
         dodDebug(debug, url)
-        download.file(url, zipfile)
+        dod.download(url, zipfile)
         unzip(zipfile)
         unlink(zipfile)
         # NOTE: we should delete the zipfile too; see ?unlink
