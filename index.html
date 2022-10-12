@@ -41,7 +41,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="articles/ctd.html">CTD data</a>
+    <a class="dropdown-item" href="articles/ctd.html">dod.ctd</a>
   </div>
 </li>
       </ul>
@@ -79,13 +79,13 @@
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>This is a basic example which shows you how to download ctd index from the BBMP program in the year 2022 and download, read and plot the first item in the index using the <code>oce</code> package.</p>
+<p>This is a basic example which shows you how to download a ctd index from the BBMP program in the year 2022 and download, read and plot the first item in the index using the <code>dod</code> package.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://anniehow.github.io/dod/">dod</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; Loading required package: rmarkdown</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dankelley.github.io/oce/" class="external-link">oce</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; Loading required package: gsw</span></span>
-<span><span class="va">index</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/dod.ctd.html">dod.ctd</a></span><span class="op">(</span><span class="st">"BBMP"</span>, <span class="fl">2022</span>, index<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> </span>
+<span><span class="va">index</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/dod.ctd.html">dod.ctd</a></span><span class="op">(</span><span class="st">"BBMP"</span>, <span class="fl">2022</span>, index<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">item</span> <span class="op">&lt;-</span> <span class="va">index</span><span class="op">[</span><span class="fl">1</span>,<span class="st">"file"</span><span class="op">]</span></span>
 <span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/dod.ctd.html">dod.ctd</a></span><span class="op">(</span><span class="st">"BBMP"</span>, <span class="fl">2022</span>, <span class="va">item</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://dankelley.github.io/oce/reference/read.ctd.html" class="external-link">read.ctd</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
