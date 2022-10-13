@@ -7,13 +7,14 @@
 dod.ctd(program, year, ID = NULL, index = FALSE, destdir = ".", debug = 0)
 }
 \arguments{
-\item{program}{argument specifying the desired oceanographic
-program to download ctd data from. Options include BBMP, etc.}
+\item{program}{a character value specifying the oceanographic
+program from which the data derive; see \sQuote{Details}.}
 
-\item{year}{argument specifying the year of interest.}
+\item{year}{a characeter value specifying the year of interest.}
 
-\item{ID}{for BBMP, this is the desired file from the index.
-For BATS, is the 5 digit cruise ID.}
+\item{ID}{a character value specifying the file of interest.
+For BBMP, this is the desired file from the index. For BATS,
+is the 5 digit cruise ID.}
 
 \item{index}{a boolean value indicating whether the index
 should be downloaded.}
@@ -21,7 +22,7 @@ should be downloaded.}
 \item{destdir}{character value indicating the directory
 in which to store downloaded files.}
 
-\item{debug}{integer value indicating level of debugging.
+\item{debug}{an integer value indicating level of debugging.
 If this is less than 1, no debugging is done. Otherwise,
 some functions will print debugging information.}
 }

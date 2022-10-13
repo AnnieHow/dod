@@ -9,7 +9,8 @@
 status](https://www.r-pkg.org/badges/version/dod)](https://CRAN.R-project.org/package=dod)
 <!-- badges: end -->
 
-The goal of dod is to make it easier to download various types of oceanographic data from common sources such as BATS, NAOO, MEDS, BBMP.
+The goal of dod is to make it easier to download various types of
+oceanographic data from common sources such as BATS, NAOO, MEDS, BBMP.
 
 ## Installation
 
@@ -23,16 +24,15 @@ devtools::install_github("AnnieHow/dod")
 
 ## Example
 
-This is a basic example which shows you how to download a ctd index from
-the BBMP program in the year 2022 and download, read and plot the first
-item in the index using the `dod` package.
+The following example shows how to download ctd index from the BBMP
+program in the year 2022 and download, read and plot the first item in
+the index using the `oce` package.
 
 ``` r
 library(dod)
-#> Loading required package: rmarkdown
 library(oce)
 #> Loading required package: gsw
-index <- dod.ctd("BBMP", 2022, index=TRUE)
+index <- dod.ctd("BBMP", 2022, index=TRUE) 
 item <- index[1,"file"]
 file <- dod.ctd("BBMP", 2022, item)
 plot(read.ctd(file))
