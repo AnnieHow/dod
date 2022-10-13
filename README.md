@@ -24,17 +24,20 @@ devtools::install_github("AnnieHow/dod")
 
 ## Example
 
-The following example shows how to download ctd index from the BBMP
-program in the year 2022 and download, read and plot the first item in
-the index using the `oce` package.
+The following example shows how to (1) download an index of ctd data
+files resulting from observations made as part of the BBMP program in
+the year 2022 and then (2) use functions in the oce package to read and
+plot the first file in that index.
 
 ``` r
+# 1. Get index
 library(dod)
+index <- dod.ctd("BBMP", 2022, index=TRUE)
+item <- index[1, "file"]
+# 2. Get the first file, and plot it
+file <- dod.ctd("BBMP", 2022, item)
 library(oce)
 #> Loading required package: gsw
-index <- dod.ctd("BBMP", 2022, index=TRUE) 
-item <- index[1,"file"]
-file <- dod.ctd("BBMP", 2022, item)
 plot(read.ctd(file))
 ```
 
