@@ -1,12 +1,12 @@
 #' Download ctd data
 #'
-#' This function downloads ctd data from various programs
-#' including the Bedford Basin Mooring Program (BBMP), etc.
+#' This function downloads ctd data from various programs.
 #'
 #' @param program a character value specifying the oceanographic
-#' program from which the data derive; see \sQuote{Details}.
+#' program from which the data derive. Options include the Bedford Basin
+#' Mooring Program (BBMP), Bermuda Atlantic Time Series (BATS), etc.
 #'
-#' @param year a characeter value specifying the year of interest.
+#' @param year a character value specifying the year of interest.
 #'
 #' @param index a boolean value indicating whether the index
 #' should be downloaded.
@@ -15,12 +15,12 @@
 #' For BBMP, this is the desired file from the index. For BATS,
 #' is the 5 digit cruise ID.
 #'
-#' @param destdir character value indicating the directory
+#' @param destdir a character value indicating the directory
 #' in which to store downloaded files.
 #'
 #' @param debug an integer value indicating level of debugging.
-#' If this is less than 1, no debugging is done. Otherwise,
-#' some functions will print debugging information.
+#' If this is less than 1, no debugging is done.  If this is greater than 1,
+#' the function will print debugging information.
 #'
 #' @importFrom utils read.csv
 #' @importFrom oce read.odf
