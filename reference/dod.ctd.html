@@ -61,8 +61,7 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>program</dt>
 <dd><p>a character value specifying the oceanographic
-program from which the data derive. Options include the Bedford Basin
-Mooring Program (BBMP), Bermuda Atlantic Time Series (BATS), etc.</p></dd>
+program from which the data derive see ‘Details’.</p></dd>
 
 
 <dt>year</dt>
@@ -70,9 +69,8 @@ Mooring Program (BBMP), Bermuda Atlantic Time Series (BATS), etc.</p></dd>
 
 
 <dt>ID</dt>
-<dd><p>a character value specifying the file of interest.
-For BBMP, this is the desired file from the index. For BATS,
-is the 5 digit cruise ID.</p></dd>
+<dd><p>a character value specifying the file of interest,
+see ‘Details’.</p></dd>
 
 
 <dt>index</dt>
@@ -87,7 +85,7 @@ in which to store downloaded files.</p></dd>
 
 <dt>debug</dt>
 <dd><p>an integer value indicating level of debugging.
-If this is less than 1, no debugging is done.  If this is greater than 1,
+If this is less than 1, no debugging is done. Otherwise,
 the function will print debugging information.</p></dd>
 
 </dl></div>
@@ -98,6 +96,10 @@ the function will print debugging information.</p></dd>
 <p>If <code>index</code> is TRUE, and <code>program</code> is <code>"BBMP"</code> or <code>"BATS"</code>,
 return a data frame.  Otherwise, return the name of the downloaded file.</p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    
+<table class="table table"><tr><td><strong>Program Name</strong></td><td><strong>Program</strong></td><td><strong>Index</strong></td><td><strong>ID</strong></td></tr><tr><td>Bedford Basin Mooring Project</td><td><code>BBMP</code></td><td>Yes</td><td>From index</td></tr><tr><td>Bermuda Atlantic Time Series</td><td><code>BATS</code></td><td>Yes</td><td>Cruise ID</td></tr></table></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
