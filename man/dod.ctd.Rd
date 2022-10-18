@@ -8,14 +8,12 @@ dod.ctd(program, year, ID = NULL, index = FALSE, destdir = ".", debug = 0)
 }
 \arguments{
 \item{program}{a character value specifying the oceanographic
-program from which the data derive. Options include the Bedford Basin
-Mooring Program (BBMP), Bermuda Atlantic Time Series (BATS), etc.}
+program from which the data derive see \sQuote{Details}.}
 
 \item{year}{a character value specifying the year of interest.}
 
-\item{ID}{a character value specifying the file of interest.
-For BBMP, this is the desired file from the index. For BATS,
-is the 5 digit cruise ID.}
+\item{ID}{a character value specifying the file of interest,
+see \sQuote{Details}.}
 
 \item{index}{a boolean value indicating whether the index
 should be downloaded.}
@@ -24,7 +22,7 @@ should be downloaded.}
 in which to store downloaded files.}
 
 \item{debug}{an integer value indicating level of debugging.
-If this is less than 1, no debugging is done.  If this is greater than 1,
+If this is less than 1, no debugging is done. Otherwise,
 the function will print debugging information.}
 }
 \value{
@@ -33,6 +31,13 @@ return a data frame.  Otherwise, return the name of the downloaded file.
 }
 \description{
 This function downloads ctd data from various programs.
+}
+\details{
+\tabular{llll}{
+   \strong{Program Name} \tab \strong{Program} \tab \strong{Index} \tab \strong{ID} \cr
+   Bedford Basin Mooring Project \tab \code{BBMP} \tab Yes \tab From index \cr
+   Bermuda Atlantic Time Series \tab \code{BATS} \tab Yes \tab Cruise ID \cr
+}
 }
 \examples{
 \dontrun{

@@ -2,24 +2,27 @@
 #'
 #' This function downloads ctd data from various programs.
 #'
+#' |       **Program Name**       | **Program** | **Index** |   **ID**   |
+#' |                        :---- |       :---- |     :---- |      :---- |
+#' |Bedford Basin Mooring Project |      `BBMP` |       Yes | From index |
+#' |Bermuda Atlantic Time Series  |      `BATS` |       Yes |  Cruise ID |
+#'
 #' @param program a character value specifying the oceanographic
-#' program from which the data derive. Options include the Bedford Basin
-#' Mooring Program (BBMP), Bermuda Atlantic Time Series (BATS), etc.
+#' program from which the data derive see \sQuote{Details}.
 #'
 #' @param year a character value specifying the year of interest.
 #'
 #' @param index a boolean value indicating whether the index
 #' should be downloaded.
 #'
-#' @param ID a character value specifying the file of interest.
-#' For BBMP, this is the desired file from the index. For BATS,
-#' is the 5 digit cruise ID.
+#' @param ID a character value specifying the file of interest,
+#' see \sQuote{Details}.
 #'
 #' @param destdir a character value indicating the directory
 #' in which to store downloaded files.
 #'
 #' @param debug an integer value indicating level of debugging.
-#' If this is less than 1, no debugging is done.  If this is greater than 1,
+#' If this is less than 1, no debugging is done. Otherwise,
 #' the function will print debugging information.
 #'
 #' @importFrom utils read.csv
