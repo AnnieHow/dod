@@ -18,8 +18,7 @@
 #' @param ID a character value specifying the file of interest,
 #' see \sQuote{Details}.
 #'
-#' @param destdir a character value indicating the directory
-#' in which to store downloaded files.
+#' @template destdirTemplate
 #'
 #' @template debugTemplate
 #'
