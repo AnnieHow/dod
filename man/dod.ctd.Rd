@@ -21,9 +21,8 @@ should be downloaded.}
 \item{destdir}{a character value indicating the directory
 in which to store downloaded files.}
 
-\item{debug}{an integer value indicating level of debugging.
-If this is less than 1, no debugging is done. Otherwise,
-the function will print debugging information.}
+\item{debug}{an integer value indicating the level of debugging. If
+this exceeds 0, then some debugging messages will be printed.}
 }
 \value{
 If \code{index} is TRUE, and \code{program} is \code{"BBMP"} or \code{"BATS"},
