@@ -1,22 +1,22 @@
-#' Download ctd data
+#' Download CTD data
 #'
-#' This function downloads ctd data from various programs.
+#' This function downloads CTD data from various programs.
 #'
-#' |       **Program Name**       | **Program** | **Index** |   **ID**   |
+#' |       **Project**       | **Program** | **Index** |   **ID**   |
 #' |                        :---- |       :---- |     :---- |      :---- |
 #' |Bedford Basin Mooring Project |      `BBMP` |       Yes | From index |
 #' |Bermuda Atlantic Time Series  |      `BATS` |       Yes |  Cruise ID |
 #'
 #' @param program a character value specifying the oceanographic
-#' program from which the data derive see \sQuote{Details}.
+#' program from which the data derive (see \sQuote{Details}).
 #'
 #' @param year a character value specifying the year of interest.
 #'
 #' @param index a boolean value indicating whether the index
 #' should be downloaded.
 #'
-#' @param ID a character value specifying the file of interest,
-#' see \sQuote{Details}.
+#' @param ID a character value specifying the file of interest
+#' (see \sQuote{Details}).
 #'
 #' @template destdirTemplate
 #'

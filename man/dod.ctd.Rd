@@ -2,18 +2,18 @@
 % Please edit documentation in R/ctd.R
 \name{dod.ctd}
 \alias{dod.ctd}
-\title{Download ctd data}
+\title{Download CTD data}
 \usage{
 dod.ctd(program, year, ID = NULL, index = FALSE, destdir = ".", debug = 0)
 }
 \arguments{
 \item{program}{a character value specifying the oceanographic
-program from which the data derive see \sQuote{Details}.}
+program from which the data derive (see \sQuote{Details}).}
 
 \item{year}{a character value specifying the year of interest.}
 
-\item{ID}{a character value specifying the file of interest,
-see \sQuote{Details}.}
+\item{ID}{a character value specifying the file of interest
+(see \sQuote{Details}).}
 
 \item{index}{a boolean value indicating whether the index
 should be downloaded.}
@@ -29,11 +29,11 @@ If \code{index} is TRUE, and \code{program} is \code{"BBMP"} or \code{"BATS"},
 return a data frame.  Otherwise, return the name of the downloaded file.
 }
 \description{
-This function downloads ctd data from various programs.
+This function downloads CTD data from various programs.
 }
 \details{
 \tabular{llll}{
-   \strong{Program Name} \tab \strong{Program} \tab \strong{Index} \tab \strong{ID} \cr
+   \strong{Project} \tab \strong{Program} \tab \strong{Index} \tab \strong{ID} \cr
    Bedford Basin Mooring Project \tab \code{BBMP} \tab Yes \tab From index \cr
    Bermuda Atlantic Time Series \tab \code{BATS} \tab Yes \tab Cruise ID \cr
 }
