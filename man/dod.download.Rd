@@ -4,7 +4,7 @@
 \alias{dod.download}
 \title{Download a file with error checking}
 \usage{
-dod.download(url, file, destdir = ".", silent = TRUE, debug = 0)
+dod.download(url = NULL, file = NULL, destdir = ".", silent = TRUE, debug = 0)
 }
 \arguments{
 \item{url}{character value giving the web address of a file to be
