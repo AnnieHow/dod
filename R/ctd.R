@@ -95,6 +95,7 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, destdir=".", debug=0)
             url <- paste0(server, "b",ID, "_info.txt")
             dodDebug(debug, "The url is equal to ", url, "\n")
         }
+        #browser()
         f <- dod.download(url, ID, destdir=destdir, debug=debug)
         namesInfo <- c("ID", "dateDeployed","dateRecovered","decimalDateDeployed","decimalDateRecovered",
             "decimalDayDeployed", "timeDeployed", "timeRecovered", "latitudeDeployed", "latitudeRecovered",

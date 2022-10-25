@@ -26,13 +26,17 @@
 #' @importFrom utils download.file
 #'
 #' @export
-dod.download <- function(url, file, destdir=".", silent=TRUE, debug=0)
+dod.download <- function(url=NULL, file=NULL, destdir=".", silent=TRUE, debug=0)
 {
+    if (is.null(url))
+        stop("url must not be NULL")
+    if (is.null(file))
+        stop("file must not be NULL")
     if (!dir.exists(destdir))
         stop("destdir \"", destdir, "\" does not exist; please create it first.")
     filepath <- file.path(destdir, file)
-    if (debug > 0)
-        cat("downloading \"", url, "\" to \"", filepath, "\"\n")
+    #browser()
+    dodDebug(debug,"downloading \"", url, "\" to \"", filepath, "\"\n")
     t <- try(download.file(url, filepath), silent=silent)
     if (inherits(t,"try-error"))
         stop("Unable to download \"", url, "\" to \"", filepath, "\"")
