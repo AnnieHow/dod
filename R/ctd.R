@@ -94,31 +94,27 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, destdir=".", debug=0)
 
             url <- paste0(server, "b",ID, "_info.txt")
             dodDebug(debug, "The url is equal to ", url, "\n")
-            }
-            f <- dod.download(url, ID, destdir=destdir, debug=debug)
-            namesInfo <- c("ID", "dateDeployed","dateRecovered","decimalDateDeployed","decimalDateRecovered",
-                "decimalDayDeployed", "timeDeployed", "timeRecovered", "latitudeDeployed", "latitudeRecovered",
-                "longitudeDeployed", "longitudeRecovered")
-            t <- read.csv(ID, sep="\t", header=FALSE, col.names= namesInfo)
-            return(t)
         }
-        else {
-            dodDebug(debug, "The ID type is ", ID, "\n")
-            }
-
-            url <- paste0(server, "b",ID, "_ctd.txt")
-            dodDebug(debug, oce::vectorShow(url))
-
-            f <- dod.download(url, ID, destdir=destdir, debug=debug)
-
-            dodDebug(debug, oce::vectorShow(f))
-
-            names <- c("ID", "date","latitude", "longitude", "pressure","depth","temperature","conductivity", "salinity", "oxygen", "beamAttenuationCoefficient",
-                "fluorescence", "PAR")
-
-            return(ID)
-        }
-
-
+        f <- dod.download(url, ID, destdir=destdir, debug=debug)
+        namesInfo <- c("ID", "dateDeployed","dateRecovered","decimalDateDeployed","decimalDateRecovered",
+            "decimalDayDeployed", "timeDeployed", "timeRecovered", "latitudeDeployed", "latitudeRecovered",
+            "longitudeDeployed", "longitudeRecovered")
+        t <- read.csv(ID, sep="\t", header=FALSE, col.names= namesInfo)
+        return(t)
     }
+    else {
+        dodDebug(debug, "The ID type is ", ID, "\n")
+    }
+
+    url <- paste0(server, "b",ID, "_ctd.txt")
+    dodDebug(debug, oce::vectorShow(url))
+
+    f <- dod.download(url, ID, destdir=destdir, debug=debug)
+
+    dodDebug(debug, oce::vectorShow(f))
+
+    names <- c("ID", "date","latitude", "longitude", "pressure","depth","temperature","conductivity", "salinity", "oxygen", "beamAttenuationCoefficient",
+        "fluorescence", "PAR")
+
+    return(ID)
 }
