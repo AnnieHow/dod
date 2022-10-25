@@ -3,7 +3,7 @@ pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   ctd: ctd.html
-last_built: 2022-10-21T11:30Z
+last_built: 2022-10-25T13:15Z
 urls:
   reference: https://anniehow.github.io/dod/reference
   article: https://anniehow.github.io/dod/articles
