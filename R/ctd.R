@@ -55,46 +55,45 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, destdir=".", debug=0)
             stop("must give 'year'")
         server <- paste0(server, "/", year)
 
-        if (debug)
-            cat(oce::vectorShow(server))
+        dodDebug(debug, oce::vectorShow(server))
+
         if (index) {
             file <- paste0(year, "667ODFSUMMARY.tsv")
-            if (debug)
-                cat(oce::vectorShow(file))
+
+            dodDebug(debug, oce::vectorShow(file))
+
             url <- paste0(server, "/", file)
-            if (debug)
-                cat(oce::vectorShow(url))
+
+            dodDebug(debug, oce::vectorShow(url))
+
             dod.download(url, file, destdir)
-            if (debug)
-                cat(oce::vectorShow(file))
+
+            dodDebug(debug, oce::vectorShow(file))
+
             url <- paste0(server, "/", file)
+            message(file)
+            file <- paste0(destdir,"/",file)
+            message(file)
             return(read.csv(file, header=FALSE, skip=3, col.names=c("file", "time")))
         } else {
             url <- paste0(server, "/", ID)
-            if (debug) {
-                cat(oce::vectorShow(url))
-            }
-            if (debug) {
-                cat(oce::vectorShow(ID))
-            }
+
+            dodDebug(debug, oce::vectorShow(url))
+
+            dodDebug(debug, oce::vectorShow(ID))
+
             return(dod.download(url, ID, destdir=destdir, debug=debug))
-            #t <- read.odf(ID)
-            #return(t)
-            #return(ID)
         }
     }
     if (program == "BATS") {
-        if (debug) {
-            message("The program is equal to ", program)
-        }
+        dodDebug(debug, "The program is equal to ", program, "\n")
         server <- "http://batsftp.bios.edu/BATS/ctd/ASCII/"
         if (index) {
             if (is.null(ID) | ID < 10000)
                 stop("Must provide an ID number greater than 10000")
 
             url <- paste0(server, "b",ID, "_info.txt")
-            if (debug) {
-                message("The url is equal to ",url)
+            dodDebug(debug, "The url is equal to ", url, "\n")
             }
             f <- dod.download(url, ID, destdir=destdir, debug=debug)
             namesInfo <- c("ID", "dateDeployed","dateRecovered","decimalDateDeployed","decimalDateRecovered",
@@ -104,27 +103,19 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, destdir=".", debug=0)
             return(t)
         }
         else {
-            if (debug) {
-                message("The ID type is ",ID)
+            dodDebug(debug, "The ID type is ", ID, "\n")
             }
 
             url <- paste0(server, "b",ID, "_ctd.txt")
-
-            if (debug) {
-                cat(oce::vectorShow(url))
-            }
+            dodDebug(debug, oce::vectorShow(url))
 
             f <- dod.download(url, ID, destdir=destdir, debug=debug)
 
-            if (debug) {
-                cat(oce::vectorShow(f))
-            }
+            dodDebug(debug, oce::vectorShow(f))
 
             names <- c("ID", "date","latitude", "longitude", "pressure","depth","temperature","conductivity", "salinity", "oxygen", "beamAttenuationCoefficient",
                 "fluorescence", "PAR")
-            #t <- read.csv(ID, sep="\t", header=FALSE, col.names= names)
 
-            #return(t)
             return(ID)
         }
 
