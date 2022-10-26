@@ -54,22 +54,14 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, destdir=".", debug=0)
         if (missing(year))
             stop("must give 'year'")
         server <- paste0(server, "/", year)
-
         dodDebug(debug, oce::vectorShow(server))
-
         if (index) {
             file <- paste0(year, "667ODFSUMMARY.tsv")
-
             dodDebug(debug, oce::vectorShow(file))
-
             url <- paste0(server, "/", file)
-
             dodDebug(debug, oce::vectorShow(url))
-
             dod.download(url, file, destdir)
-
             dodDebug(debug, oce::vectorShow(file))
-
             url <- paste0(server, "/", file)
             message(file)
             file <- paste0(destdir,"/",file)
@@ -77,11 +69,8 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, destdir=".", debug=0)
             return(read.csv(file, header=FALSE, skip=3, col.names=c("file", "time")))
         } else {
             url <- paste0(server, "/", ID)
-
             dodDebug(debug, oce::vectorShow(url))
-
             dodDebug(debug, oce::vectorShow(ID))
-
             return(dod.download(url, ID, destdir=destdir, debug=debug))
         }
     }
@@ -91,7 +80,6 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, destdir=".", debug=0)
         if (index) {
             if (is.null(ID) | ID < 10000)
                 stop("Must provide an ID number greater than 10000")
-
             url <- paste0(server, "b",ID, "_info.txt")
             dodDebug(debug, "The url is equal to ", url, "\n")
         }
@@ -109,13 +97,9 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, destdir=".", debug=0)
 
     url <- paste0(server, "b",ID, "_ctd.txt")
     dodDebug(debug, oce::vectorShow(url))
-
     f <- dod.download(url, ID, destdir=destdir, debug=debug)
-
     dodDebug(debug, oce::vectorShow(f))
-
     names <- c("ID", "date","latitude", "longitude", "pressure","depth","temperature","conductivity", "salinity", "oxygen", "beamAttenuationCoefficient",
         "fluorescence", "PAR")
-
     return(ID)
 }
