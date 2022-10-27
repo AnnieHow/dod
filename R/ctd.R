@@ -80,7 +80,7 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, file=NULL, destdir=".",
             url <- paste0(server, "/", ID)
             dodDebug(debug, oce::vectorShow(url))
             dodDebug(debug, oce::vectorShow(ID))
-            return(dod.download(url, ID, destdir=destdir, debug=debug, file=file))
+            return(dod.download(url=url, file=file, destdir=destdir, silent=TRUE,debug=debug))
         }
     }
     if (program == "BATS") {
