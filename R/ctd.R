@@ -19,7 +19,7 @@
 #' (see \sQuote{Details}).
 #'
 #' @param file character value giving the name to be used for
-#' the downloaded file.
+#' the downloaded file. This does include the extension.
 #'
 #' @template destdirTemplate
 #'
@@ -35,8 +35,8 @@
 #'\dontrun{
 #' # Download the first file of year 2022.
 #' destdir <- "~/data/ctd"
-#' i <- dod.ctd("BBMP", year=2022, index=TRUE)
-#' f <- dod.ctd("BBMP", year=2022, ID=i$file[1], destdir=destdir)
+#' i <- dod.ctd("BBMP", year=2022, index=TRUE, file="index.txt")
+#' f <- dod.ctd("BBMP", year=2022, ID=i$file[1], destdir=destdir, file="bbmp.txt")
 #' library(oce)
 #' ctd <- read.ctd(f)
 #' plot(ctd)
@@ -53,7 +53,7 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, file=NULL, destdir=".",
         stop("'index' must be a logical value")
     }
     if (is.null(file)) {
-        stop("Must provide file argument")
+        stop("Must provide file argument with an extension")
     }
     if (program == "BBMP") {
         server <- "ftp://ftp.dfo-mpo.gc.ca/BIOWebMaster/BBMP/ODF"
@@ -83,29 +83,31 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, file=NULL, destdir=".",
     if (program == "BATS") {
         dodDebug(debug, "The program is equal to ", program, "\n")
         server <- "http://batsftp.bios.edu/BATS/ctd/ASCII/"
+        if (is.null(ID)) {
+            stop("Must provide an ID number greater than 10000")
+        } else if (ID < 10000) {
+            stop("Must provide an ID number greater than 10000")
+        }
         if (index) {
-            if (is.null(ID) | ID < 10000)
-                stop("Must provide an ID number greater than 10000")
+            message('hi index')
             url <- paste0(server, "b",ID, "_info.txt")
             dodDebug(debug, "The url is equal to ", url, "\n")
+            #browser()
+            f <- dod.download(url, destdir=destdir, debug=debug, file=file, silent=silent)
+            namesInfo <- c("ID", "dateDeployed","dateRecovered","decimalDateDeployed","decimalDateRecovered",
+                "decimalDayDeployed", "timeDeployed", "timeRecovered", "latitudeDeployed", "latitudeRecovered",
+                "longitudeDeployed", "longitudeRecovered")
+            t <- read.csv(f, sep="\t", header=FALSE, col.names= namesInfo)
+            return(t)
+        } else {
+            url <- paste0(server, "b",ID, "_ctd.txt")
+            dodDebug(debug, oce::vectorShow(url))
+            f <- dod.download(url, ID, destdir=destdir, debug=debug, file=file)
+            dodDebug(debug, oce::vectorShow(f))
+            names <- c("ID", "date","latitude", "longitude", "pressure","depth","temperature","conductivity", "salinity", "oxygen", "beamAttenuationCoefficient",
+                "fluorescence", "PAR")
+            t <- read.csv(f, sep="\t", header=FALSE, col.names= names)
+            return(t)
         }
-        #browser()
-        f <- dod.download(url, ID, destdir=destdir, debug=debug, file=file)
-        namesInfo <- c("ID", "dateDeployed","dateRecovered","decimalDateDeployed","decimalDateRecovered",
-            "decimalDayDeployed", "timeDeployed", "timeRecovered", "latitudeDeployed", "latitudeRecovered",
-            "longitudeDeployed", "longitudeRecovered")
-        t <- read.csv(ID, sep="\t", header=FALSE, col.names= namesInfo)
-        return(t)
     }
-    else {
-        dodDebug(debug, "The ID type is ", ID, "\n")
-    }
-
-    url <- paste0(server, "b",ID, "_ctd.txt")
-    dodDebug(debug, oce::vectorShow(url))
-    f <- dod.download(url, ID, destdir=destdir, debug=debug, file=file)
-    dodDebug(debug, oce::vectorShow(f))
-    names <- c("ID", "date","latitude", "longitude", "pressure","depth","temperature","conductivity", "salinity", "oxygen", "beamAttenuationCoefficient",
-        "fluorescence", "PAR")
-    return(ID)
 }
