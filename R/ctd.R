@@ -18,6 +18,9 @@
 #' @param ID a character value specifying the file of interest
 #' (see \sQuote{Details}).
 #'
+#' @param file character value giving the name to be used for
+#' the downloaded file.
+#'
 #' @template destdirTemplate
 #'
 #' @template debugTemplate
@@ -41,13 +44,16 @@
 #'
 #' @export
 
-dod.ctd <- function(program, year, ID=NULL, index=FALSE, destdir=".", debug=0)
+dod.ctd <- function(program, year, ID=NULL, index=FALSE, file=NULL, destdir=".", debug=0)
 {
     if (program == "?") {
         stop("Must provide a program argument, possibilities include: BBMP, BATS")
     }
     if (!is.logical(index)) {
         stop("'index' must be a logical value")
+    }
+    if (is.null(file)) {
+        stop("Must provide file argument")
     }
     if (program == "BBMP") {
         server <- "ftp://ftp.dfo-mpo.gc.ca/BIOWebMaster/BBMP/ODF"
@@ -71,7 +77,7 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, destdir=".", debug=0)
             url <- paste0(server, "/", ID)
             dodDebug(debug, oce::vectorShow(url))
             dodDebug(debug, oce::vectorShow(ID))
-            return(dod.download(url, ID, destdir=destdir, debug=debug))
+            return(dod.download(url, ID, destdir=destdir, debug=debug, file=file))
         }
     }
     if (program == "BATS") {
@@ -84,7 +90,7 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, destdir=".", debug=0)
             dodDebug(debug, "The url is equal to ", url, "\n")
         }
         #browser()
-        f <- dod.download(url, ID, destdir=destdir, debug=debug)
+        f <- dod.download(url, ID, destdir=destdir, debug=debug, file=file)
         namesInfo <- c("ID", "dateDeployed","dateRecovered","decimalDateDeployed","decimalDateRecovered",
             "decimalDayDeployed", "timeDeployed", "timeRecovered", "latitudeDeployed", "latitudeRecovered",
             "longitudeDeployed", "longitudeRecovered")
@@ -97,7 +103,7 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, destdir=".", debug=0)
 
     url <- paste0(server, "b",ID, "_ctd.txt")
     dodDebug(debug, oce::vectorShow(url))
-    f <- dod.download(url, ID, destdir=destdir, debug=debug)
+    f <- dod.download(url, ID, destdir=destdir, debug=debug, file=file)
     dodDebug(debug, oce::vectorShow(f))
     names <- c("ID", "date","latitude", "longitude", "pressure","depth","temperature","conductivity", "salinity", "oxygen", "beamAttenuationCoefficient",
         "fluorescence", "PAR")

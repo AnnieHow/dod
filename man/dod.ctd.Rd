@@ -4,7 +4,15 @@
 \alias{dod.ctd}
 \title{Download CTD data}
 \usage{
-dod.ctd(program, year, ID = NULL, index = FALSE, destdir = ".", debug = 0)
+dod.ctd(
+  program,
+  year,
+  ID = NULL,
+  index = FALSE,
+  file = NULL,
+  destdir = ".",
+  debug = 0
+)
 }
 \arguments{
 \item{program}{a character value specifying the oceanographic
@@ -17,6 +25,9 @@ program from which the data derive (see \sQuote{Details}).}
 
 \item{index}{a boolean value indicating whether the index
 should be downloaded.}
+
+\item{file}{character value giving the name to be used for
+the downloaded file.}
 
 \item{destdir}{a character value indicating the directory
 in which to store downloaded files.}
