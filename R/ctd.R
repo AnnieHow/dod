@@ -74,6 +74,9 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, file=NULL, destdir=".",
             message(file)
             return(read.csv(file, header=FALSE, skip=3, col.names=c("file", "time")))
         } else {
+            if (is.null(ID)) {
+                stop("Must provide an ID from the index")
+            }
             url <- paste0(server, "/", ID)
             dodDebug(debug, oce::vectorShow(url))
             dodDebug(debug, oce::vectorShow(ID))

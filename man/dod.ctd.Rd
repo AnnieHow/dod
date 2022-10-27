@@ -27,7 +27,7 @@ program from which the data derive (see \sQuote{Details}).}
 should be downloaded.}
 
 \item{file}{character value giving the name to be used for
-the downloaded file.}
+the downloaded file. This does include the extension.}
 
 \item{destdir}{a character value indicating the directory
 in which to store downloaded files.}
@@ -53,8 +53,8 @@ This function downloads CTD data from various programs.
 \dontrun{
 # Download the first file of year 2022.
 destdir <- "~/data/ctd"
-i <- dod.ctd("BBMP", year=2022, index=TRUE)
-f <- dod.ctd("BBMP", year=2022, ID=i$file[1], destdir=destdir)
+i <- dod.ctd("BBMP", year=2022, index=TRUE, file="index.txt")
+f <- dod.ctd("BBMP", year=2022, ID=i$file[1], destdir=destdir, file="bbmp.txt")
 library(oce)
 ctd <- read.ctd(f)
 plot(ctd)
