@@ -28,6 +28,7 @@
 #' @export
 dod.download <- function(url=NULL, file=NULL, destdir=".", silent=TRUE, debug=0)
 {
+    message("1. silent equals", silent)
     if (is.null(url))
         stop("url must not be NULL")
     if (is.null(file))
@@ -36,8 +37,10 @@ dod.download <- function(url=NULL, file=NULL, destdir=".", silent=TRUE, debug=0)
         stop("destdir \"", destdir, "\" does not exist; please create it first.")
     filepath <- file.path(destdir, file)
     #browser()
+    message("2. silent equals", silent)
     dodDebug(debug,"downloading \"", url, "\" to \"", filepath, "\"\n")
     t <- try(download.file(url, filepath), silent=silent)
+    message("3. silent equals", silent)
     if (inherits(t,"try-error"))
         stop("Unable to download \"", url, "\" to \"", filepath, "\"")
     filepath
