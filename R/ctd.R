@@ -89,7 +89,6 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, file=NULL, destdir=".",
             stop("Must provide an ID number greater than 10000")
         }
         if (index) {
-            message('hi index')
             url <- paste0(server, "b",ID, "_info.txt")
             dodDebug(debug, "The url is equal to ", url, "\n")
             #browser()
