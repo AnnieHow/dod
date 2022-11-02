@@ -34,10 +34,11 @@
 #' @examples
 #'\dontrun{
 #' # Download the first file of year 2022.
+#' library(dod)
+#' library(oce)
 #' destdir <- "~/data/ctd"
 #' i <- dod.ctd("BBMP", year=2022, index=TRUE, file="index.txt")
 #' f <- dod.ctd("BBMP", year=2022, ID=i$file[1], destdir=destdir, file="bbmp.txt")
-#' library(oce)
 #' ctd <- read.ctd(f)
 #' plot(ctd)
 #'}
