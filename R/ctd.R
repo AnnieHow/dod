@@ -97,6 +97,11 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, file=NULL, destdir=".",
             stop("Must provide an ID number greater than 10000")
         }
         if (index) {
+            if (is.null(file)) {
+                file <- paste0("b",ID, "_info.txt")
+            } else {
+                file=file
+            }
             url <- paste0(server, "b",ID, "_info.txt")
             dodDebug(debug, "The url is equal to ", url, "\n")
             #browser()
@@ -107,6 +112,11 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, file=NULL, destdir=".",
             t <- read.csv(f, sep="\t", header=FALSE, col.names= namesInfo)
             return(t)
         } else {
+            if (is.null(file)) {
+                file <- paste0("b",ID, "_ctd.txt")
+            } else {
+                file=file
+            }
             url <- paste0(server, "b",ID, "_ctd.txt")
             dodDebug(debug, oce::vectorShow(url))
             f <- dod.download(url, ID, destdir=destdir, debug=debug, file=file)
