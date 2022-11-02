@@ -53,9 +53,6 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, file=NULL, destdir=".",
     if (!is.logical(index)) {
         stop("'index' must be a logical value")
     }
-    if (is.null(file)) {
-        stop("Must provide file argument with an extension")
-    }
     if (program == "BBMP") {
         server <- "ftp://ftp.dfo-mpo.gc.ca/BIOWebMaster/BBMP/ODF"
         if (missing(year))
@@ -63,9 +60,13 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, file=NULL, destdir=".",
         server <- paste0(server, "/", year)
         dodDebug(debug, oce::vectorShow(server))
         if (index) {
+            if (is.null(file)) {
             file <- paste0(year, "667ODFSUMMARY.tsv")
+            } else {
+                file=file
+            }
             dodDebug(debug, oce::vectorShow(file))
-            url <- paste0(server, "/", file)
+            url <- paste0(server, "/",  paste0(year, "667ODFSUMMARY.tsv"))
             dodDebug(debug, oce::vectorShow(url))
             dod.download(url, file, destdir)
             dodDebug(debug, oce::vectorShow(file))
@@ -75,6 +76,11 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, file=NULL, destdir=".",
         } else {
             if (is.null(ID)) {
                 stop("Must provide an ID from the index")
+            }
+            if (is.null(file)) {
+            file <- paste0(year,gsub("\\..*","",ID), ".txt", sep="")
+            } else {
+                file=file
             }
             url <- paste0(server, "/", ID)
             dodDebug(debug, oce::vectorShow(url))
