@@ -1,4 +1,4 @@
-#' Debug dod package fucntions
+#' Debug dod package functions
 #'
 #' This function is used throughout the `dod` package to catch
 #' bugs and provide assistance to users.
