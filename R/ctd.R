@@ -70,9 +70,7 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, file=NULL, destdir=".",
             dod.download(url, file, destdir)
             dodDebug(debug, oce::vectorShow(file))
             url <- paste0(server, "/", file)
-            message(file)
             file <- paste0(destdir,"/",file)
-            message(file)
             return(read.csv(file, header=FALSE, skip=3, col.names=c("file", "time")))
         } else {
             if (is.null(ID)) {

@@ -2,7 +2,7 @@
 % Please edit documentation in R/debug.R
 \name{dodDebug}
 \alias{dodDebug}
-\title{Debug dod package fucntions}
+\title{Debug dod package functions}
 \usage{
 dodDebug(debug = 0, ...)
 }
