@@ -2,19 +2,16 @@
 #'
 #' This function downloads CTD data from various programs.
 #'
-#' |       **Project**       | **Program** | **Index** |   **ID**   |
-#' |                        :---- |       :---- |     :---- |      :---- |
-#' |Bedford Basin Mooring Project |      `BBMP` |       Yes | From index |
-#' |Bermuda Atlantic Time Series  |      `BATS` |       Yes |  Cruise ID |
-#' |Global Temperature and Salinity Profile Programme| `GTSPP`| Yes| Cruise ID|
+#' |                    **Project**                  | **Program** | **Index** |   **ID**   |
+#' |                                           :---- |       :---- |     :---- |      :---- |
+#' |Bedford Basin Mooring Project                    |      `BBMP` |       Yes | From index |
+#' |Bermuda Atlantic Time Series                     |      `BATS` |       Yes |  Cruise ID |
+#' |Global Temperature and Salinity Profile Programme|     `GTSPP` |         No|   *******  |
 #'
 #' @param program a character value specifying the oceanographic
 #' program from which the data derive (see \sQuote{Details}).
 #'
 #' @param year a character value specifying the year of interest.
-#'
-#' @param month a character value specifying the month of interest
-#' for GTSPP.
 #'
 #' @param index a boolean value indicating whether the index
 #' should be downloaded.
@@ -24,9 +21,6 @@
 #'
 #' @param file character value giving the name to be used for
 #' the downloaded file. This does include the extension.
-#'
-#' @param ocean character value specifying the ocean basin of
-#' interest for GTSPP.
 #'
 #' @template destdirTemplate
 #'
@@ -52,7 +46,7 @@
 #'
 #' @export
 
-dod.ctd <- function(program, year, month=NULL, ID=NULL, index=FALSE, file=NULL, ocean=NULL, destdir=".", debug=0)
+dod.ctd <- function(program, year, ID=NULL, index=FALSE, file=NULL, destdir=".", debug=0)
 {
     if (program == "?") {
         stop("Must provide a program argument, possibilities include: BBMP, BATS, GTSPP")
@@ -136,22 +130,20 @@ dod.ctd <- function(program, year, month=NULL, ID=NULL, index=FALSE, file=NULL, 
     }
 
 if (program == "GTSPP") {
-        server <- "https://www.ncei.noaa.gov/data/oceans/gtspp/bestcopy/"
+        server <- "https://www.ncei.noaa.gov/data/oceans/gtspp/bestcopy/meds_ascii/"
 if (index == FALSE) {
     if (missing(year))
         stop("must give 'year'")
-    if (is.null(ocean)) {
-        stop("must give ocean basin ie. atlantic, indian, pacific")
+        if (is.null(ID)) {
+        stop("must give an ID")
     }
-    if (!(ocean %in% c("atlantic", "indian", "pacific"))) {
-        stop("ocean argument can only be atlantic, indian or pacific, not ",ocean)
-    }
-    if (is.null(month)) {
-        stop("must give 'month'")
-    }
-    server <- paste0(server, ocean, "/", year, "/", month, "/")
+    server <- paste0(server)
+            if (is.null(file)) {
+                file <- paste0(ID,".gz")
+            } else {
+                file=file
+            }
     dodDebug(debug, oce::vectorShow(server))
-    dod.download(server, file, destdir)
     dodDebug(debug, oce::vectorShow(destdir))
     return(dod.download(url=server, file=file, destdir=destdir, silent=TRUE,debug=debug))
 

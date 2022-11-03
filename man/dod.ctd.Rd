@@ -7,11 +7,9 @@
 dod.ctd(
   program,
   year,
-  month = NULL,
   ID = NULL,
   index = FALSE,
   file = NULL,
-  ocean = NULL,
   destdir = ".",
   debug = 0
 )
@@ -22,9 +20,6 @@ program from which the data derive (see \sQuote{Details}).}
 
 \item{year}{a character value specifying the year of interest.}
 
-\item{month}{a character value specifying the month of interest
-for GTSPP.}
-
 \item{ID}{a character value specifying the file of interest
 (see \sQuote{Details}).}
 
@@ -33,9 +28,6 @@ should be downloaded.}
 
 \item{file}{character value giving the name to be used for
 the downloaded file. This does include the extension.}
-
-\item{ocean}{character value specifying the ocean basin of
-interest for GTSPP.}
 
 \item{destdir}{a character value indicating the directory
 in which to store downloaded files.}
@@ -55,7 +47,7 @@ This function downloads CTD data from various programs.
    \strong{Project} \tab \strong{Program} \tab \strong{Index} \tab \strong{ID} \cr
    Bedford Basin Mooring Project \tab \code{BBMP} \tab Yes \tab From index \cr
    Bermuda Atlantic Time Series \tab \code{BATS} \tab Yes \tab Cruise ID \cr
-   Global Temperature and Salinity Profile Programme \tab \code{GTSPP} \tab Yes \tab Cruise ID \cr
+   Global Temperature and Salinity Profile Programme \tab \code{GTSPP} \tab No \tab ******* \cr
 }
 }
 \examples{
