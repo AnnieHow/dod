@@ -2,11 +2,11 @@
 #'
 #' This function downloads CTD data from various programs.
 #'
-#' |                    **Project**                  | **Program** | **Index** |   **ID**   |
-#' |                                           :---- |       :---- |     :---- |      :---- |
-#' |Bedford Basin Mooring Project                    |      `BBMP` |       Yes | From index |
-#' |Bermuda Atlantic Time Series                     |      `BATS` |       Yes |  Cruise ID |
-#' |Global Temperature and Salinity Profile Programme|     `GTSPP` |         No|   *******  |
+#' |                    **Project**                  | **Program** | **Index** |                     **ID**                    |
+#' |                                           :---- |       :---- |     :---- |                                         :---- |
+#' |Bedford Basin Mooring Project                    |      `BBMP` |       Yes |                                    From index |
+#' |Bermuda Atlantic Time Series                     |      `BATS` |       Yes |                                      Cruise ID|
+#' |Global Temperature and Salinity Profile Programme|     `GTSPP` |         No|Ocean Basin Initial _ _ Year _ _ _ _ Month _ _ |
 #'
 #' @param program a character value specifying the oceanographic
 #' program from which the data derive (see \sQuote{Details}).
