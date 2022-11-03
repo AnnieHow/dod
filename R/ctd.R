@@ -132,8 +132,6 @@ dod.ctd <- function(program, year, ID=NULL, index=FALSE, file=NULL, destdir=".",
 if (program == "GTSPP") {
         server <- "https://www.ncei.noaa.gov/data/oceans/gtspp/bestcopy/meds_ascii/"
 if (index == FALSE) {
-    if (missing(year))
-        stop("must give 'year'")
         if (is.null(ID)) {
         stop("must give an ID")
     }
