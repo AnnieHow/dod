@@ -2,8 +2,10 @@
 #'
 #' This function downloads CTD data from BATS.
 #'
-#' @param ID a character value specifying the file of interest
-#' (see \sQuote{Details}).
+#' @param ID a character value consisting of 8 digits where
+#' the first two are an ocean basin initial (at, pa or in), the
+#' next four are the year of interest and the last two are the
+#' month of interest.
 #'
 #' @param file character value giving the name to be used for
 #' the downloaded file. This does include the extension.

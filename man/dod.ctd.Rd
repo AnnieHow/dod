@@ -4,62 +4,26 @@
 \alias{dod.ctd}
 \title{Download CTD data}
 \usage{
-dod.ctd(
-  program,
-  year,
-  ID = NULL,
-  index = FALSE,
-  file = NULL,
-  destdir = ".",
-  debug = 0
-)
+dod.ctd(program = NULL, ...)
 }
 \arguments{
-\item{program}{a character value specifying the oceanographic
-program from which the data derive (see \sQuote{Details}).}
+\item{program}{character value naming the program (one of listthem).}
 
-\item{year}{a character value specifying the year of interest.}
+\item{...}{extra arguments passed to \code{\link[=dod.ctd.bats]{dod.ctd.bats()}} or one of the
+other functions.
 
-\item{ID}{a character value specifying the file of interest
-(see \sQuote{Details}).}
-
-\item{index}{a boolean value indicating whether the index
-should be downloaded.}
-
-\item{file}{character value giving the name to be used for
-the downloaded file. This does include the extension.}
-
-\item{destdir}{a character value indicating the directory
-in which to store downloaded files.}
-
-\item{debug}{an integer value indicating the level of debugging. If
-this exceeds 0, then some debugging messages will be printed.}
-}
-\value{
-If \code{index} is TRUE, and \code{program} is \code{"BBMP"}, \code{"BATS"} or \code{"GTSPP"},
-return a data frame.  Otherwise, return the name of the downloaded file.
+If \code{program} is \code{"BATS"}, call \code{\link[=dod.ctd.bats]{dod.ctd.bats()}}.
+If \code{program} is \code{"BBMP"}, call \code{\link[=dod.ctd.bbmp]{dod.ctd.bbmp()}}.
+If \code{program} is \code{"GTSPP"}, call \code{\link[=dod.ctd.gtspp]{dod.ctd.gtspp()}}.}
 }
 \description{
 This function downloads CTD data from various programs.
 }
 \details{
-\tabular{llll}{
-   \strong{Project} \tab \strong{Program} \tab \strong{Index} \tab \strong{ID} \cr
-   Bedford Basin Mooring Project \tab \code{BBMP} \tab Yes \tab From index \cr
-   Bermuda Atlantic Time Series \tab \code{BATS} \tab Yes \tab Cruise ID \cr
-   Global Temperature and Salinity Profile Programme \tab \code{GTSPP} \tab No \tab Ocean Basin Initial _ _ Year _ _ _ _ Month _ _ \cr
+\tabular{ll}{
+   \strong{Project} \tab \strong{Program} \cr
+   Bedford Basin Mooring Project \tab \code{BBMP} \cr
+   Bermuda Atlantic Time Series \tab \code{BATS} \cr
+   Global Temperature and Salinity Profile Programme \tab \code{GTSPP} \cr
 }
-}
-\examples{
-\dontrun{
-# Download the first file of year 2022.
-library(dod)
-library(oce)
-destdir <- "~/data/ctd"
-i <- dod.ctd("BBMP", year=2022, index=TRUE, file="index.txt")
-f <- dod.ctd("BBMP", year=2022, ID=i$file[1], destdir=destdir, file="bbmp.txt")
-ctd <- read.ctd(f)
-plot(ctd)
-}
-
 }

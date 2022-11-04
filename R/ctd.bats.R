@@ -7,8 +7,7 @@
 #' @param index a boolean value indicating whether the index
 #' should be downloaded.
 #'
-#' @param ID a character value specifying the file of interest
-#' (see \sQuote{Details}).
+#' @param ID a character value specifying the file of interest.
 #'
 #' @param file character value giving the name to be used for
 #' the downloaded file. This does include the extension.

@@ -8,7 +8,7 @@
 #' should be downloaded.
 #'
 #' @param ID a character value specifying the file of interest
-#' (see \sQuote{Details}).
+#' that is copied from the index.
 #'
 #' @param file character value giving the name to be used for
 #' the downloaded file. This does include the extension.
