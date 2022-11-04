@@ -2,153 +2,31 @@
 #'
 #' This function downloads CTD data from various programs.
 #'
-#' |                    **Project**                  | **Program** | **Index** |                     **ID**                    |
-#' |                                           :---- |       :---- |     :---- |                                         :---- |
-#' |Bedford Basin Mooring Project                    |      `BBMP` |       Yes |                                    From index |
-#' |Bermuda Atlantic Time Series                     |      `BATS` |       Yes |                                      Cruise ID|
-#' |Global Temperature and Salinity Profile Programme|     `GTSPP` |         No|Ocean Basin Initial _ _ Year _ _ _ _ Month _ _ |
+#' |                    **Project**                   | **Program** |
+#' |                                            :---- |       :---- |
+#' |Bedford Basin Mooring Project                     |      `BBMP` |
+#' |Bermuda Atlantic Time Series                      |      `BATS` |
+#' |Global Temperature and Salinity Profile Programme |     `GTSPP` |
 #'
-#' @param program a character value specifying the oceanographic
-#' program from which the data derive (see \sQuote{Details}).
+#' @param program character value naming the program (one of listthem).
 #'
-#' @param year a character value specifying the year of interest.
+#' @param ... extra arguments passed to [dod.ctd.bats()] or one of the
+#' other functions.
 #'
-#' @param index a boolean value indicating whether the index
-#' should be downloaded.
-#'
-#' @param ID a character value specifying the file of interest
-#' (see \sQuote{Details}).
-#'
-#' @param file character value giving the name to be used for
-#' the downloaded file. This does include the extension.
-#'
-#' @template destdirTemplate
-#'
-#' @template debugTemplate
-#'
-#' @importFrom utils read.csv
-#' @importFrom oce read.odf
-#'
-#' @return If `index` is TRUE, and `program` is `"BBMP"`, `"BATS"` or `"GTSPP"`,
-#' return a data frame.  Otherwise, return the name of the downloaded file.
-#'
-#' @examples
-#'\dontrun{
-#' # Download the first file of year 2022.
-#' library(dod)
-#' library(oce)
-#' destdir <- "~/data/ctd"
-#' i <- dod.ctd("BBMP", year=2022, index=TRUE, file="index.txt")
-#' f <- dod.ctd("BBMP", year=2022, ID=i$file[1], destdir=destdir, file="bbmp.txt")
-#' ctd <- read.ctd(f)
-#' plot(ctd)
-#'}
+#' If `program` is `"BATS"`, call [dod.ctd.bats()].
+#' If `program` is `"BBMP"`, call [dod.ctd.bbmp()].
+#' If `program` is `"GTSPP"`, call [dod.ctd.gtspp()].
 #'
 #' @export
 
-dod.ctd <- function(program, year, ID=NULL, index=FALSE, file=NULL, destdir=".", debug=0)
+dod.ctd <- function(program=NULL, ...)
 {
-    if (program == "?") {
-        stop("Must provide a program argument, possibilities include: BBMP, BATS, GTSPP")
-    }
-    if (!is.logical(index)) {
-        stop("'index' must be a logical value")
-    }
-    if (program == "BBMP") {
-        server <- "ftp://ftp.dfo-mpo.gc.ca/BIOWebMaster/BBMP/ODF"
-        if (missing(year))
-            stop("must give 'year'")
-        server <- paste0(server, "/", year)
-        dodDebug(debug, oce::vectorShow(server))
-        if (index) {
-            if (is.null(file)) {
-            file <- paste0(year, "667ODFSUMMARY.tsv")
-            } else {
-                file=file
-            }
-            dodDebug(debug, oce::vectorShow(file))
-            url <- paste0(server, "/",  paste0(year, "667ODFSUMMARY.tsv"))
-            dodDebug(debug, oce::vectorShow(url))
-            dod.download(url, file, destdir)
-            dodDebug(debug, oce::vectorShow(file))
-            url <- paste0(server, "/", file)
-            file <- paste0(destdir,"/",file)
-            return(read.csv(file, header=FALSE, skip=3, col.names=c("file", "time")))
-        } else {
-            if (is.null(ID)) {
-                stop("Must provide an ID from the index")
-            }
-            if (is.null(file)) {
-            file <- paste0(year,gsub("\\..*","",ID), ".txt", sep="")
-            } else {
-                file=file
-            }
-            url <- paste0(server, "/", ID)
-            dodDebug(debug, oce::vectorShow(url))
-            dodDebug(debug, oce::vectorShow(ID))
-            return(dod.download(url=url, file=file, destdir=destdir, silent=TRUE,debug=debug))
-        }
-    }
-    if (program == "BATS") {
-        dodDebug(debug, "The program is equal to ", program, "\n")
-        server <- "http://batsftp.bios.edu/BATS/ctd/ASCII/"
-        if (is.null(ID)) {
-            stop("Must provide an ID number greater than 10000")
-        } else if (ID < 10000) {
-            stop("Must provide an ID number greater than 10000")
-        }
-        if (index) {
-            if (is.null(file)) {
-                file <- paste0("b",ID, "_info.txt")
-            } else {
-                file=file
-            }
-            url <- paste0(server, "b",ID, "_info.txt")
-            dodDebug(debug, "The url is equal to ", url, "\n")
-            #browser()
-            f <- dod.download(url, destdir=destdir, debug=debug, file=file, silent=TRUE)
-            namesInfo <- c("ID", "dateDeployed","dateRecovered","decimalDateDeployed","decimalDateRecovered",
-                "decimalDayDeployed", "timeDeployed", "timeRecovered", "latitudeDeployed", "latitudeRecovered",
-                "longitudeDeployed", "longitudeRecovered")
-            t <- read.csv(f, sep="\t", header=FALSE, col.names= namesInfo)
-            return(t)
-        } else {
-            if (is.null(file)) {
-                file <- paste0("b",ID, "_ctd.txt")
-            } else {
-                file=file
-            }
-            url <- paste0(server, "b",ID, "_ctd.txt")
-            dodDebug(debug, oce::vectorShow(url))
-            f <- dod.download(url, ID, destdir=destdir, debug=debug, file=file)
-            dodDebug(debug, oce::vectorShow(f))
-            names <- c("ID", "date","latitude", "longitude", "pressure","depth","temperature","conductivity", "salinity", "oxygen", "beamAttenuationCoefficient",
-                "fluorescence", "PAR")
-            t <- read.csv(f, sep="\t", header=FALSE, col.names= names)
-            return(t)
-        }
-    }
-
-if (program == "GTSPP") {
-        server <- "https://www.ncei.noaa.gov/data/oceans/gtspp/bestcopy/meds_ascii/"
-if (index == FALSE) {
-        if (is.null(ID)) {
-        stop("must give an ID")
-    }
-    server <- paste0(server)
-            if (is.null(file)) {
-                file <- paste0(ID,".gz")
-            } else {
-                file=file
-            }
-    dodDebug(debug, oce::vectorShow(server))
-    dodDebug(debug, oce::vectorShow(destdir))
-    return(dod.download(url=server, file=file, destdir=destdir, silent=TRUE,debug=debug))
-
-}
-
-
-
-}
-
+    if (is.null(program))
+        stop("must give 'program'; try \"BATS\", \"BBMP\",\"GTSPP\", ...")
+    if (program == "BATS")
+        dod.ctd.bats(...)
+    else if (program == "BBMP")
+        dod.ctd.bbmp(...)
+    else if (program == "GTSPP")
+        dod.ctd.gtspp(...)
 }
