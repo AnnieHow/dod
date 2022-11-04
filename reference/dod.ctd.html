@@ -54,80 +54,28 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">dod.ctd</span><span class="op">(</span></span>
-<span>  <span class="va">program</span>,</span>
-<span>  <span class="va">year</span>,</span>
-<span>  ID <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  index <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  file <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  destdir <span class="op">=</span> <span class="st">"."</span>,</span>
-<span>  debug <span class="op">=</span> <span class="fl">0</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">dod.ctd</span><span class="op">(</span>program <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>program</dt>
-<dd><p>a character value specifying the oceanographic
-program from which the data derive (see ‘Details’).</p></dd>
+<dd><p>character value naming the program (one of listthem).</p></dd>
 
 
-<dt>year</dt>
-<dd><p>a character value specifying the year of interest.</p></dd>
-
-
-<dt>ID</dt>
-<dd><p>a character value specifying the file of interest
-(see ‘Details’).</p></dd>
-
-
-<dt>index</dt>
-<dd><p>a boolean value indicating whether the index
-should be downloaded.</p></dd>
-
-
-<dt>file</dt>
-<dd><p>character value giving the name to be used for
-the downloaded file. This does include the extension.</p></dd>
-
-
-<dt>destdir</dt>
-<dd><p>a character value indicating the directory
-in which to store downloaded files.</p></dd>
-
-
-<dt>debug</dt>
-<dd><p>an integer value indicating the level of debugging. If
-this exceeds 0, then some debugging messages will be printed.</p></dd>
+<dt>...</dt>
+<dd><p>extra arguments passed to <code><a href="dod.ctd.bats.html">dod.ctd.bats()</a></code> or one of the
+other functions.</p>
+<p>If <code>program</code> is <code>"BATS"</code>, call <code><a href="dod.ctd.bats.html">dod.ctd.bats()</a></code>.
+If <code>program</code> is <code>"BBMP"</code>, call <code><a href="dod.ctd.bbmp.html">dod.ctd.bbmp()</a></code>.
+If <code>program</code> is <code>"GTSPP"</code>, call <code><a href="dod.ctd.gtspp.html">dod.ctd.gtspp()</a></code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
-    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    
-
-<p>If <code>index</code> is TRUE, and <code>program</code> is <code>"BBMP"</code>, <code>"BATS"</code> or <code>"GTSPP"</code>,
-return a data frame.  Otherwise, return the name of the downloaded file.</p>
-    </div>
-    <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     
-<table class="table table"><tr><td><strong>Project</strong></td><td><strong>Program</strong></td><td><strong>Index</strong></td><td><strong>ID</strong></td></tr><tr><td>Bedford Basin Mooring Project</td><td><code>BBMP</code></td><td>Yes</td><td>From index</td></tr><tr><td>Bermuda Atlantic Time Series</td><td><code>BATS</code></td><td>Yes</td><td>Cruise ID</td></tr><tr><td>Global Temperature and Salinity Profile Programme</td><td><code>GTSPP</code></td><td>No</td><td>Ocean Basin Initial _ _ Year _ _ _ _ Month _ _</td></tr></table></div>
+<table class="table table"><tr><td><strong>Project</strong></td><td><strong>Program</strong></td></tr><tr><td>Bedford Basin Mooring Project</td><td><code>BBMP</code></td></tr><tr><td>Bermuda Atlantic Time Series</td><td><code>BATS</code></td></tr><tr><td>Global Temperature and Salinity Profile Programme</td><td><code>GTSPP</code></td></tr></table></div>
 
-    <div class="section level2">
-    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="co"># Download the first file of year 2022.</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://anniehow.github.io/dod/" class="external-link">dod</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dankelley.github.io/oce/" class="external-link">oce</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">destdir</span> <span class="op">&lt;-</span> <span class="st">"~/data/ctd"</span></span></span>
-<span class="r-in"><span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fu">dod.ctd</span><span class="op">(</span><span class="st">"BBMP"</span>, year<span class="op">=</span><span class="fl">2022</span>, index<span class="op">=</span><span class="cn">TRUE</span>, file<span class="op">=</span><span class="st">"index.txt"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu">dod.ctd</span><span class="op">(</span><span class="st">"BBMP"</span>, year<span class="op">=</span><span class="fl">2022</span>, ID<span class="op">=</span><span class="va">i</span><span class="op">$</span><span class="va">file</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, destdir<span class="op">=</span><span class="va">destdir</span>, file<span class="op">=</span><span class="st">"bbmp.txt"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ctd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dankelley.github.io/oce/reference/read.ctd.html" class="external-link">read.ctd</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ctd</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span></span></span>
-</code></pre></div>
-    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 
