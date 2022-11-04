@@ -1,0 +1,41 @@
+#' Download CTD data from the Bermuda Atlantic Time Series (BATS)
+#'
+#' This function downloads CTD data from BATS.
+#'
+#' @param ID a character value specifying the file of interest
+#' (see \sQuote{Details}).
+#'
+#' @param file character value giving the name to be used for
+#' the downloaded file. This does include the extension.
+#'
+#' @template destdirTemplate
+#'
+#' @template debugTemplate
+#'
+#' @importFrom utils read.csv
+#' @importFrom oce read.odf
+#'
+#' @return Return a data frame.
+#'
+#' @export
+
+dod.ctd.gtspp <- function(ID=NULL, file=NULL, destdir=".", debug=0)
+{
+    server <- "https://www.ncei.noaa.gov/data/oceans/gtspp/bestcopy/meds_ascii/"
+        if (is.null(ID)) {
+            stop("must give an ID")
+        }
+        server <- paste0(server)
+        if (is.null(file)) {
+            file <- paste0(ID,".gz")
+        } else {
+            file=file
+        }
+        dodDebug(debug, oce::vectorShow(server))
+        dodDebug(debug, oce::vectorShow(destdir))
+        return(dod.download(url=server, file=file, destdir=destdir, silent=TRUE,debug=debug))
+
+}
+
+
+
