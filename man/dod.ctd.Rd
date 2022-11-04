@@ -10,20 +10,16 @@ dod.ctd(program = NULL, ...)
 \item{program}{character value naming the program (one of listthem).}
 
 \item{...}{extra arguments passed to \code{\link[=dod.ctd.bats]{dod.ctd.bats()}} or one of the
-other functions.
-
-If \code{program} is \code{"BATS"}, call \code{\link[=dod.ctd.bats]{dod.ctd.bats()}}.
-If \code{program} is \code{"BBMP"}, call \code{\link[=dod.ctd.bbmp]{dod.ctd.bbmp()}}.
-If \code{program} is \code{"GTSPP"}, call \code{\link[=dod.ctd.gtspp]{dod.ctd.gtspp()}}.}
+other functions.}
 }
 \description{
 This function downloads CTD data from various programs.
 }
 \details{
-\tabular{ll}{
-   \strong{Project} \tab \strong{Program} \cr
-   Bedford Basin Mooring Project \tab \code{BBMP} \cr
-   Bermuda Atlantic Time Series \tab \code{BATS} \cr
-   Global Temperature and Salinity Profile Programme \tab \code{GTSPP} \cr
+\tabular{lll}{
+   \strong{Project} \tab \strong{Program} \tab \strong{Function Called} \cr
+   Bedford Basin Mooring Project \tab \code{BBMP} \tab \code{\link[=dod.ctd.bbmp]{dod.ctd.bbmp()}} \cr
+   Bermuda Atlantic Time Series \tab \code{BATS} \tab \code{\link[=dod.ctd.bats]{dod.ctd.bats()}} \cr
+   Global Temperature and Salinity Profile Programme \tab \code{GTSPP} \tab \code{\link[=dod.ctd.gtspp]{dod.ctd.gtspp()}} \cr
 }
 }
