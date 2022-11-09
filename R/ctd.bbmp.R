@@ -59,14 +59,10 @@ dod.ctd.bbmp <- function(year, ID=NULL, index=FALSE, file=NULL, destdir=".", deb
         file <- paste0(destdir,"/",file)
         return(read.csv(file, header=FALSE, skip=3, col.names=c("file", "time")))
     } else {
-        if (is.null(ID)) {
+        if (is.null(ID))
             stop("Must provide an ID from the index")
-        }
-        if (is.null(file)) {
-            file <- paste0(ID, ".txt", sep="")
-        } else {
-            file=file
-        }
+        if (is.null(file))
+            file <- ID
         url <- paste0(server, "/", ID)
         dodDebug(debug, oce::vectorShow(url))
         dodDebug(debug, oce::vectorShow(ID))
