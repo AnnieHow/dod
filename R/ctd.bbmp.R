@@ -63,7 +63,7 @@ dod.ctd.bbmp <- function(year, ID=NULL, index=FALSE, file=NULL, destdir=".", deb
             stop("Must provide an ID from the index")
         }
         if (is.null(file)) {
-            file <- paste0(year,gsub("\\..*","",ID), ".txt", sep="")
+            file <- paste0(ID, ".txt", sep="")
         } else {
             file=file
         }
