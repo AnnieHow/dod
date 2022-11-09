@@ -55,11 +55,8 @@ dod.ctd.bats <- function(year, ID=NULL, index=FALSE, file=NULL, destdir=".", deb
         }
         url <- paste0(server, "b",ID, "_ctd.txt")
         dodDebug(debug, oce::vectorShow(url))
-        f <- dod.download(url, ID, destdir=destdir, debug=debug, file=file)
+        f <- dod.download(url=url, destdir=destdir, debug=debug, file=file)
         dodDebug(debug, oce::vectorShow(f))
-        names <- c("ID", "date","latitude", "longitude", "pressure","depth","temperature","conductivity", "salinity", "oxygen", "beamAttenuationCoefficient",
-                   "fluorescence", "PAR")
-        t <- read.csv(f, sep="\t", header=FALSE, col.names= names)
-        return(t)
+        return(f)
     }
 }

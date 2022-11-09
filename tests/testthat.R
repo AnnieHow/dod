@@ -9,3 +9,4 @@
 library(testthat)
 library(dod)
 
+test_check("dod")
