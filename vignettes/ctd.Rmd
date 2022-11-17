@@ -47,7 +47,6 @@ For BBMP, `ID` is the desired file from the index. Once the index is downloaded 
 
 **BATS** 
 For BATS, `ID` is the 5 digit cruise ID. From BATS documentation, cruise ID format is as follows:
-Format:
 
   8 digit cast_ID 	
         $XXXX###  where,
@@ -57,7 +56,7 @@ Format:
 	2=bats bloom a
 	3=bats bloom b
  	5=bats validation
-        6=Hydrostation
+    6=Hydrostation
 	9=Ancillary cruise
 	XXXX= cruise number
 	### = cast number
@@ -66,7 +65,12 @@ Format:
 
 **eg.**	50050005  = bats validation , cruise 50 , cast 5
 
-
+**GTSPP**
+For GTSPP, `ID` is 8 digits in the following format:
+    XX####//  where,
+    X = ocean basin initial (at, pa, in)
+    # = year of interest
+    / = month of interest
 
 ## Example: Downloading BBMP Data
 
