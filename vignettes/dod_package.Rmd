@@ -1,5 +1,5 @@
 ---
-title: "dod_package.R"
+title: "dod Package"
 author: "Annie Howard"
 date: "`r Sys.Date()`"
 output:
@@ -12,7 +12,7 @@ output:
     dpi: 72
     dev.args: list(pointsize=11)
 vignette: >
-  %\VignetteIndexEntry{Downloading ctd Data}
+  %\VignetteIndexEntry{dod Package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
