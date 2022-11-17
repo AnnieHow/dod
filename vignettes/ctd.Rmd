@@ -1,5 +1,5 @@
 ---
-title: "dod.ctd"
+title: "Downloading ctd Data"
 author: "Annie Howard"
 date: "`r Sys.Date()`"
 output:
@@ -12,7 +12,7 @@ output:
     dpi: 72
     dev.args: list(pointsize=11)
 vignette: >
-  %\VignetteIndexEntry{CTD data}
+  %\VignetteIndexEntry{Downloading ctd Data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -36,7 +36,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
 **Abstract.** The basics of downloading CTD data are outlined in this
-vignette, as a supplement to a shorter entry in the [main vignette](A_oce.html).
+vignette, as a supplement to a shorter entry in the [main vignette](dod_package.html).
 
 # Basics
 This function can download ctd data from the Bedford Basin Mooring Program (BBMP), Bermuda Atlantic Time Series (BATS), etc.
