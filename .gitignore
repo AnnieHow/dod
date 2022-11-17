@@ -1,4 +1,6 @@
 *.swp
+*.swn
+*.swo
 .DS_Store
 topo*.nc
 .Rproj.user
