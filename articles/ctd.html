@@ -42,7 +42,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/ctd.html">Downloading ctd Data</a>
-    <a class="dropdown-item" href="../articles/dod_package.html">dod_package.R</a>
+    <a class="dropdown-item" href="../articles/dod_package.html">dod Package</a>
   </div>
 </li>
       </ul>
@@ -98,33 +98,19 @@ outlined in this vignette, as a supplement to a shorter entry in the <a href="do
 <div class="section level2">
 <h2 id="basics">Basics<a class="anchor" aria-label="anchor" href="#basics"></a>
 </h2>
-<p>This function can download ctd data from the Bedford Basin Mooring
-Program (BBMP), Bermuda Atlantic Time Series (BATS), etc.</p>
+<p>The function <code>dod.ctd</code> can download ctd data from the
+Bedford Basin Mooring Program (BBMP), Bermuda Atlantic Time Series
+(BATS), Global Temperature and Salinity Program (GTSPP) etc.</p>
 </div>
 <div class="section level2">
 <h2 id="finding-desired-id">Finding Desired ID<a class="anchor" aria-label="anchor" href="#finding-desired-id"></a>
 </h2>
-<p><strong>BBMP</strong> For BBMP, this is the desired file from the
-index. Once the index is downloaded using the <code>dod.ctd</code>
-function, provide the item or file name from the index you want to
-download for the argument <code>ID</code>.</p>
-<div class="section level3">
-<h3 id="bbmp-example">BBMP Example<a class="anchor" aria-label="anchor" href="#bbmp-example"></a>
-</h3>
-<p>This is a basic example which shows you how to download ctd index
-from the BBMP program in the year 2022 and download, read and plot the
-first item in the index using the <code>oce</code> package.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://anniehow.github.io/dod/" class="external-link">dod</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dankelley.github.io/oce/" class="external-link">oce</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Loading required package: gsw</span></span>
-<span><span class="va">index</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dod.ctd.html">dod.ctd</a></span><span class="op">(</span><span class="st">"BBMP"</span>, <span class="fl">2022</span>, index<span class="op">=</span><span class="cn">TRUE</span>, file<span class="op">=</span><span class="st">"bbmp.txt"</span><span class="op">)</span> </span>
-<span><span class="va">item</span> <span class="op">&lt;-</span> <span class="va">index</span><span class="op">[</span><span class="fl">1</span>,<span class="st">"file"</span><span class="op">]</span></span>
-<span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dod.ctd.html">dod.ctd</a></span><span class="op">(</span><span class="st">"BBMP"</span>, <span class="fl">2022</span>, <span class="va">item</span>, file<span class="op">=</span><span class="st">"bbmp.txt"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://dankelley.github.io/oce/reference/read.ctd.html" class="external-link">read.ctd</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ctd_files/figure-html/example-1.png" width="700"></p>
-<p><strong>BATS</strong> For BATS, is the 5 digit cruise ID. From BATS
-documentation, cruise ID format is as follows: Format:</p>
+<p><strong>BBMP</strong> For BBMP, <code>ID</code> is the desired file
+from the index. Once the index is downloaded using the
+<code>dod.ctd</code> function, provide the item or file name from the
+index you want to download for the argument <code>ID</code>.</p>
+<p><strong>BATS</strong> For BATS, <code>ID</code> is the 5 digit cruise
+ID. From BATS documentation, cruise ID format is as follows: Format:</p>
 <p>8 digit cast_ID<br>
 $XXXX### where,</p>
 <pre><code>$= cruise type
@@ -136,224 +122,26 @@ $XXXX### where,</p>
 9=Ancillary cruise
 XXXX= cruise number
 ### = cast number</code></pre>
-<p><strong>eg.</strong> 10155005 = bats core cruise, cruise 155, cast 5
-<strong>eg.</strong> 50050005 = bats validation , cruise 50 , cast 5</p>
-<p>Oce examples to pull from: # Example with pre-trimmed data</p>
-<p>Many of the object types supported by <code>oce</code> come with
-built-in data. For an example, <code>data(ctd)</code> yields a CTD
-profile that has been trimmed to just the downcast portion of the
-sampling. (See the next section to learn how to do this trimming.) A
-summary and plot (Figure 2) are created as follows.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dankelley.github.io/oce/" class="external-link">oce</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">ctd</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">ctd</span><span class="op">)</span></span>
-<span><span class="co">#&gt; CTD Summary</span></span>
-<span><span class="co">#&gt; -----------</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; * Instrument:          SBE 25</span></span>
-<span><span class="co">#&gt; * Temp. serial no.:    1140</span></span>
-<span><span class="co">#&gt; * Cond. serial no.:    832</span></span>
-<span><span class="co">#&gt; * File:                "/Users/kelley/git/oce/create_data/ctd/ctd.cnv"</span></span>
-<span><span class="co">#&gt; * Original file:       c:\seasoft3\basin\bed0302.hex</span></span>
-<span><span class="co">#&gt; * Start time:          2003-10-15 15:38:38</span></span>
-<span><span class="co">#&gt; * Sample interval:     1 s</span></span>
-<span><span class="co">#&gt; * Cruise:              Halifax Harbour</span></span>
-<span><span class="co">#&gt; * Vessel:              Divcom3</span></span>
-<span><span class="co">#&gt; * Station:             Stn 2</span></span>
-<span><span class="co">#&gt; * Location:            44.684N 63.644W</span></span>
-<span><span class="co">#&gt; * Data Overview</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;                                 Min.   Mean   Max. Dim. NAs OriginalName</span></span>
-<span><span class="co">#&gt;     scan                         130    220    310  181   0         scan</span></span>
-<span><span class="co">#&gt;     timeS [s]                    129    219    309  181   0        timeS</span></span>
-<span><span class="co">#&gt;     pressure [dbar]             1.48 22.885 44.141  181   0           pr</span></span>
-<span><span class="co">#&gt;     depth [m]                  1.468 22.698 43.778  181   0         depS</span></span>
-<span><span class="co">#&gt;     temperature [°C, IPTS-68]  2.919 7.5063 14.237  181   0         t068</span></span>
-<span><span class="co">#&gt;     salinity [PSS-78]         29.916 31.219 31.498  181   0        sal00</span></span>
-<span><span class="co">#&gt;     flag                           0      0      0  181   0         flag</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; * Processing Log</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     - 2018-11-14 20:03:47 UTC: `create 'ctd' object`</span></span>
-<span><span class="co">#&gt;     - 2018-11-14 20:03:47 UTC: `read.ctd.sbe(file = file, debug = 10, processingLog = processingLog)`</span></span>
-<span><span class="co">#&gt;     - 2018-11-14 20:03:47 UTC: `oce.edit(x = ctd, item = "startTime", value = as.POSIXct(gsub("1903",     "2003", format(ctd[["startTime"]])), tz = "UTC") + 4 * 3600,     reason = "file had year=1903, instead of 2003", person = "Dan Kelley")`</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ctd</span><span class="op">)</span></span></code></pre></div>
-<div class="figure">
-<img src="ctd_files/figure-html/unnamed-chunk-2-1.png" alt="**Figure 2.** An overview of a ctd dataset." width="432"><p class="caption">
-<strong>Figure 2.</strong> An overview of a ctd dataset.
-</p>
+<p><strong>eg.</strong> 10155005 = bats core cruise, cruise 155, cast
+5</p>
+<p><strong>eg.</strong> 50050005 = bats validation , cruise 50 , cast
+5</p>
+<div class="section level3">
+<h3 id="example-downloading-bbmp-data">Example: Downloading BBMP Data<a class="anchor" aria-label="anchor" href="#example-downloading-bbmp-data"></a>
+</h3>
+<p>This is a basic example which shows you how to download ctd index
+from the BBMP program in the year 2022 and download, read and plot the
+first item in the index using the <code>oce</code> package.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://anniehow.github.io/dod/" class="external-link">dod</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dankelley.github.io/oce/" class="external-link">oce</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Loading required package: gsw</span></span>
+<span><span class="va">index</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dod.ctd.html">dod.ctd</a></span><span class="op">(</span><span class="st">"BBMP"</span>, <span class="fl">2022</span>, index<span class="op">=</span><span class="cn">TRUE</span>, file<span class="op">=</span><span class="st">"bbmp.txt"</span><span class="op">)</span> </span>
+<span><span class="va">item</span> <span class="op">&lt;-</span> <span class="va">index</span><span class="op">[</span><span class="fl">1</span>,<span class="st">"file"</span><span class="op">]</span></span>
+<span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dod.ctd.html">dod.ctd</a></span><span class="op">(</span><span class="st">"BBMP"</span>, <span class="fl">2022</span>, <span class="va">item</span>, file<span class="op">=</span><span class="st">"bbmp.txt"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://dankelley.github.io/oce/reference/read.ctd.html" class="external-link">read.ctd</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="ctd_files/figure-html/example-1.png" width="700"></p>
 </div>
-<p>Accessing the data within this <code>ctd</code> object can be done
-directly, e.g. <code>ctd@data$pressure</code> holds the pressure record,
-but it is usually better to use an accessor function that is provided
-with <code>oce</code>. This function is named <code>[[</code>, and it
-takes a character string as an argument,
-e.g. <code>ctd[["pressure"]]</code> yields the pressure column. The
-accessor notation is preferable to direct access because it is simpler
-for the user. For example, several <code>oce</code> objects store the
-data in single-byte or two-byte chunks, to match the raw format used by
-the instruments, and the accessor function takes care of translating
-these values to what are sometimes called “science” units.</p>
-<p><strong>Exercise 1.</strong> Plot a profile of <span class="math inline">\(\sigma_\theta\)</span> and <span class="math inline">\(N^2\)</span> within the pycnocline in the built-in
-<code>ctd</code> data set. (Hint: use <code><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset()</a></code>.)</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="example-with-raw-data">Example with raw data<a class="anchor" aria-label="anchor" href="#example-with-raw-data"></a>
-</h2>
-<p>Practicing Oceanographers may be wondering how the CTD cast used in
-the preceding section was trimmed of equilibration-phase and
-upcast-phase data. Spurious data from these phases must be trimmed as a
-first step in processing. For example, consider the following code.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">ctdRaw</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://dankelley.github.io/oce/reference/plotScan.html" class="external-link">plotScan</a></span><span class="op">(</span><span class="va">ctdRaw</span><span class="op">)</span></span></code></pre></div>
-<div class="figure">
-<img src="ctd_files/figure-html/unnamed-chunk-3-1.png" alt="**Figure 3.** Scanwise plot of the `ctdRaw` sample data set.  Note the spike at the start, the equilibration phase before the downcast, and the spurious freshening signal near the start of the upcast." width="360"><p class="caption">
-<strong>Figure 3.</strong> Scanwise plot of the <code>ctdRaw</code>
-sample data set. Note the spike at the start, the equilibration phase
-before the downcast, and the spurious freshening signal near the start
-of the upcast.
-</p>
-</div>
-<p>This produces a two-panel plot (Figure 3) of the data as a
-time-series, revealing not just the desired downcast, but also an
-earlier equilibration phase and a later upcast. The x-axis in Figure 3
-is the scan number, which is a convenient index for extraction of the
-downcast portion of the profile by an essentially manual method,
-e.g. proceeding with a sequence of commands such as</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://dankelley.github.io/oce/reference/plotScan.html" class="external-link">plotScan</a></span><span class="op">(</span><span class="fu"><a href="https://dankelley.github.io/oce/reference/ctdTrim.html" class="external-link">ctdTrim</a></span><span class="op">(</span><span class="va">ctdRaw</span>, <span class="st">"range"</span>,</span>
-<span>                 parameters<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>item<span class="op">=</span><span class="st">"scan"</span>, from<span class="op">=</span><span class="fl">140</span>, to<span class="op">=</span><span class="fl">250</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://dankelley.github.io/oce/reference/plotScan.html" class="external-link">plotScan</a></span><span class="op">(</span><span class="fu"><a href="https://dankelley.github.io/oce/reference/ctdTrim.html" class="external-link">ctdTrim</a></span><span class="op">(</span><span class="va">ctdRaw</span>, <span class="st">"range"</span>,</span>
-<span>                 parameters<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>item<span class="op">=</span><span class="st">"scan"</span>, from<span class="op">=</span><span class="fl">150</span>, to<span class="op">=</span><span class="fl">250</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>This method of making decisions based on plotted information is
-probably the most robust method of trimming data. However, for quick
-work, users may be satisfied with the results of automatic downcast
-detection, e.g.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ctdTrimmed</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dankelley.github.io/oce/reference/ctdTrim.html" class="external-link">ctdTrim</a></span><span class="op">(</span><span class="va">ctdRaw</span><span class="op">)</span></span></code></pre></div>
-<p>It should be noted that <code><a href="https://dankelley.github.io/oce/reference/ctdTrim.html" class="external-link">ctdTrim()</a></code> inserts entries into
-the object’s log file, so that the details of how the trimming was done
-are recorded together with the data.</p>
-<p>Once the profile has been trimmed, one may wish to use
-<code>ctd.decimate()</code> to smooth the data and interpolate the
-smoothed results to uniformly-spaced pressure values.</p>
-<p>Taking these things together, a quick visual examination of a CTD
-file takes just one line of code:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://dankelley.github.io/oce/reference/ctdDecimate.html" class="external-link">ctdDecimate</a></span><span class="op">(</span><span class="fu"><a href="https://dankelley.github.io/oce/reference/ctdTrim.html" class="external-link">ctdTrim</a></span><span class="op">(</span><span class="fu"><a href="https://dankelley.github.io/oce/reference/read.ctd.html" class="external-link">read.ctd</a></span><span class="op">(</span><span class="st">"stn123.cnv"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="example-with-woce-archive-data">Example with WOCE archive data<a class="anchor" aria-label="anchor" href="#example-with-woce-archive-data"></a>
-</h2>
-<p>The package has a harder time scanning the headers of data files in
-the WOCE archive format than it does in the Seabird format illustrated
-in the previous examples. This is mainly because front-line researchers
-tend to work in the Seabird format, and partly because the WOCE format
-is odd. For example, the first line of a WOCE file is of the form
-<code>CTD,20060609WHPOSIODAM</code> (or <code>BOTTLE,...</code>).
-Scanning the item to the left of the comma is not difficult (although
-there are variants to the two shown, e.g. <code>CTDO</code> sometimes
-occurs). The part to the right of the comma is more difficult. The first
-part is a date (<code>yyyymmdd</code>) so that is no problem. But then
-things start to get tricky. In the example provided, this text contains
-the division of the institute (WHPO), the institute itself (SIO), and
-initial of the investigator (DAM). The problem is that no dividers
-separate these items, and that there seem to be no standards for the
-item lengths. Rather than spend a great deal of time coding special
-cases (e.g. scanning to see if the string <code>WHOI</code> occurs in
-the header line), the approach taken with <code>oce</code> is to ignore
-such issues relating to quirky headers, on the assumption that users can
-scan human-written headers with high skill.</p>
-<p>Quite commonly, CTD profiles taken during a cruise are collected
-together in a sequence of files in a given directory. For a real-world
-example, one might visit the website mentioned in the code provided
-below, download and expand the zip file, enter the directory thus
-formed, and run the code to get an overall TS plot for all the CTD
-stations of this cruise. (Caution: the link seems to change from time to
-time.)</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dankelley.github.io/oce/" class="external-link">oce</a></span><span class="op">)</span></span>
-<span><span class="co"># http://cchdo.ucsd.edu/data/7971/ar18_58JH19941029_ct1.zip</span></span>
-<span><span class="co"># setwd("~/Downloads/ar18_58JH19941029_ct1")</span></span>
-<span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.html" class="external-link">system</a></span><span class="op">(</span><span class="st">"ls *.csv"</span>, intern<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dankelley.github.io/oce/reference/read.ctd.html" class="external-link">read.ctd</a></span><span class="op">(</span><span class="va">files</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
-<span>    <span class="kw">if</span> <span class="op">(</span><span class="va">i</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op">{</span></span>
-<span>        <span class="fu"><a href="https://dankelley.github.io/oce/reference/plotTS.html" class="external-link">plotTS</a></span><span class="op">(</span><span class="va">x</span>, Slim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">31</span>, <span class="fl">35.5</span><span class="op">)</span>, Tlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>, type<span class="op">=</span><span class="st">'o'</span><span class="op">)</span></span>
-<span>    <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">x</span><span class="op">[[</span><span class="st">"salinity"</span><span class="op">]</span><span class="op">]</span>, <span class="va">x</span><span class="op">[[</span><span class="st">"potential temperature"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">x</span><span class="op">[[</span><span class="st">"salinity"</span><span class="op">]</span><span class="op">]</span>, <span class="va">x</span><span class="op">[[</span><span class="st">"potential temperature"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
-<span>    <span class="op">}</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-<p>The <code>[[</code> notation is explained in Section 3, but this
-example conveys the gist, that it permits accessing data, or derived
-data, from within an object.</p>
-<p>In the above, lines connect the points within a given profile. This
-can be a useful method for a quick scan looking for outliers. Another is
-to colour-code the profiles, although this gets confusing with large
-datasets, in which case the method of the following exercise might be
-useful.</p>
-<p><strong>Exercise 2. (advanced)</strong> Make a multi-file plot
-summarizing the TS relationship in a collection of CTD datasets, with
-each plot file showing the overall relationship in gray and the
-individual profile in black.</p>
-</div>
-<div class="section level2">
-<h2 id="solutions-to-exercises">Solutions to exercises<a class="anchor" aria-label="anchor" href="#solutions-to-exercises"></a>
-</h2>
-<p><strong>Exercise 1.</strong> Plot a profile of <span class="math inline">\(\sigma_\theta\)</span> and <span class="math inline">\(N^2\)</span> within the pycnocline in the built-in
-<code>ctd</code> data set. (Hint: use <code><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset()</a></code>.)</p>
-<p>Although one may argue as to the limits of the pycnocline, for
-illustration let us say it is in 5 dbar to 12 dbar range. One way to do
-this is</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dankelley.github.io/oce/" class="external-link">oce</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">ctd</span><span class="op">)</span></span>
-<span><span class="va">pycnocline</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dankelley.github.io/oce/reference/ctdTrim.html" class="external-link">ctdTrim</a></span><span class="op">(</span><span class="va">ctd</span>, <span class="st">"range"</span>,</span>
-<span>                      parameters<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>item<span class="op">=</span><span class="st">"pressure"</span>, from<span class="op">=</span><span class="fl">5</span>, to<span class="op">=</span><span class="fl">12</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://dankelley.github.io/oce/reference/plotProfile.html" class="external-link">plotProfile</a></span><span class="op">(</span><span class="va">pycnocline</span>, which<span class="op">=</span><span class="st">"density+N2"</span><span class="op">)</span></span></code></pre></div>
-<p>Another is</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dankelley.github.io/oce/" class="external-link">oce</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">ctd</span><span class="op">)</span></span>
-<span><span class="va">pycnocline</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ctd</span>, <span class="fl">5</span> <span class="op">&lt;=</span> <span class="va">pressure</span> <span class="op">&amp;</span> <span class="va">pressure</span> <span class="op">&lt;=</span> <span class="fl">12</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://dankelley.github.io/oce/reference/plotProfile.html" class="external-link">plotProfile</a></span><span class="op">(</span><span class="va">pycnocline</span>, which<span class="op">=</span><span class="st">"density+N2"</span><span class="op">)</span></span></code></pre></div>
-<p><strong>Exercise 2. (advanced)</strong> Make a multi-file plot
-summarizing the TS relationship in a collection of CTD datasets, with
-each plot file showing the overall relationship in gray and the
-individual profile in black.</p>
-<p>The code provided below creates 91 PNG files, with names
-<code>ar18_01.png</code>, <code>ar18_02.png</code>, etc. Loading these
-in a view that permits quick paging through this file list is an easy
-way to spot suspicious data, since each plot has the station number at
-the top. (Users trying this example should bear in mind that this is a
-fairly large dataset, so the processing will take up to a minute.)</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dankelley.github.io/oce/" class="external-link">oce</a></span><span class="op">)</span></span>
-<span><span class="co"># http://cchdo.ucsd.edu/data/7971/ar18_58JH19941029_ct1.zip</span></span>
-<span><span class="co"># setwd("~/Downloads/ar18_58JH19941029_ct1")</span></span>
-<span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.html" class="external-link">system</a></span><span class="op">(</span><span class="st">"ls *.csv"</span>, intern<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span></span>
-<span><span class="va">ctds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">vector</a></span><span class="op">(</span><span class="st">"list"</span>, <span class="va">n</span><span class="op">)</span> <span class="co"># to hold the CTD objects</span></span>
-<span><span class="va">station</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">vector</a></span><span class="op">(</span><span class="st">"list"</span>, <span class="va">n</span><span class="op">)</span></span>
-<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">ctds</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dankelley.github.io/oce/reference/read.ctd.html" class="external-link">read.ctd</a></span><span class="op">(</span><span class="va">files</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
-<span>    <span class="va">station</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">ctds</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"station"</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="op">}</span></span>
-<span><span class="va">S</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">n</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="va">ctds</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"salinity"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="cn">T</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">n</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="va">ctds</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"temperature"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">n</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="va">ctds</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"pressure"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">overall</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dankelley.github.io/oce/reference/as.ctd.html" class="external-link">as.ctd</a></span><span class="op">(</span><span class="va">S</span>, <span class="cn">T</span>, <span class="va">p</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/grDevices/png.html" class="external-link">png</a></span><span class="op">(</span><span class="st">"ar18_%02d.png"</span><span class="op">)</span></span>
-<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="fu"><a href="https://dankelley.github.io/oce/reference/plotTS.html" class="external-link">plotTS</a></span><span class="op">(</span><span class="va">overall</span>, col<span class="op">=</span><span class="st">'gray'</span><span class="op">)</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">ctds</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"salinity"</span><span class="op">]</span><span class="op">]</span>, <span class="va">ctds</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"potential temperature"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/graphics/mtext.html" class="external-link">mtext</a></span><span class="op">(</span><span class="va">station</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, side<span class="op">=</span><span class="fl">3</span>, line<span class="op">=</span><span class="fl">0</span><span class="op">)</span></span>
-<span><span class="op">}</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.off</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
