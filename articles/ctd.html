@@ -110,7 +110,7 @@ from the index. Once the index is downloaded using the
 <code>dod.ctd</code> function, provide the item or file name from the
 index you want to download for the argument <code>ID</code>.</p>
 <p><strong>BATS</strong> For BATS, <code>ID</code> is the 5 digit cruise
-ID. From BATS documentation, cruise ID format is as follows: Format:</p>
+ID. From BATS documentation, cruise ID format is as follows:</p>
 <p>8 digit cast_ID<br>
 $XXXX### where,</p>
 <pre><code>$= cruise type
@@ -118,7 +118,7 @@ $XXXX### where,</p>
 2=bats bloom a
 3=bats bloom b
 5=bats validation
-    6=Hydrostation
+6=Hydrostation
 9=Ancillary cruise
 XXXX= cruise number
 ### = cast number</code></pre>
@@ -126,6 +126,9 @@ XXXX= cruise number
 5</p>
 <p><strong>eg.</strong> 50050005 = bats validation , cruise 50 , cast
 5</p>
+<p><strong>GTSPP</strong> For GTSPP, <code>ID</code> is 8 digits in the
+following format: XX####// where, X = ocean basin initial (at, pa, in) #
+= year of interest / = month of interest</p>
 <div class="section level3">
 <h3 id="example-downloading-bbmp-data">Example: Downloading BBMP Data<a class="anchor" aria-label="anchor" href="#example-downloading-bbmp-data"></a>
 </h3>
