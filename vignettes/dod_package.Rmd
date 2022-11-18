@@ -25,15 +25,18 @@ knitr::opts_chunk$set(echo = TRUE)
 
 This package was created as a tool to improve access to various types of oceanographic data from open sources. 
 
+## Oceanographic Data Options 
+
+The package currently downloads ctd, topographic, coastline, buoy, meteorological, and advanced microwave scanning radiometer data. Expansion of these options is welcomed. 
+
 ## Development 
 
-Contributions to the `dod` package are welcome. The basic structure of each function involves finding a data source online to use as a `server` containing many files and constructing a `url` from which the function can download specific data.  
+Contributions to the `dod` package are encouraged. The basic structure of each function involves finding a data source online to use as a `server` containing many files and constructing a `url` from which the function can download specific data.  
 
 **eg** For BATS, the server and url are identified with:
 
 	server <- "http://batsftp.bios.edu/BATS/ctd/ASCII/"
 	url <- paste0(server, "b",ID, "_info.txt")
-	
 	
 
 
