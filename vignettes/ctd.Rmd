@@ -35,17 +35,19 @@ vignette: >
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
-**Abstract.** The basics of downloading CTD data are outlined in this
+The basics of downloading CTD data are outlined in this
 vignette, as a supplement to a shorter entry in the [main vignette](dod_package.html).
 
 # Basics
-The function `dod.ctd` can download ctd data from the Bedford Basin Mooring Program (BBMP), Bermuda Atlantic Time Series (BATS), Global Temperature and Salinity Program (GTSPP) etc.
+The function `dod.ctd` can download ctd data from the Bedford Basin Mooring Program (BBMP), Bermuda Atlantic Time Series (BATS), Global Temperature and Salinity Program (GTSPP) etc by calling their respective functions `dod.ctd.bbmp`, `dod.ctd.bats` or `dod.ctd.gtspp`.
 
 # Finding Desired ID
-**BBMP** 
-For BBMP, `ID` is the desired file from the index. Once the index is downloaded using the `dod.ctd` function, provide the item or file name from the index you want to download for the argument `ID`. 
+##BBMP 
 
-**BATS** 
+In the `dod.ctd.bbmp` function, `ID` is the desired file from the index. Once the index is downloaded using the `dod.ctd` function, provide the file name from the index you want to download for the argument `ID`. **eg** `ID= "D22667034.ODF"`
+
+## BATS
+
 For BATS, `ID` is the 5 digit cruise ID. From BATS documentation, cruise ID format is as follows:
 
   8 digit cast_ID 	
@@ -65,14 +67,16 @@ For BATS, `ID` is the 5 digit cruise ID. From BATS documentation, cruise ID form
 
 **eg.**	50050005  = bats validation , cruise 50 , cast 5
 
-**GTSPP**
-For GTSPP, `ID` is 8 digits in the following format:
-    XX####//  where,
-    X = ocean basin initial (at, pa, in)
-    # = year of interest
-    / = month of interest
+##GTSPP
 
-## Example: Downloading BBMP Data
+For GTSPP, `ID` is 8 digits in the following format:
+
+XX####//  where,
+	X=ocean basin initial (at, pa, in)
+	#=year of interest
+	/=month of interest
+
+# Example: Downloading BBMP Data
 
 This is a basic example which shows you how to download ctd index from the BBMP program in the year 2022 and download, read and plot the first item in the index using the `oce` package.
 
