@@ -26,7 +26,7 @@ This package was created as a tool to improve access to various types of oceanog
 
 ## Oceanographic Data Options 
 
-The package currently downloads ctd, topographic, coastline, buoy, meteorological, and advanced microwave scanning radiometer data.The details of downloading each data type are layed out in vignettes on this site. Expansion of these options is welcomed. 
+The package currently downloads ctd, buoy, topographic [topo vignette](download.topo.Rmd), coastline [coastline vignette](download.coastline.Rmd), meteorological, and advanced microwave scanning radiometer data.The details of downloading each data type are layed out in vignettes on this site. Expansion of these options is welcomed. 
 
 ## Development 
 
