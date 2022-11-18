@@ -84,15 +84,20 @@ Howard</h4>
 <div class="section level2">
 <h2 id="purpose">Purpose<a class="anchor" aria-label="anchor" href="#purpose"></a>
 </h2>
-<p>This package was created to make it easier and faster to download
-various types of oceanographic data from open sources.</p>
+<p>This package was created as a tool to improve access to various types
+of oceanographic data from open sources.</p>
 </div>
 <div class="section level2">
 <h2 id="development">Development<a class="anchor" aria-label="anchor" href="#development"></a>
 </h2>
 <p>Contributions to the <code>dod</code> package are welcome. The basic
 structure of each function involves finding a data source online to use
-as a <code>server</code>, constructing a <code>url</code> and …</p>
+as a <code>server</code> containing many files and constructing a
+<code>url</code> from which the function can download specific data.</p>
+<p><strong>eg</strong> For BATS, the server and url are identified
+with:</p>
+<pre><code><span><span class="va">server</span> <span class="op">&lt;-</span> <span class="st">"http://batsftp.bios.edu/BATS/ctd/ASCII/"</span></span>
+<span><span class="va">url</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">server</span>, <span class="st">"b"</span>,<span class="va">ID</span>, <span class="st">"_info.txt"</span><span class="op">)</span></span></code></pre>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
