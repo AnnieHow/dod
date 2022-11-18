@@ -28,7 +28,7 @@ The function `dod.buoy` can download buoy data from the Marine Environmental Dat
 
 # Finding Desired ID
 
-In `dod.buoy`, **ID** is the MEDS code for the region of interest or for the list below, the name of the region can be given: 
+In `dod.buoy`, **ID** is the MEDS code for the region of interest or for the list below, the name of the region can be given:
 
 |       **Region Name**         | **Region ID** |
 |                         :---- |         :---- |
@@ -49,6 +49,6 @@ This is a basic example which shows you how to download buoy data from the MEDS 
 
 ```{r example}
 library(dod)
-dod.buoy("MEDS", ID="East Scotian Slope") 
+dod.buoy("MEDS", ID="East Scotian Slope")
 ```
 

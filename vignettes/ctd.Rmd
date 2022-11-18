@@ -41,44 +41,15 @@ vignette, as a supplement to a shorter entry in the [main vignette](dod_package.
 The function `dod.ctd` can download ctd data from the Bedford Basin Mooring Program (BBMP), Bermuda Atlantic Time Series (BATS), Global Temperature and Salinity Program (GTSPP) etc by calling their respective functions `dod.ctd.bbmp`, `dod.ctd.bats` or `dod.ctd.gtspp`.
 
 # Finding Desired ID
-## BBMP 
+## BBMP
 
 In the `dod.ctd.bbmp` function, **ID** is the desired file from the index. Once the index is downloaded using the `dod.ctd` function, provide the file name from the index you want to download for the argument **ID**. **eg** ID= "D22667034.ODF"
 
-## BATS
-
-For BATS, **ID** is the 5 digit cruise ID. From BATS documentation, cruise ID format is as follows:
-
-  8 digit cast_ID 	
-        $XXXX###  where,
-
-	$= cruise type
-	1=bats core
-	2=bats bloom a
-	3=bats bloom b
- 	5=bats validation
-    6=Hydrostation
-	9=Ancillary cruise
-	XXXX= cruise number
-	### = cast number
-
-**eg.**	10155005  = bats core cruise, cruise 155, cast 5
-
-**eg.**	50050005  = bats validation , cruise 50 , cast 5
-
 ## GTSPP
 
-For GTSPP, **ID** is 8 digits in the following format:
-
-XX####//  where,
-
-	X=ocean basin initial (at, pa, in)
+For GTSPP, **ID** is 8 digits with the first two digits meaning the ocean basin initial (at, pa, in), the next four digits meaning the year of interest and the last two being the month of interest.
 	
-	#=year of interest
-	
-	/=month of interest
-	
-**eg** To attain data from the Atlantic in January 1985 input: ID="at198501". 
+**eg** To attain data from the Atlantic in January 1985 input: ID="at198501".
 
 # Example: Downloading BBMP Data
 
