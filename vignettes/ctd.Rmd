@@ -75,6 +75,8 @@ XX####//  where,
 	X=ocean basin initial (at, pa, in)
 	#=year of interest
 	/=month of interest
+	
+**eg** For the Atlantic in January 1985 input: `ID="at198501"`. 
 
 # Example: Downloading BBMP Data
 
