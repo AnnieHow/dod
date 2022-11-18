@@ -73,7 +73,7 @@
                         <h4 data-toc-skip class="author">Annie
 Howard</h4>
             
-            <h4 data-toc-skip class="date">2022-11-17</h4>
+            <h4 data-toc-skip class="date">2022-11-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/AnnieHow/dod/blob/HEAD/vignettes/ctd.Rmd" class="external-link"><code>vignettes/ctd.Rmd</code></a></small>
       <div class="d-none name"><code>ctd.Rmd</code></div>
@@ -93,24 +93,32 @@ Howard</h4>
 <!--      R CMD INSTALL oce_1.1-0.tar.gz -->
 <!--    where the version number might need updating, or in an R console you might use -->
 <!--      devtools::install(build_vignettes=TRUE) -->
-<p><strong>Abstract.</strong> The basics of downloading CTD data are
-outlined in this vignette, as a supplement to a shorter entry in the <a href="dod_package.html">main vignette</a>.</p>
+<p>The basics of downloading CTD data are outlined in this vignette, as
+a supplement to a shorter entry in the <a href="dod_package.html">main
+vignette</a>.</p>
 <div class="section level2">
 <h2 id="basics">Basics<a class="anchor" aria-label="anchor" href="#basics"></a>
 </h2>
 <p>The function <code>dod.ctd</code> can download ctd data from the
 Bedford Basin Mooring Program (BBMP), Bermuda Atlantic Time Series
-(BATS), Global Temperature and Salinity Program (GTSPP) etc.</p>
+(BATS), Global Temperature and Salinity Program (GTSPP) etc by calling
+their respective functions <code>dod.ctd.bbmp</code>,
+<code>dod.ctd.bats</code> or <code>dod.ctd.gtspp</code>.</p>
 </div>
 <div class="section level2">
 <h2 id="finding-desired-id">Finding Desired ID<a class="anchor" aria-label="anchor" href="#finding-desired-id"></a>
 </h2>
-<p><strong>BBMP</strong> For BBMP, <code>ID</code> is the desired file
-from the index. Once the index is downloaded using the
-<code>dod.ctd</code> function, provide the item or file name from the
-index you want to download for the argument <code>ID</code>.</p>
-<p><strong>BATS</strong> For BATS, <code>ID</code> is the 5 digit cruise
-ID. From BATS documentation, cruise ID format is as follows:</p>
+<p>##BBMP</p>
+<p>In the <code>dod.ctd.bbmp</code> function, <code>ID</code> is the
+desired file from the index. Once the index is downloaded using the
+<code>dod.ctd</code> function, provide the file name from the index you
+want to download for the argument <code>ID</code>. <strong>eg</strong>
+<code>ID= "D22667034.ODF"</code></p>
+<div class="section level3">
+<h3 id="bats">BATS<a class="anchor" aria-label="anchor" href="#bats"></a>
+</h3>
+<p>For BATS, <code>ID</code> is the 5 digit cruise ID. From BATS
+documentation, cruise ID format is as follows:</p>
 <p>8 digit cast_ID<br>
 $XXXX### where,</p>
 <pre><code>$= cruise type
@@ -126,12 +134,15 @@ XXXX= cruise number
 5</p>
 <p><strong>eg.</strong> 50050005 = bats validation , cruise 50 , cast
 5</p>
-<p><strong>GTSPP</strong> For GTSPP, <code>ID</code> is 8 digits in the
-following format: XX####// where, X = ocean basin initial (at, pa, in) #
-= year of interest / = month of interest</p>
-<div class="section level3">
-<h3 id="example-downloading-bbmp-data">Example: Downloading BBMP Data<a class="anchor" aria-label="anchor" href="#example-downloading-bbmp-data"></a>
-</h3>
+<p>##GTSPP</p>
+<p>For GTSPP, <code>ID</code> is 8 digits in the following format:</p>
+<p>XX####// where, X=ocean basin initial (at, pa, in) #=year of interest
+/=month of interest</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="example-downloading-bbmp-data">Example: Downloading BBMP Data<a class="anchor" aria-label="anchor" href="#example-downloading-bbmp-data"></a>
+</h2>
 <p>This is a basic example which shows you how to download ctd index
 from the BBMP program in the year 2022 and download, read and plot the
 first item in the index using the <code>oce</code> package.</p>
@@ -144,7 +155,6 @@ first item in the index using the <code>oce</code> package.</p>
 <span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dod.ctd.html">dod.ctd</a></span><span class="op">(</span><span class="st">"BBMP"</span>, <span class="fl">2022</span>, <span class="va">item</span>, file<span class="op">=</span><span class="st">"bbmp.txt"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://dankelley.github.io/oce/reference/read.ctd.html" class="external-link">read.ctd</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="ctd_files/figure-html/example-1.png" width="700"></p>
-</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
