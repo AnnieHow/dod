@@ -117,37 +117,12 @@ want to download for the argument <strong>ID</strong>.
 <strong>eg</strong> ID= “D22667034.ODF”</p>
 </div>
 <div class="section level3">
-<h3 id="bats">BATS<a class="anchor" aria-label="anchor" href="#bats"></a>
-</h3>
-<p>For BATS, <strong>ID</strong> is the 5 digit cruise ID. From BATS
-documentation, cruise ID format is as follows:</p>
-<p>8 digit cast_ID<br>
-$XXXX### where,</p>
-<pre><code>$= cruise type
-1=bats core
-2=bats bloom a
-3=bats bloom b
-5=bats validation
-6=Hydrostation
-9=Ancillary cruise
-XXXX= cruise number
-### = cast number</code></pre>
-<p><strong>eg.</strong> 10155005 = bats core cruise, cruise 155, cast
-5</p>
-<p><strong>eg.</strong> 50050005 = bats validation , cruise 50 , cast
-5</p>
-</div>
-<div class="section level3">
 <h3 id="gtspp">GTSPP<a class="anchor" aria-label="anchor" href="#gtspp"></a>
 </h3>
-<p>For GTSPP, <strong>ID</strong> is 8 digits in the following
-format:</p>
-<p>XX####// where,</p>
-<pre><code>X=ocean basin initial (at, pa, in)
-
-#=year of interest
-
-/=month of interest</code></pre>
+<p>For GTSPP, <strong>ID</strong> is 8 digits with the first two digits
+meaning the ocean basin initial (at, pa, in), the next four digits
+meaning the year of interest and the last two being the month of
+interest.</p>
 <p><strong>eg</strong> To attain data from the Atlantic in January 1985
 input: ID=“at198501”.</p>
 </div>
@@ -158,7 +133,7 @@ input: ID=“at198501”.</p>
 <p>This is a basic example which shows you how to download ctd index
 from the BBMP program in the year 2022 and download, read and plot the
 first item in the index using the <code>oce</code> package.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://anniehow.github.io/dod/" class="external-link">dod</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dankelley.github.io/oce/" class="external-link">oce</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; Loading required package: gsw</span></span>
