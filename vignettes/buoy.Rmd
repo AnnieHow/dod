@@ -1,0 +1,54 @@
+---
+title: "Downloading Buoy Data"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    number_sections: true
+    fig_caption: yes
+    fig_width: 3.5
+    fig_height: 3.5
+    dpi: 72
+    dev.args: list(pointsize=11)
+vignette: >
+  %\VignetteIndexEntry{Downloading Buoy Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The basics of downloading buoy data are outlined in this
+vignette, as a supplement to a shorter entry in the [main vignette](dod_package.html).
+
+# Basics
+The function `dod.buoy` can download buoy data from the Marine Environmental Data Section (MEDS).
+
+# Finding Desired ID
+
+In `dod.buoy` **ID** is the MEDS code for the region of interest or for the list below, the name of the region can be given: 
+
+|       **Region Name**         | **Region ID** |
+|                         :---- |         :---- |
+|East Scotian Slope             | 44137         |
+|Banquereau Bank                | 44139         |
+|Halifax Harbour                | 44258         |
+|Halifax                        | 44172         |
+|Halifax DISCUS TriAx           | 44299         |
+|Tail of the Bank               | 44140         |
+|Laurentian Fan                 | 44141         |
+|Port Hope                      | 45135         |
+|Prince Edward Point            | 45135         |
+|Minas Basin                    | MEDS027       |
+
+# Example: Downloading MEDS Data
+
+This is a basic example which shows you how to download buoy data from the MEDS server.
+
+```{r example}
+library(dod)
+file <- dod.buoy("MEDS", ID="East Scotian Slope") 
+```
+
