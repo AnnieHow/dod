@@ -84,7 +84,7 @@ should be downloaded.</p></dd>
 
 <dt>file</dt>
 <dd><p>character value giving the name to be used for
-the downloaded file. This does include the extension.</p></dd>
+the downloaded file.</p></dd>
 
 
 <dt>destdir</dt>
@@ -112,8 +112,8 @@ return the name of the downloaded file.</p>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://anniehow.github.io/dod/" class="external-link">dod</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dankelley.github.io/oce/" class="external-link">oce</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">destdir</span> <span class="op">&lt;-</span> <span class="st">"~/data/ctd"</span></span></span>
-<span class="r-in"><span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fu"><a href="dod.ctd.html">dod.ctd</a></span><span class="op">(</span><span class="st">"BBMP"</span>, year<span class="op">=</span><span class="fl">2022</span>, index<span class="op">=</span><span class="cn">TRUE</span>, file<span class="op">=</span><span class="st">"index.txt"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="dod.ctd.html">dod.ctd</a></span><span class="op">(</span><span class="st">"BBMP"</span>, year<span class="op">=</span><span class="fl">2022</span>, ID<span class="op">=</span><span class="va">i</span><span class="op">$</span><span class="va">file</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, destdir<span class="op">=</span><span class="va">destdir</span>, file<span class="op">=</span><span class="st">"bbmp.txt"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fu"><a href="dod.ctd.html">dod.ctd</a></span><span class="op">(</span><span class="st">"BBMP"</span>, year<span class="op">=</span><span class="fl">2022</span>, index<span class="op">=</span><span class="cn">TRUE</span>, file<span class="op">=</span><span class="st">"index"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="dod.ctd.html">dod.ctd</a></span><span class="op">(</span><span class="st">"BBMP"</span>, year<span class="op">=</span><span class="fl">2022</span>, ID<span class="op">=</span><span class="va">i</span><span class="op">$</span><span class="va">file</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, destdir<span class="op">=</span><span class="va">destdir</span>, file<span class="op">=</span><span class="st">"bbmp"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">ctd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dankelley.github.io/oce/reference/read.ctd.html" class="external-link">read.ctd</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ctd</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
