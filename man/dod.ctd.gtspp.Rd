@@ -13,7 +13,7 @@ next four are the year of interest and the last two are the
 month of interest.}
 
 \item{file}{character value giving the name to be used for
-the downloaded file. This does include the extension.}
+the downloaded file.}
 
 \item{destdir}{a character value indicating the directory
 in which to store downloaded files.}

@@ -8,7 +8,7 @@
 #' month of interest.
 #'
 #' @param file character value giving the name to be used for
-#' the downloaded file. This does include the extension.
+#' the downloaded file.
 #'
 #' @template destdirTemplate
 #'
@@ -31,7 +31,7 @@ dod.ctd.gtspp <- function(ID=NULL, file=NULL, destdir=".", debug=0)
         if (is.null(file)) {
             file <- paste0(ID,".gz")
         } else {
-            file=file
+            file=paste0(file, ".gz")
         }
         dodDebug(debug, oce::vectorShow(server))
         dodDebug(debug, oce::vectorShow(destdir))

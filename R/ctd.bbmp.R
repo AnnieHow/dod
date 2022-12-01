@@ -11,7 +11,7 @@
 #' that is copied from the index.
 #'
 #' @param file character value giving the name to be used for
-#' the downloaded file. This does include the extension.
+#' the downloaded file.
 #'
 #' @template destdirTemplate
 #'
@@ -29,8 +29,8 @@
 #' library(dod)
 #' library(oce)
 #' destdir <- "~/data/ctd"
-#' i <- dod.ctd("BBMP", year=2022, index=TRUE, file="index.txt")
-#' f <- dod.ctd("BBMP", year=2022, ID=i$file[1], destdir=destdir, file="bbmp.txt")
+#' i <- dod.ctd("BBMP", year=2022, index=TRUE, file="index")
+#' f <- dod.ctd("BBMP", year=2022, ID=i$file[1], destdir=destdir, file="bbmp")
 #' ctd <- read.ctd(f)
 #' plot(ctd)
 #'}
@@ -48,7 +48,7 @@ dod.ctd.bbmp <- function(year, ID=NULL, index=FALSE, file=NULL, destdir=".", deb
         if (is.null(file)) {
             file <- paste0(year, "667ODFSUMMARY.tsv")
         } else {
-            file=file
+            file=paste0(file, ".tsv")
         }
         dodDebug(debug, oce::vectorShow(file))
         url <- paste0(server, "/",  paste0(year, "667ODFSUMMARY.tsv"))
@@ -62,10 +62,14 @@ dod.ctd.bbmp <- function(year, ID=NULL, index=FALSE, file=NULL, destdir=".", deb
         if (is.null(ID))
             stop("Must provide an ID from the index")
         if (is.null(file))
-            file <- ID
+            if (grepl("ODF", ID == TRUE)) {
+                file <- gsub("\\.ODF", "",ID)
+            } else {
+                file <- ID
+            }
         url <- paste0(server, "/", ID)
         dodDebug(debug, oce::vectorShow(url))
         dodDebug(debug, oce::vectorShow(ID))
-        return(dod.download(url=url, file=file, destdir=destdir, silent=TRUE,debug=debug))
+        return(dod.download(url=url, file=ifelse(grepl("ODF", file) == FALSE, paste0(file, ".ODF"), file), destdir=destdir, silent=TRUE,debug=debug))
     }
 }

@@ -23,7 +23,7 @@ that is copied from the index.}
 should be downloaded.}
 
 \item{file}{character value giving the name to be used for
-the downloaded file. This does include the extension.}
+the downloaded file.}
 
 \item{destdir}{a character value indicating the directory
 in which to store downloaded files.}
@@ -44,8 +44,8 @@ This function downloads CTD data from BBMP.
 library(dod)
 library(oce)
 destdir <- "~/data/ctd"
-i <- dod.ctd("BBMP", year=2022, index=TRUE, file="index.txt")
-f <- dod.ctd("BBMP", year=2022, ID=i$file[1], destdir=destdir, file="bbmp.txt")
+i <- dod.ctd("BBMP", year=2022, index=TRUE, file="index")
+f <- dod.ctd("BBMP", year=2022, ID=i$file[1], destdir=destdir, file="bbmp")
 ctd <- read.ctd(f)
 plot(ctd)
 }

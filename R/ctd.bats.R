@@ -10,7 +10,7 @@
 #' @param ID a character value specifying the file of interest.
 #'
 #' @param file character value giving the name to be used for
-#' the downloaded file. This does include the extension.
+#' the downloaded file.
 #'
 #' @template destdirTemplate
 #'
@@ -36,7 +36,7 @@ dod.ctd.bats <- function(year, ID=NULL, index=FALSE, file=NULL, destdir=".", deb
         if (is.null(file)) {
             file <- paste0("b",ID, "_info.txt")
         } else {
-            file=file
+            file=paste0(file, ".txt")
         }
         url <- paste0(server, "b",ID, "_info.txt")
         dodDebug(debug, "The url is equal to ", url, "\n")
@@ -51,7 +51,7 @@ dod.ctd.bats <- function(year, ID=NULL, index=FALSE, file=NULL, destdir=".", deb
         if (is.null(file)) {
             file <- paste0("b",ID, "_ctd.txt")
         } else {
-            file=file
+            file=paste0(file, ".txt")
         }
         url <- paste0(server, "b",ID, "_ctd.txt")
         dodDebug(debug, oce::vectorShow(url))

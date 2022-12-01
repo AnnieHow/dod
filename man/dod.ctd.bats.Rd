@@ -22,7 +22,7 @@ dod.ctd.bats(
 should be downloaded.}
 
 \item{file}{character value giving the name to be used for
-the downloaded file. This does include the extension.}
+the downloaded file.}
 
 \item{destdir}{a character value indicating the directory
 in which to store downloaded files.}

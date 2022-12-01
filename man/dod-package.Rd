@@ -3,7 +3,7 @@
 \docType{package}
 \name{dod-package}
 \alias{dod-package}
-\title{A Package for downloading publically available data.}
+\title{A package for downloading publically available data.}
 \description{
 The \code{dod} package provides tools for downloading Advanced
 Microwave Scanning Radiometer (AMSR), buoy, coastline, CTD (BATS,
