@@ -10,7 +10,8 @@ dod.ctd.bats(
   index = FALSE,
   file = NULL,
   destdir = ".",
-  debug = 0
+  debug = 0,
+  read = FALSE
 )
 }
 \arguments{
@@ -29,11 +30,21 @@ in which to store downloaded files.}
 
 \item{debug}{an integer value indicating the level of debugging. If
 this exceeds 0, then some debugging messages will be printed.}
+
+\item{read}{a boolean indicated weather or not the downloaded
+file should be downloaded}
 }
 \value{
-If \code{index} is TRUE, return a data frame. Otherwise,
-return the name of the downloaded file.
+If \code{read} is FALSE, a downloaded file is returned. If \code{read}
+is TRUE a data frame is returned.
 }
 \description{
 This function downloads CTD data from BATS.
+}
+\examples{
+\dontrun{
+library(dod)
+test <- dod.ctd.bats(index=FALSE, ID=10001, read=TRUE)
+head(test)
+}
 }

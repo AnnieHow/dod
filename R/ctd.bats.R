@@ -12,6 +12,9 @@
 #' @param file character value giving the name to be used for
 #' the downloaded file.
 #'
+#' @param read a boolean indicated weather or not the downloaded
+#' file should be downloaded
+#'
 #' @template destdirTemplate
 #'
 #' @template debugTemplate
@@ -19,12 +22,18 @@
 #' @importFrom utils read.csv
 #' @importFrom oce read.odf
 #'
-#' @return If `index` is TRUE, return a data frame. Otherwise,
-#' return the name of the downloaded file.
+#' @return If `read` is FALSE, a downloaded file is returned. If `read`
+#' is TRUE a data frame is returned.
 #'
+#' @examples
+#' \dontrun{
+#' library(dod)
+#' test <- dod.ctd.bats(index=FALSE, ID=10001, read=TRUE)
+#' head(test)
+#' }
 #' @export
 
-dod.ctd.bats <- function(year, ID=NULL, index=FALSE, file=NULL, destdir=".", debug=0)
+dod.ctd.bats <- function(year, ID=NULL, index=FALSE, file=NULL, destdir=".", debug=0, read=FALSE)
 {
     server <- "http://batsftp.bios.edu/BATS/ctd/ASCII/"
     if (is.null(ID)) {
@@ -42,11 +51,13 @@ dod.ctd.bats <- function(year, ID=NULL, index=FALSE, file=NULL, destdir=".", deb
         dodDebug(debug, "The url is equal to ", url, "\n")
         #browser()
         f <- dod.download(url, destdir=destdir, debug=debug, file=file, silent=TRUE)
-        namesInfo <- c("ID", "dateDeployed","dateRecovered","decimalDateDeployed","decimalDateRecovered",
-                       "decimalDayDeployed", "timeDeployed", "timeRecovered", "latitudeDeployed", "latitudeRecovered",
-                       "longitudeDeployed", "longitudeRecovered")
-        t <- read.csv(f, sep="\t", header=FALSE, col.names= namesInfo)
-        return(t)
+        if (read) {
+            namesInfo <- c("ID", "dateDeployed","dateRecovered","decimalDateDeployed","decimalDateRecovered",
+                "decimalDayDeployed", "timeDeployed", "timeRecovered", "latitudeDeployed", "latitudeRecovered",
+                "longitudeDeployed", "longitudeRecovered")
+            t <- read.csv(f, sep="\t", header=FALSE, col.names= namesInfo)
+            return(t)
+        }
     } else {
         if (is.null(file)) {
             file <- paste0("b",ID, "_ctd.txt")
@@ -57,6 +68,11 @@ dod.ctd.bats <- function(year, ID=NULL, index=FALSE, file=NULL, destdir=".", deb
         dodDebug(debug, oce::vectorShow(url))
         f <- dod.download(url=url, destdir=destdir, debug=debug, file=file)
         dodDebug(debug, oce::vectorShow(f))
-        return(f)
+        if (read) {
+            names <- c("ID", "date","latitude", "longitude", "pressure","depth","temperature","conductivity", "salinity", "oxygen", "beamAttenuationCoefficient",
+                "fluorescence", "PAR")
+            f <- read.csv(f, sep="\t", header=FALSE, col.names= names)
+            return(f)
+        }
     }
 }
