@@ -62,7 +62,8 @@
 <span>  index <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  file <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  destdir <span class="op">=</span> <span class="st">"."</span>,</span>
-<span>  debug <span class="op">=</span> <span class="fl">0</span></span>
+<span>  debug <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  read <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -96,13 +97,20 @@ in which to store downloaded files.</p></dd>
 <dd><p>an integer value indicating the level of debugging. If
 this exceeds 0, then some debugging messages will be printed.</p></dd>
 
+
+<dt>read</dt>
+<dd><p>a boolean indicated weather or not the downloaded</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>If <code>index</code> is TRUE, return a data frame. Otherwise,
-return the name of the downloaded file.</p>
+<p>If <code>read</code> is FALSE, a downloaded file is returned. If <code>read</code></p>
+
+
+<p>is TRUE and <code>index</code> is TRUE a data frame is returned. If <code>read</code> is TRUE
+and <code>index</code> is FALSE an oce object is returned.</p>
     </div>
 
     <div class="section level2">
@@ -112,8 +120,8 @@ return the name of the downloaded file.</p>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://anniehow.github.io/dod/" class="external-link">dod</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dankelley.github.io/oce/" class="external-link">oce</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">destdir</span> <span class="op">&lt;-</span> <span class="st">"~/data/ctd"</span></span></span>
-<span class="r-in"><span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fu"><a href="dod.ctd.html">dod.ctd</a></span><span class="op">(</span><span class="st">"BBMP"</span>, year<span class="op">=</span><span class="fl">2022</span>, index<span class="op">=</span><span class="cn">TRUE</span>, file<span class="op">=</span><span class="st">"index"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="dod.ctd.html">dod.ctd</a></span><span class="op">(</span><span class="st">"BBMP"</span>, year<span class="op">=</span><span class="fl">2022</span>, ID<span class="op">=</span><span class="va">i</span><span class="op">$</span><span class="va">file</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, destdir<span class="op">=</span><span class="va">destdir</span>, file<span class="op">=</span><span class="st">"bbmp"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fu"><a href="dod.ctd.html">dod.ctd</a></span><span class="op">(</span><span class="st">"BBMP"</span>, year<span class="op">=</span><span class="fl">2022</span>, index<span class="op">=</span><span class="cn">TRUE</span>, file<span class="op">=</span><span class="st">"index"</span>, read<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="dod.ctd.html">dod.ctd</a></span><span class="op">(</span><span class="st">"BBMP"</span>, year<span class="op">=</span><span class="fl">2022</span>, ID<span class="op">=</span><span class="va">i</span><span class="op">$</span><span class="va">file</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, destdir<span class="op">=</span><span class="va">destdir</span>, file<span class="op">=</span><span class="st">"bbmp"</span>, read<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">ctd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dankelley.github.io/oce/reference/read.ctd.html" class="external-link">read.ctd</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ctd</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
