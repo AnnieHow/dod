@@ -10,7 +10,8 @@ dod.ctd.bbmp(
   index = FALSE,
   file = NULL,
   destdir = ".",
-  debug = 0
+  debug = 0,
+  read = FALSE
 )
 }
 \arguments{
@@ -30,10 +31,13 @@ in which to store downloaded files.}
 
 \item{debug}{an integer value indicating the level of debugging. If
 this exceeds 0, then some debugging messages will be printed.}
+
+\item{read}{a boolean indicated weather or not the downloaded}
 }
 \value{
-If \code{index} is TRUE, return a data frame. Otherwise,
-return the name of the downloaded file.
+If \code{read} is FALSE, a downloaded file is returned. If \code{read}
+is TRUE and \code{index} is TRUE a data frame is returned. If \code{read} is TRUE
+and \code{index} is FALSE an oce object is returned.
 }
 \description{
 This function downloads CTD data from BBMP.
@@ -44,8 +48,8 @@ This function downloads CTD data from BBMP.
 library(dod)
 library(oce)
 destdir <- "~/data/ctd"
-i <- dod.ctd("BBMP", year=2022, index=TRUE, file="index")
-f <- dod.ctd("BBMP", year=2022, ID=i$file[1], destdir=destdir, file="bbmp")
+i <- dod.ctd("BBMP", year=2022, index=TRUE, file="index", read=TRUE)
+f <- dod.ctd("BBMP", year=2022, ID=i$file[1], destdir=destdir, file="bbmp", read=TRUE)
 ctd <- read.ctd(f)
 plot(ctd)
 }

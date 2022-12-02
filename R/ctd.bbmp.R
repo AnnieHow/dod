@@ -13,15 +13,18 @@
 #' @param file character value giving the name to be used for
 #' the downloaded file.
 #'
+#' @param read a boolean indicated weather or not the downloaded
+#'
 #' @template destdirTemplate
 #'
 #' @template debugTemplate
 #'
 #' @importFrom utils read.csv
-#' @importFrom oce read.odf
+#' @importFrom oce read.oce
 #'
-#' @return If `index` is TRUE, return a data frame. Otherwise,
-#' return the name of the downloaded file.
+#' @return If `read` is FALSE, a downloaded file is returned. If `read`
+#' is TRUE and `index` is TRUE a data frame is returned. If `read` is TRUE
+#' and `index` is FALSE an oce object is returned.
 #'
 #' @examples
 #'\dontrun{
@@ -29,15 +32,15 @@
 #' library(dod)
 #' library(oce)
 #' destdir <- "~/data/ctd"
-#' i <- dod.ctd("BBMP", year=2022, index=TRUE, file="index")
-#' f <- dod.ctd("BBMP", year=2022, ID=i$file[1], destdir=destdir, file="bbmp")
+#' i <- dod.ctd("BBMP", year=2022, index=TRUE, file="index", read=TRUE)
+#' f <- dod.ctd("BBMP", year=2022, ID=i$file[1], destdir=destdir, file="bbmp", read=TRUE)
 #' ctd <- read.ctd(f)
 #' plot(ctd)
 #'}
 #'
 #' @export
 
-dod.ctd.bbmp <- function(year, ID=NULL, index=FALSE, file=NULL, destdir=".", debug=0)
+dod.ctd.bbmp <- function(year, ID=NULL, index=FALSE, file=NULL, destdir=".", debug=0, read=FALSE)
 {
     server <- "ftp://ftp.dfo-mpo.gc.ca/BIOWebMaster/BBMP/ODF"
     if (missing(year))
@@ -57,7 +60,9 @@ dod.ctd.bbmp <- function(year, ID=NULL, index=FALSE, file=NULL, destdir=".", deb
         dodDebug(debug, oce::vectorShow(file))
         url <- paste0(server, "/", file)
         file <- paste0(destdir,"/",file)
+        if (read) {
         return(read.csv(file, header=FALSE, skip=3, col.names=c("file", "time")))
+        }
     } else {
         if (is.null(ID))
             stop("Must provide an ID from the index")
@@ -70,6 +75,10 @@ dod.ctd.bbmp <- function(year, ID=NULL, index=FALSE, file=NULL, destdir=".", deb
         url <- paste0(server, "/", ID)
         dodDebug(debug, oce::vectorShow(url))
         dodDebug(debug, oce::vectorShow(ID))
-        return(dod.download(url=url, file=ifelse(grepl("ODF", file) == FALSE, paste0(file, ".ODF"), file), destdir=destdir, silent=TRUE,debug=debug))
+        file <- dod.download(url=url, file=ifelse(grepl("ODF", file) == FALSE, paste0(file, ".ODF"), file), destdir=destdir, silent=TRUE,debug=debug)
+        if (read == TRUE) {
+            t <- oce::read.oce(file)
+            return(t)
+        }
     }
 }
