@@ -4,7 +4,15 @@
 \alias{dod.ctd.gtspp}
 \title{Download CTD data from the Bermuda Atlantic Time Series (BATS)}
 \usage{
-dod.ctd.gtspp(ID = NULL, file = NULL, destdir = ".", debug = 0)
+dod.ctd.gtspp(
+  ID = NULL,
+  file = NULL,
+  destdir = ".",
+  debug = 0,
+  index = TRUE,
+  read = FALSE,
+  nc = NULL
+)
 }
 \arguments{
 \item{ID}{a character value consisting of 8 digits where
@@ -20,9 +28,25 @@ in which to store downloaded files.}
 
 \item{debug}{an integer value indicating the level of debugging. If
 this exceeds 0, then some debugging messages will be printed.}
+
+\item{index}{a boolean value indicating whether the index
+should be downloaded.}
+
+\item{read}{a boolean indicated weather or not the downloaded
+file should be downloaded}
+
+\item{nc}{the name of a netcdf file to download, likely from
+the index}
 }
 \value{
-Return a data frame.
+\enumerate{
+\item If \code{index} = TRUE and \code{read}=FALSE a gz file is returned.
+\item If \code{index}=TRUE and \code{read} = TRUE, a data frame with a list of
+NetCDF files names is returned. 3) If \code{index}=FALSE and
+\code{read} = FALSE, a netcdf file of the specified index is returned.
+\item If \code{index} = FALSE and \code{read} = TRUE, a read netcdf file is
+turned.
+}
 }
 \description{
 This function downloads CTD data from BATS.
