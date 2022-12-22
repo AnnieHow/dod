@@ -1,6 +1,6 @@
 #' Download CTD data from the Bermuda Atlantic Time Series program
 #'
-#' [dod.download.bats()] downloads CTD data from Bermuda Atlantic Time Series
+#' [dod.ctd.bats()] downloads CTD data from Bermuda Atlantic Time Series
 #' (BATS) server, at <http://batsftp.bios.edu/BATS/ctd/ASCII/>.  Note that this
 #' server does not provide an index, so users will need to visit the website
 #' to determine IDs of interest, unless they already know them. Another problem
@@ -72,7 +72,10 @@ dod.ctd.bats <- function(ID, info=FALSE, file=NULL, destdir=".", debug=0)
     server <- "http://batsftp.bios.edu/BATS/ctd/ASCII/"
     if (missing(ID))
         stop("ID must be supplied")
+    owarn <- options("warn")$warn
+    options(warn=-1)
     ID <- as.numeric(ID)
+    options(warn=owarn)
     if (is.na(ID))
         stop("ID must be a numeric value, convertible to an integer")
     ID <- as.integer(ID)
@@ -96,7 +99,7 @@ dod.ctd.bats <- function(ID, info=FALSE, file=NULL, destdir=".", debug=0)
             filename <- try(dod.download(url=url2, destdir=destdir, debug=debug, file=file),
                 silent=TRUE)
             if (inherits(filename, "try-error"))
-                stop("Unable to download \"", url, "\" or \"", url2, "\" to \"", filepath, "\"")
+                stop("Unable to download \"", url, "\" or \"", url2, "\" to \"", filename, "\"")
         }
         return(filename)
         #if (read) {

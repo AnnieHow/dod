@@ -30,7 +30,7 @@ this exceeds 0, then some debugging messages will be printed.}
 downloaded file.
 }
 \description{
-\code{\link[=dod.download.bats]{dod.download.bats()}} downloads CTD data from Bermuda Atlantic Time Series
+\code{\link[=dod.ctd.bats]{dod.ctd.bats()}} downloads CTD data from Bermuda Atlantic Time Series
 (BATS) server, at \url{http://batsftp.bios.edu/BATS/ctd/ASCII/}.  Note that this
 server does not provide an index, so users will need to visit the website
 to determine IDs of interest, unless they already know them. Another problem
