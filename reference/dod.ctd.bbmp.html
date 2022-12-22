@@ -81,7 +81,8 @@ the name of a file of interest; see ‘Examples’.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>year</dt>
-<dd><p>a character value specifying the year of interest.</p></dd>
+<dd><p>a numeric or character value specifying the year of interest.
+If this is not provided, it defaults to the current year.</p></dd>
 
 
 <dt>ID</dt>
@@ -90,13 +91,17 @@ that is copied from the index.</p></dd>
 
 
 <dt>index</dt>
-<dd><p>a boolean value indicating whether the index
-should be downloaded.</p></dd>
+<dd><p>a boolean value. If this is TRUE, then dod.ctd.bbmp
+downloads an index file that provides the names of files containing CTD data
+along with the sampling dates.  The value of <code>ID</code> is ignored in this case.
+By contrast, if <code>index</code> is FALSE, then dod.ctd.bbmp downloads
+the CTD file with the specified <code>ID</code>.  See ‘Examples’.</p></dd>
 
 
 <dt>file</dt>
 <dd><p>character value giving the name to be used for
-the downloaded file.</p></dd>
+the downloaded file.  If this is NULL (which is the default) then
+the filename is as on the remote data server.</p></dd>
 
 
 <dt>destdir</dt>
@@ -114,26 +119,29 @@ this exceeds 0, then some debugging messages will be printed.</p></dd>
     
 
 <p>dod.ctd.bbmp returns a character value naming the file that
-was retrieved. This may either be an index file or a data file;
-see ‘Examples’ for a typical workflow in which an index is
-retrieved and then used as a guide to the name of a data file of
-interest.</p>
+was retrieved. This may be either an index file or a data file; see
+the ‘Examples’ section for an example of a typical workflow.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p>Other functions that download CTD data: 
+<code><a href="dod.ctd.bats.html">dod.ctd.bats</a>()</code>,
+<code><a href="dod.ctd.gtspp.html">dod.ctd.gtspp</a>()</code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="co"># Download the first file of year 2022.</span></span></span>
+<span class="r-in"><span><span class="co"># Download and study this year's first BBMP CTD file</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://anniehow.github.io/dod/" class="external-link">dod</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># Download the index</span></span></span>
-<span class="r-in"><span><span class="va">indexFile</span> <span class="op">&lt;-</span> <span class="fu"><a href="dod.ctd.html">dod.ctd</a></span><span class="op">(</span><span class="st">"BBMP"</span>, year<span class="op">=</span><span class="fl">2022</span>, index<span class="op">=</span><span class="cn">TRUE</span>, file<span class="op">=</span><span class="st">"index_bbmp_2022"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># Read the index (altering this call if the file format changes)</span></span></span>
+<span class="r-in"><span><span class="co"># Download and read the index</span></span></span>
+<span class="r-in"><span><span class="va">indexFile</span> <span class="op">&lt;-</span> <span class="fu"><a href="dod.ctd.html">dod.ctd</a></span><span class="op">(</span><span class="st">"BBMP"</span>, index<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">index</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="va">indexFile</span>, header<span class="op">=</span><span class="cn">FALSE</span>, col.names<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"file"</span>,<span class="st">"time"</span><span class="op">)</span>, skip<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Download the first file in the index</span></span></span>
-<span class="r-in"><span><span class="va">ctdFile</span> <span class="op">&lt;-</span> <span class="fu"><a href="dod.ctd.html">dod.ctd</a></span><span class="op">(</span><span class="st">"BBMP"</span>, year<span class="op">=</span><span class="fl">2022</span>, ID<span class="op">=</span><span class="va">index</span><span class="op">$</span><span class="va">file</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, file<span class="op">=</span><span class="st">"bbmp_2022_001"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ctdFile</span> <span class="op">&lt;-</span> <span class="fu"><a href="dod.ctd.html">dod.ctd</a></span><span class="op">(</span><span class="st">"BBMP"</span>, ID<span class="op">=</span><span class="va">index</span><span class="op">$</span><span class="va">file</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Use oce to read, summarize and plot the data.</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dankelley.github.io/oce/" class="external-link">oce</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ctd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dankelley.github.io/oce/reference/read.ctd.html" class="external-link">read.ctd</a></span><span class="op">(</span><span class="va">ctdFile</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ctd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dankelley.github.io/oce/reference/read.oce.html" class="external-link">read.oce</a></span><span class="op">(</span><span class="va">ctdFile</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">ctd</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ctd</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
