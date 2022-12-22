@@ -2,7 +2,7 @@
 % Please edit documentation in R/ctd.bbmp.R
 \name{dod.ctd.bbmp}
 \alias{dod.ctd.bbmp}
-\title{Download CTD data from the Bedford Basin Mooring Project (BBMP)}
+\title{Download CTD data from the Bedford Basin Mooring Project}
 \usage{
 dod.ctd.bbmp(
   year,
@@ -10,8 +10,7 @@ dod.ctd.bbmp(
   index = FALSE,
   file = NULL,
   destdir = ".",
-  debug = 0,
-  read = FALSE
+  debug = 0
 )
 }
 \arguments{
@@ -31,26 +30,35 @@ in which to store downloaded files.}
 
 \item{debug}{an integer value indicating the level of debugging. If
 this exceeds 0, then some debugging messages will be printed.}
-
-\item{read}{a boolean indicated weather or not the downloaded}
 }
 \value{
-If \code{read} is FALSE, a downloaded file is returned. If \code{read}
-is TRUE and \code{index} is TRUE a data frame is returned. If \code{read} is TRUE
-and \code{index} is FALSE an oce object is returned.
+\link{dod.ctd.bbmp} returns a character value naming the file that
+was retrieved. This may either be an index file or a data file;
+see \sQuote{Examples} for a typical workflow in which an index is
+retrieved and then used as a guide to the name of a data file of
+interest.
 }
 \description{
-This function downloads CTD data from BBMP.
+\link{dod.ctd.bbmp} can retrieve both index files and data files
+from the Bedford Basin Mooring Project (BBMP). Since the naming
+convention of the data files may alter from year to year, it is
+important to start by downloading an index first, to ascertain
+the name of a file of interest; see \sQuote{Examples}.
 }
 \examples{
 \dontrun{
 # Download the first file of year 2022.
 library(dod)
+# Download the index
+indexFile <- dod.ctd("BBMP", year=2022, index=TRUE, file="index_bbmp_2022")
+# Read the index (altering this call if the file format changes)
+index <- read.csv(indexFile, header=FALSE, col.names=c("file","time"), skip=3)
+# Download the first file in the index
+ctdFile <- dod.ctd("BBMP", year=2022, ID=index$file[1], file="bbmp_2022_001")
+# Use oce to read, summarize and plot the data.
 library(oce)
-destdir <- "~/data/ctd"
-i <- dod.ctd("BBMP", year=2022, index=TRUE, file="index", read=TRUE)
-f <- dod.ctd("BBMP", year=2022, ID=i$file[1], destdir=destdir, file="bbmp", read=TRUE)
-ctd <- read.ctd(f)
+ctd <- read.ctd(ctdFile)
+summary(ctd)
 plot(ctd)
 }
 
