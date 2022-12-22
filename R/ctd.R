@@ -10,11 +10,10 @@
 #'
 #' @param program character value naming the program (one of listthem).
 #'
-#' @param ... extra arguments passed to [dod.ctd.bats()] or one of the
-#' other functions.
+#' @param ... extra arguments passed to [dod.ctd.bats()], [dod.ctd.bbmp()] or
+#' [dod.ctd.gtspp()].
 #'
 #' @export
-
 dod.ctd <- function(program=NULL, ...)
 {
     allowed <- c("BATS", "BBMP", "GTSPP")

@@ -39,7 +39,7 @@ dod.download <- function(url=NULL, file=NULL, destdir=".", silent=TRUE, debug=0)
     dodDebug(debug,"downloading \"", url, "\" to \"", filepath, "\"\n", sep="")
     t <- try(download.file(url=url, destfile=filepath, quiet=silent), silent=silent)
     options(warn=owarn)
-    if (inherits(t,"try-error"))
+    if (inherits(t, "try-error"))
         stop("Unable to download \"", url, "\" to \"", filepath, "\"")
     filepath
 }

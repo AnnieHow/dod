@@ -14,16 +14,21 @@ dod.ctd.bbmp(
 )
 }
 \arguments{
-\item{year}{a character value specifying the year of interest.}
+\item{year}{a numeric or character value specifying the year of interest.
+If this is not provided, it defaults to the current year.}
 
 \item{ID}{a character value specifying the file of interest
 that is copied from the index.}
 
-\item{index}{a boolean value indicating whether the index
-should be downloaded.}
+\item{index}{a boolean value. If this is TRUE, then \link{dod.ctd.bbmp}
+downloads an index file that provides the names of files containing CTD data
+along with the sampling dates.  The value of \code{ID} is ignored in this case.
+By contrast, if \code{index} is FALSE, then \link{dod.ctd.bbmp} downloads
+the CTD file with the specified \code{ID}.  See \sQuote{Examples}.}
 
 \item{file}{character value giving the name to be used for
-the downloaded file.}
+the downloaded file.  If this is NULL (which is the default) then
+the filename is as on the remote data server.}
 
 \item{destdir}{a character value indicating the directory
 in which to store downloaded files.}
@@ -33,10 +38,8 @@ this exceeds 0, then some debugging messages will be printed.}
 }
 \value{
 \link{dod.ctd.bbmp} returns a character value naming the file that
-was retrieved. This may either be an index file or a data file;
-see \sQuote{Examples} for a typical workflow in which an index is
-retrieved and then used as a guide to the name of a data file of
-interest.
+was retrieved. This may be either an index file or a data file; see
+the \sQuote{Examples} section for an example of a typical workflow.
 }
 \description{
 \link{dod.ctd.bbmp} can retrieve both index files and data files
@@ -47,19 +50,24 @@ the name of a file of interest; see \sQuote{Examples}.
 }
 \examples{
 \dontrun{
-# Download the first file of year 2022.
+# Download and study this year's first BBMP CTD file
 library(dod)
-# Download the index
-indexFile <- dod.ctd("BBMP", year=2022, index=TRUE, file="index_bbmp_2022")
-# Read the index (altering this call if the file format changes)
+# Download and read the index
+indexFile <- dod.ctd("BBMP", index=TRUE)
 index <- read.csv(indexFile, header=FALSE, col.names=c("file","time"), skip=3)
 # Download the first file in the index
-ctdFile <- dod.ctd("BBMP", year=2022, ID=index$file[1], file="bbmp_2022_001")
+ctdFile <- dod.ctd("BBMP", ID=index$file[1])
 # Use oce to read, summarize and plot the data.
 library(oce)
-ctd <- read.ctd(ctdFile)
+ctd <- read.oce(ctdFile)
 summary(ctd)
 plot(ctd)
 }
 
 }
+\seealso{
+Other functions that download CTD data: 
+\code{\link{dod.ctd.bats}()},
+\code{\link{dod.ctd.gtspp}()}
+}
+\concept{functions that download CTD data}

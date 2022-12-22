@@ -7,13 +7,13 @@
 dod.met(...)
 }
 \arguments{
-\item{...}{arguments passed to
-\code{\link[oce:download.met]{oce::download.met()}}.}
+\item{...}{arguments passed to \code{\link[oce:download.met]{oce::download.met()}}.}
 }
 \value{
-String indicating the full pathname to the downloaded file.
+\link{dod.met} returns a character value holding the full pathname
+of the downloaded file.
 }
 \description{
-This function downloads topographic data using
+Get meteorological data from an Environment Canada website, using
 \code{\link[oce:download.met]{oce::download.met()}}.
 }

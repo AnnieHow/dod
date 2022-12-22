@@ -34,8 +34,9 @@
 #' 4) If `index` = FALSE and `read` = TRUE, a read netcdf file is
 #' turned.
 #'
+#' @family functions that download CTD data
+#'
 #' @export
-
 dod.ctd.gtspp <- function(ID=NULL, file=NULL, destdir=".", debug=0, index=TRUE, read=FALSE, nc=NULL)
 {
     server <- "https://www.ncei.noaa.gov/data/oceans/gtspp/bestcopy/"

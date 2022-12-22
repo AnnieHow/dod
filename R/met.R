@@ -1,14 +1,14 @@
 #' Download meteorological data
 #'
-#' This function downloads topographic data using
+#' Get meteorological data from an Environment Canada website, using
 #' [oce::download.met()].
 #'
-#' @param ... arguments passed to
-#' [oce::download.met()].
+#' @param ... arguments passed to [oce::download.met()].
 #'
 #' @importFrom oce download.met
 #'
-#' @return String indicating the full pathname to the downloaded file.
+#' @return [dod.met] returns a character value holding the full pathname
+#' of the downloaded file.
 #'
 #' @export
 

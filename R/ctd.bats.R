@@ -1,78 +1,108 @@
-#' Download CTD data from the Bermuda Atlantic Time Series (BATS)
+#' Download CTD data from the Bermuda Atlantic Time Series program
 #'
-#' This function downloads CTD data from BATS.
+#' [dod.download.bats()] downloads CTD data from Bermuda Atlantic Time Series
+#' (BATS) server, at <http://batsftp.bios.edu/BATS/ctd/ASCII/>.  Note that this
+#' server does not provide an index, so users will need to visit the website
+#' to determine IDs of interest, unless they already know them. Another problem
+#' is that the data are in a nonstandard format that the `oce` package cannot
+#' read, so a user may wish to write code to reframe the data as shown
+#' in the \sQuote{Examples} section.
 #'
-#' @param year a character value specifying the year of interest.
+#' @param ID an integer specifying the ID of the file of interest.
+#' This gets expanded to e.g. URL/b(ID)_ctd.txt or URL/b(ID)_ctd_QC.txt
+#' if `info` is FALSE, or to URL/b(ID)_info.txt otherwise.
 #'
-#' @param index a boolean value indicating whether the index
-#' should be downloaded.
+#' @param info a logical value.  If `info` is FALSE, which is the default, then
+#' [dod.ctd.bats()] downloads the actual CTD data.  Altenatively, it downloads
+#' a file holding information about sampling location, etc.
 #'
-#' @param ID a character value specifying the file of interest.
-#'
-#' @param file character value giving the name to be used for
-#' the downloaded file.
-#'
-#' @param read a boolean indicated weather or not the downloaded
-#' file should be downloaded
+#' @param file character value giving the name to be used for the downloaded
+#' file.  If `file` is NULL, which is the default, then the filename on the
+#' server is used.
 #'
 #' @template destdirTemplate
 #'
 #' @template debugTemplate
 #'
 #' @importFrom utils read.csv
-#' @importFrom oce read.odf
 #'
-#' @return If `read` is FALSE, a downloaded file is returned. If `read`
-#' is TRUE a data frame is returned.
+#' @return [dod.ctd.bats()] returns the full pathname of the
+#' downloaded file.
 #'
 #' @examples
-#' \dontrun{
+#'\dontrun{
 #' library(dod)
-#' test <- dod.ctd.bats(index=FALSE, ID=10001, read=TRUE)
-#' head(test)
+#' # Read info file
+#' infoFile <- dod.ctd.bats(ID=10001, info=TRUE)
+#' info.names <- c("ID",
+#'     "dateDeployed","dateRecovered","decimalDateDeployed","decimalDateRecovered",
+#'     "decimalDayDeployed", "timeDeployed", "timeRecovered", "latitudeDeployed",
+#'     "latitudeRecovered", "longitudeDeployed", "longitudeRecovered")
+#' info <- read.delim(infoFile, sep="\t", header=FALSE, col.names=info.names)
+#'
+#' # Read data file
+#' dataFile <- dod.ctd.bats(ID=10001)
+#' dataNames <- c("ID", "date","latitude", "longitude",
+#'     "pressure","depth","temperature","conductivity", "salinity", "oxygen",
+#'     "beamAttenuationCoefficient", "fluorescence", "PAR")
+#' data <- read.delim(dataFile, sep="\t", header=FALSE, col.names=dataNames)
+#'
+#' # Use oce to construct a basic CTD object (using just some of the data),
+#' # and then to summarize and plot it.  Note that longitude in these files
+#' # is in degrees west, so they must be negated for use in oce.
+#' library(oce)
+#' time <- as.POSIXct(paste(info$dateDeployed, info$timeDeployed),format="%Y%m%d %H%M")
+#' ctd <- as.ctd(salinity=data$salinity, temperature=data$temperature,
+#'     pressure=data$pressure, latitude=data$latitude[1],
+#'     longitude=-data$longitude[1], time=time)
+#' # Add some extra things that are in at least some file. Units can also be added,
+#' # if known.
+#' for (item in c("oxygen", "beamAttenuationCoefficient", "fluorescence", "PAR")) {
+#'     ctd <- oceSetData(ctd, item, data[[item]])
 #' }
+#' summary(ctd)
+#' plot(ctd)
+#'}
+#'
+#' @family functions that download CTD data
+#'
 #' @export
-
-dod.ctd.bats <- function(year, ID=NULL, index=FALSE, file=NULL, destdir=".", debug=0, read=FALSE)
+dod.ctd.bats <- function(ID, info=FALSE, file=NULL, destdir=".", debug=0)
 {
     server <- "http://batsftp.bios.edu/BATS/ctd/ASCII/"
-    if (is.null(ID)) {
-        stop("Must provide an ID number greater than 10000")
-    } else if (ID < 10000) {
-        stop("Must provide an ID number greater than 10000")
-    }
-    if (index) {
-        if (is.null(file)) {
-            file <- paste0("b",ID, "_info.txt")
-        } else {
-            file=paste0(file, ".txt")
-        }
-        url <- paste0(server, "b",ID, "_info.txt")
-        dodDebug(debug, "The url is equal to ", url, "\n")
-        #browser()
-        f <- dod.download(url, destdir=destdir, debug=debug, file=file, silent=TRUE)
-        if (read) {
-            namesInfo <- c("ID", "dateDeployed","dateRecovered","decimalDateDeployed","decimalDateRecovered",
-                "decimalDayDeployed", "timeDeployed", "timeRecovered", "latitudeDeployed", "latitudeRecovered",
-                "longitudeDeployed", "longitudeRecovered")
-            t <- read.csv(f, sep="\t", header=FALSE, col.names= namesInfo)
-            return(t)
-        }
+    if (missing(ID))
+        stop("ID must be supplied")
+    ID <- as.numeric(ID)
+    if (is.na(ID))
+        stop("ID must be a numeric value, convertible to an integer")
+    ID <- as.integer(ID)
+    if (ID < 10000)
+        stop("ID must exceed 10000, but it is ", ID)
+    if (info) {
+        if (is.null(file))
+            file <- paste0("b", ID, "_info.txt")
+        url <- paste0(server, "b", ID, "_info.txt")
+        filename <- dod.download(url, destdir=destdir, debug=debug, file=file)
+        return(filename)
     } else {
-        if (is.null(file)) {
+        if (is.null(file))
             file <- paste0("b",ID, "_ctd.txt")
-        } else {
-            file=paste0(file, ".txt")
-        }
         url <- paste0(server, "b",ID, "_ctd.txt")
-        dodDebug(debug, oce::vectorShow(url))
-        f <- dod.download(url=url, destdir=destdir, debug=debug, file=file)
-        dodDebug(debug, oce::vectorShow(f))
-        if (read) {
-            names <- c("ID", "date","latitude", "longitude", "pressure","depth","temperature","conductivity", "salinity", "oxygen", "beamAttenuationCoefficient",
-                "fluorescence", "PAR")
-            f <- read.csv(f, sep="\t", header=FALSE, col.names= names)
-            return(f)
+        # Try e.g. b50056_ctd.txt and if that fails, try b50056_ctd_QC.txt
+        filename <- try(dod.download(url=url, destdir=destdir, debug=debug, file=file),
+            silent=TRUE)
+        if (inherits(filename, "try-error")) {
+            url2 <- gsub(".txt", "_QC.txt", url)
+            filename <- try(dod.download(url=url2, destdir=destdir, debug=debug, file=file),
+                silent=TRUE)
+            if (inherits(filename, "try-error"))
+                stop("Unable to download \"", url, "\" or \"", url2, "\" to \"", filepath, "\"")
         }
+        return(filename)
+        #if (read) {
+        #    names <- c("ID", "date","latitude", "longitude", "pressure","depth","temperature","conductivity", "salinity", "oxygen", "beamAttenuationCoefficient",
+        #        "fluorescence", "PAR")
+        #    return(read.csv(filename, sep="\t", header=FALSE, col.names= names))
+        #}
     }
 }

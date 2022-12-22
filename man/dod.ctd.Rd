@@ -9,8 +9,8 @@ dod.ctd(program = NULL, ...)
 \arguments{
 \item{program}{character value naming the program (one of listthem).}
 
-\item{...}{extra arguments passed to \code{\link[=dod.ctd.bats]{dod.ctd.bats()}} or one of the
-other functions.}
+\item{...}{extra arguments passed to \code{\link[=dod.ctd.bats]{dod.ctd.bats()}}, \code{\link[=dod.ctd.bbmp]{dod.ctd.bbmp()}} or
+\code{\link[=dod.ctd.gtspp]{dod.ctd.gtspp()}}.}
 }
 \description{
 This function downloads CTD data from various programs.

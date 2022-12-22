@@ -51,3 +51,9 @@ turned.
 \description{
 This function downloads CTD data from BATS.
 }
+\seealso{
+Other functions that download CTD data: 
+\code{\link{dod.ctd.bats}()},
+\code{\link{dod.ctd.bbmp}()}
+}
+\concept{functions that download CTD data}

@@ -2,49 +2,81 @@
 % Please edit documentation in R/ctd.bats.R
 \name{dod.ctd.bats}
 \alias{dod.ctd.bats}
-\title{Download CTD data from the Bermuda Atlantic Time Series (BATS)}
+\title{Download CTD data from the Bermuda Atlantic Time Series program}
 \usage{
-dod.ctd.bats(
-  year,
-  ID = NULL,
-  index = FALSE,
-  file = NULL,
-  destdir = ".",
-  debug = 0,
-  read = FALSE
-)
+dod.ctd.bats(ID, info = FALSE, file = NULL, destdir = ".", debug = 0)
 }
 \arguments{
-\item{year}{a character value specifying the year of interest.}
+\item{ID}{an integer specifying the ID of the file of interest.
+This gets expanded to e.g. URL/b(ID)_ctd.txt or URL/b(ID)_ctd_QC.txt
+if \code{info} is FALSE, or to URL/b(ID)_info.txt otherwise.}
 
-\item{ID}{a character value specifying the file of interest.}
+\item{info}{a logical value.  If \code{info} is FALSE, which is the default, then
+\code{\link[=dod.ctd.bats]{dod.ctd.bats()}} downloads the actual CTD data.  Altenatively, it downloads
+a file holding information about sampling location, etc.}
 
-\item{index}{a boolean value indicating whether the index
-should be downloaded.}
-
-\item{file}{character value giving the name to be used for
-the downloaded file.}
+\item{file}{character value giving the name to be used for the downloaded
+file.  If \code{file} is NULL, which is the default, then the filename on the
+server is used.}
 
 \item{destdir}{a character value indicating the directory
 in which to store downloaded files.}
 
 \item{debug}{an integer value indicating the level of debugging. If
 this exceeds 0, then some debugging messages will be printed.}
-
-\item{read}{a boolean indicated weather or not the downloaded
-file should be downloaded}
 }
 \value{
-If \code{read} is FALSE, a downloaded file is returned. If \code{read}
-is TRUE a data frame is returned.
+\code{\link[=dod.ctd.bats]{dod.ctd.bats()}} returns the full pathname of the
+downloaded file.
 }
 \description{
-This function downloads CTD data from BATS.
+\code{\link[=dod.download.bats]{dod.download.bats()}} downloads CTD data from Bermuda Atlantic Time Series
+(BATS) server, at \url{http://batsftp.bios.edu/BATS/ctd/ASCII/}.  Note that this
+server does not provide an index, so users will need to visit the website
+to determine IDs of interest, unless they already know them. Another problem
+is that the data are in a nonstandard format that the \code{oce} package cannot
+read, so a user may wish to write code to reframe the data as shown
+in the \sQuote{Examples} section.
 }
 \examples{
 \dontrun{
 library(dod)
-test <- dod.ctd.bats(index=FALSE, ID=10001, read=TRUE)
-head(test)
+# Read info file
+infoFile <- dod.ctd.bats(ID=10001, info=TRUE)
+info.names <- c("ID",
+    "dateDeployed","dateRecovered","decimalDateDeployed","decimalDateRecovered",
+    "decimalDayDeployed", "timeDeployed", "timeRecovered", "latitudeDeployed",
+    "latitudeRecovered", "longitudeDeployed", "longitudeRecovered")
+info <- read.delim(infoFile, sep="\t", header=FALSE, col.names=info.names)
+
+# Read data file
+dataFile <- dod.ctd.bats(ID=10001)
+dataNames <- c("ID", "date","latitude", "longitude",
+    "pressure","depth","temperature","conductivity", "salinity", "oxygen",
+    "beamAttenuationCoefficient", "fluorescence", "PAR")
+data <- read.delim(dataFile, sep="\t", header=FALSE, col.names=dataNames)
+
+# Use oce to construct a basic CTD object (using just some of the data),
+# and then to summarize and plot it.  Note that longitude in these files
+# is in degrees west, so they must be negated for use in oce.
+library(oce)
+time <- as.POSIXct(paste(info$dateDeployed, info$timeDeployed),format="\%Y\%m\%d \%H\%M")
+ctd <- as.ctd(salinity=data$salinity, temperature=data$temperature,
+    pressure=data$pressure, latitude=data$latitude[1],
+    longitude=-data$longitude[1], time=time)
+# Add some extra things that are in at least some file. Units can also be added,
+# if known.
+for (item in c("oxygen", "beamAttenuationCoefficient", "fluorescence", "PAR")) {
+    ctd <- oceSetData(ctd, item, data[[item]])
 }
+summary(ctd)
+plot(ctd)
 }
+
+}
+\seealso{
+Other functions that download CTD data: 
+\code{\link{dod.ctd.bbmp}()},
+\code{\link{dod.ctd.gtspp}()}
+}
+\concept{functions that download CTD data}
