@@ -47,7 +47,7 @@ In `dod.buoy`, **ID** is the MEDS code for the region of interest or for the lis
 
 This is a basic example which shows you how to download buoy data from the MEDS server.
 
-```{r example}
+```{r example,eval=FALSE}
 library(dod)
 dod.buoy("MEDS", ID="East Scotian Slope")
 ```
