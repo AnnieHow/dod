@@ -79,17 +79,20 @@ somewhat challenging to use; see ‘Details’.</p>
     <dl><dt>basin</dt>
 <dd><p>character value indicating the ocean basin in which the data
 were acquired.  This must be one of <code>"at"</code>, <code>"pa"</code> or <code>"in"</code>, for the
-Atlantic, Pacific and Indian basins, respectively.</p></dd>
+Atlantic, Pacific and Indian basins, respectively.
+NB. <code>basin</code> is ignored if <code>nc</code> is #' provided, and is a full URL.</p></dd>
 
 
 <dt>year</dt>
-<dd><p>integer value giving the year in which the data were acquired.</p></dd>
+<dd><p>integer value giving the year in which the data were acquired.
+NB. <code>year</code> is ignored if <code>nc</code> is #' provided, and is a full URL.</p></dd>
 
 
 <dt>month</dt>
 <dd><p>integer value giving the month in which the data were acquired.
 If in character form, a two-digit value is required, with the first digit
-being <code>"0"</code> for early months of the year.</p></dd>
+being <code>"0"</code> for early months of the year.
+NB. <code>month</code> is ignored if <code>nc</code> is #' provided, and is a full URL.</p></dd>
 
 
 <dt>file</dt>
@@ -109,11 +112,16 @@ this exceeds 0, then some debugging messages will be printed.</p></dd>
 
 <dt>index</dt>
 <dd><p>a boolean value indicating whether the index should be
-downloaded. This is FALSE by default.</p></dd>
+downloaded. This is FALSE by default. Note that <code>nc</code> is ignored if
+<code>index</code> is TRUE.
+NB. <code>index</code> is ignored if <code>nc</code> is #' provided, and is a full URL.</p></dd>
 
 
 <dt>nc</dt>
-<dd><p>the name of a netcdf file to download, likely from the index.</p></dd>
+<dd><p>character value either naming a netcdf file in a directory
+inferred from <code>basin</code>, <code>year</code> and <code>month</code>, or a URL that leads directly to
+such a file.  The latter case is recognized by <code>nc</code> starting with <code>"http"</code>.
+Note that <code>index</code> is ignored if <code>nc</code> is provided.  See “Examples”.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -139,38 +147,56 @@ time by over an order of magnitude.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># interactive()</span></span></span>
+<span class="r-in"><span><span class="co"># Two examples are shown here.  The first specifies the remote file by a full</span></span></span>
+<span class="r-in"><span><span class="co"># URL, and the second infers such a URL from a subset of an index file. Since</span></span></span>
+<span class="r-in"><span><span class="co"># downloading an index is slow, a common approach is to combine the approaches,</span></span></span>
+<span class="r-in"><span><span class="co"># re-downloading the index perhaps only once a week to gain access to the most</span></span></span>
+<span class="r-in"><span><span class="co"># recent data.</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://anniehow.github.io/dod/" class="external-link">dod</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># Get an index file for Atlantic Ocean observations in January 2022.</span></span></span>
-<span class="r-in"><span><span class="co"># EG https://www.ncei.noaa.gov/data/oceans/gtspp/bestcopy/inventory/at198501_gtsppinv.zip</span></span></span>
-<span class="r-in"><span><span class="va">indexFile</span> <span class="op">&lt;-</span> <span class="fu">dod.ctd.gtspp</span><span class="op">(</span>basin<span class="op">=</span><span class="st">"at"</span>, year<span class="op">=</span><span class="fl">2022</span>, month<span class="op">=</span><span class="fl">1</span>, index<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">col.names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"#"</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">indexFile</span>, <span class="fl">1L</span><span class="op">)</span><span class="op">)</span>, <span class="st">","</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">index</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="va">indexFile</span>, skip<span class="op">=</span><span class="fl">1L</span>, col.names<span class="op">=</span><span class="va">col.names</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># Plot sampling locations near Halifax, Nova Scotia</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dankelley.github.io/oce/" class="external-link">oce</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dankelley.github.io/ocedata/" class="external-link">ocedata</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://cirrus.ucsd.edu/~pierce/ncdf/" class="external-link">ncdf4</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># First, define a function to read, summarize and plot CTD</span></span></span>
+<span class="r-in"><span><span class="co"># data stored in a netcdf file.</span></span></span>
+<span class="r-in"><span><span class="va">process</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">datafile</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="va">nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ncdf4/man/nc_open.html" class="external-link">nc_open</a></span><span class="op">(</span><span class="va">dataFile</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="va">S</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ncdf4/man/ncvar_get.html" class="external-link">ncvar_get</a></span><span class="op">(</span><span class="va">nc</span>, <span class="st">"salinity"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="cn">T</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ncdf4/man/ncvar_get.html" class="external-link">ncvar_get</a></span><span class="op">(</span><span class="va">nc</span>, <span class="st">"temperature"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ncdf4/man/ncvar_get.html" class="external-link">ncvar_get</a></span><span class="op">(</span><span class="va">nc</span>, <span class="st">"z"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="va">lon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ncdf4/man/ncvar_get.html" class="external-link">ncvar_get</a></span><span class="op">(</span><span class="va">nc</span>, <span class="st">"longitude"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="va">lat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ncdf4/man/ncvar_get.html" class="external-link">ncvar_get</a></span><span class="op">(</span><span class="va">nc</span>, <span class="st">"latitude"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dankelley.github.io/oce/reference/swPressure.html" class="external-link">swPressure</a></span><span class="op">(</span><span class="va">z</span>, <span class="va">lat</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="va">ctd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dankelley.github.io/oce/reference/as.ctd.html" class="external-link">as.ctd</a></span><span class="op">(</span><span class="va">S</span>, <span class="cn">T</span>, <span class="va">p</span>, longitude<span class="op">=</span><span class="va">lon</span>, latitude<span class="op">=</span><span class="va">lat</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">ctd</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ctd</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example A: get a data file from a known URL.</span></span></span>
+<span class="r-in"><span><span class="va">url</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"https://www.ncei.noaa.gov/data/oceans/"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"gtspp/bestcopy/atlantic/2022/01/gtspp_47477452_te_111.nc"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dataFileA</span> <span class="op">&lt;-</span> <span class="fu">dod.ctd.gtspp</span><span class="op">(</span>nc<span class="op">=</span><span class="va">url</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># above is equivalent to dod.ctd("at", 2022, 01, nc="gtspp_47477452_te_111.nc")</span></span></span>
+<span class="r-in"><span><span class="fu">process</span><span class="op">(</span><span class="va">dataFileA</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example B: get an index, find a file of interest, and then get it</span></span></span>
+<span class="r-in"><span><span class="co"># Get an index file for Atlantic Ocean observations in January 2022.</span></span></span>
+<span class="r-in"><span><span class="va">indexFile</span> <span class="op">&lt;-</span> <span class="fu">dod.ctd.gtspp</span><span class="op">(</span>basin<span class="op">=</span><span class="st">"at"</span>, year<span class="op">=</span><span class="fl">2022</span>, month<span class="op">=</span><span class="fl">1</span>, index<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">col.names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"#"</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">indexFile</span>, n<span class="op">=</span><span class="fl">1L</span><span class="op">)</span><span class="op">)</span>, <span class="st">","</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">index</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="va">indexFile</span>, skip<span class="op">=</span><span class="fl">1L</span>, col.names<span class="op">=</span><span class="va">col.names</span>, header<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Plot sampling locations near Halifax, Nova Scotia</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">coastlineWorldFine</span>, package<span class="op">=</span><span class="st">"ocedata"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">hlon</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">63.5728</span></span></span>
 <span class="r-in"><span><span class="va">hlat</span> <span class="op">&lt;-</span> <span class="fl">44.6476</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">coastlineWorldFine</span>, clongitude<span class="op">=</span><span class="va">hlon</span>, clatitude<span class="op">=</span><span class="va">hlat</span>, span<span class="op">=</span><span class="fl">2000</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">index</span><span class="op">$</span><span class="va">longitude</span>, <span class="va">index</span><span class="op">$</span><span class="va">latitude</span>, col<span class="op">=</span><span class="fl">4</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Focus on the point nearest Halifax</span></span></span>
-<span class="r-in"><span><span class="co"># https://www.ncei.noaa.gov/data/oceans/gtspp/bestcopy/atlantic/2022/01/gtspp_47477452_te_111.nc</span></span></span>
 <span class="r-in"><span><span class="va">dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dankelley.github.io/oce/reference/geodDist.html" class="external-link">geodDist</a></span><span class="op">(</span><span class="va">index</span><span class="op">$</span><span class="va">longitude</span>, <span class="va">index</span><span class="op">$</span><span class="va">latitude</span>, <span class="va">hlon</span>, <span class="va">hlat</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">focus</span> <span class="op">&lt;-</span> <span class="va">index</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.min</a></span><span class="op">(</span><span class="va">dist</span><span class="op">)</span>, <span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">dataFile</span> <span class="op">&lt;-</span> <span class="fu">dod.ctd.gtspp</span><span class="op">(</span><span class="st">"at"</span>, <span class="fl">2022</span>, <span class="fl">1</span>, nc<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">".*/"</span>,<span class="st">""</span>,<span class="va">focus</span><span class="op">$</span><span class="va">data_URL</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># Read and plot the data file</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://cirrus.ucsd.edu/~pierce/ncdf/" class="external-link">ncdf4</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dankelley.github.io/oce/" class="external-link">oce</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ncdf4/man/nc_open.html" class="external-link">nc_open</a></span><span class="op">(</span><span class="va">dataFile</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">S</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ncdf4/man/ncvar_get.html" class="external-link">ncvar_get</a></span><span class="op">(</span><span class="va">nc</span>, <span class="st">"salinity"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="cn">T</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ncdf4/man/ncvar_get.html" class="external-link">ncvar_get</a></span><span class="op">(</span><span class="va">nc</span>, <span class="st">"temperature"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ncdf4/man/ncvar_get.html" class="external-link">ncvar_get</a></span><span class="op">(</span><span class="va">nc</span>, <span class="st">"z"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">lon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ncdf4/man/ncvar_get.html" class="external-link">ncvar_get</a></span><span class="op">(</span><span class="va">nc</span>, <span class="st">"longitude"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">lat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ncdf4/man/ncvar_get.html" class="external-link">ncvar_get</a></span><span class="op">(</span><span class="va">nc</span>, <span class="st">"latitude"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dankelley.github.io/oce/reference/swPressure.html" class="external-link">swPressure</a></span><span class="op">(</span><span class="va">z</span>, <span class="va">lat</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ctd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dankelley.github.io/oce/reference/as.ctd.html" class="external-link">as.ctd</a></span><span class="op">(</span><span class="va">S</span>, <span class="cn">T</span>, <span class="va">p</span>, longitude<span class="op">=</span><span class="va">lon</span>, latitude<span class="op">=</span><span class="va">lat</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">ctd</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ctd</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dataFile</span> <span class="op">&lt;-</span> <span class="fu">dod.ctd.gtspp</span><span class="op">(</span>nc<span class="op">=</span><span class="va">focus</span><span class="op">$</span><span class="va">data_URL</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">process</span><span class="op">(</span><span class="va">dataFile</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
