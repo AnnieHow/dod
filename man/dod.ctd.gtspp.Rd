@@ -2,26 +2,32 @@
 % Please edit documentation in R/ctd.gtspp.R
 \name{dod.ctd.gtspp}
 \alias{dod.ctd.gtspp}
-\title{Download CTD data from the Bermuda Atlantic Time Series (BATS)}
+\title{Download CTD data from the GTSPP server}
 \usage{
 dod.ctd.gtspp(
-  ID = NULL,
+  basin,
+  year,
+  month,
   file = NULL,
   destdir = ".",
   debug = 0,
-  index = TRUE,
-  read = FALSE,
+  index = FALSE,
   nc = NULL
 )
 }
 \arguments{
-\item{ID}{a character value consisting of 8 digits where
-the first two are an ocean basin initial (at, pa or in), the
-next four are the year of interest and the last two are the
-month of interest.}
+\item{basin}{character value indicating the ocean basin in which the data
+were acquired.  This must be one of \code{"at"}, \code{"pa"} or \code{"in"}, for the
+Atlantic, Pacific and Indian basins, respectively.}
 
-\item{file}{character value giving the name to be used for
-the downloaded file.}
+\item{year}{integer value giving the year in which the data were acquired.}
+
+\item{month}{integer value giving the month in which the data were acquired.
+If in character form, a two-digit value is required, with the first digit
+being \code{"0"} for early months of the year.}
+
+\item{file}{character value giving the name to be used for the downloaded
+file.}
 
 \item{destdir}{a character value indicating the directory
 in which to store downloaded files.}
@@ -29,27 +35,60 @@ in which to store downloaded files.}
 \item{debug}{an integer value indicating the level of debugging. If
 this exceeds 0, then some debugging messages will be printed.}
 
-\item{index}{a boolean value indicating whether the index
-should be downloaded.}
+\item{index}{a boolean value indicating whether the index should be
+downloaded. This is FALSE by default.}
 
-\item{read}{a boolean indicated weather or not the downloaded
-file should be downloaded}
-
-\item{nc}{the name of a netcdf file to download, likely from
-the index}
+\item{nc}{the name of a netcdf file to download, likely from the index.}
 }
 \value{
-\enumerate{
-\item If \code{index} = TRUE and \code{read}=FALSE a gz file is returned.
-\item If \code{index}=TRUE and \code{read} = TRUE, a data frame with a list of
-NetCDF files names is returned. 3) If \code{index}=FALSE and
-\code{read} = FALSE, a netcdf file of the specified index is returned.
-\item If \code{index} = FALSE and \code{read} = TRUE, a read netcdf file is
-turned.
-}
+\code{\link[=dod.ctd.gtspp]{dod.ctd.gtspp()}} returns the local name of the downloaded file.
 }
 \description{
-This function downloads CTD data from BATS.
+This function downloads CTD data from the GRSPP server at
+\url{https://www.ncei.noaa.gov/data/oceans/gtspp/bestcopy/}. This website is
+somewhat challenging to use; see \sQuote{Details}.
+}
+\details{
+The \code{.zip} files provided on the NCEI server are not readible on a macOS
+machine, which might also indicate problems on other machines.  Therefore,
+inventory files are read in \code{.txt} format, which increases download and read
+time by over an order of magnitude.
+}
+\examples{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+library(dod)
+# Get an index file for Atlantic Ocean observations in January 2022.
+# EG https://www.ncei.noaa.gov/data/oceans/gtspp/bestcopy/inventory/at198501_gtsppinv.zip
+indexFile <- dod.ctd.gtspp(basin="at", year=2022, month=1, index=TRUE)
+col.names <- strsplit(gsub("#", "", readLines(indexFile, 1L)), ",")[[1]]
+index <- read.csv(indexFile, skip=1L, col.names=col.names)
+# Plot sampling locations near Halifax, Nova Scotia
+library(oce)
+library(ocedata)
+data(coastlineWorldFine, package="ocedata")
+hlon <- -63.5728
+hlat <- 44.6476
+plot(coastlineWorldFine, clongitude=hlon, clatitude=hlat, span=2000)
+points(index$longitude, index$latitude, col=4)
+# Focus on the point nearest Halifax
+# https://www.ncei.noaa.gov/data/oceans/gtspp/bestcopy/atlantic/2022/01/gtspp_47477452_te_111.nc
+dist <- geodDist(index$longitude, index$latitude, hlon, hlat)
+focus <- index[which.min(dist), ]
+dataFile <- dod.ctd.gtspp("at", 2022, 1, nc=gsub(".*/","",focus$data_URL))
+# Read and plot the data file
+library(ncdf4)
+library(oce)
+nc <- nc_open(dataFile)
+S <- ncvar_get(nc, "salinity")
+T <- ncvar_get(nc, "temperature")
+z <- ncvar_get(nc, "z")
+lon <- ncvar_get(nc, "longitude")
+lat <- ncvar_get(nc, "latitude")
+p <- swPressure(z, lat)
+ctd <- as.ctd(S, T, p, longitude=lon, latitude=lat)
+summary(ctd)
+plot(ctd)
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 Other functions that download CTD data: 

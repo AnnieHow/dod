@@ -57,20 +57,15 @@ dod.ctd.bbmp <- function(year, ID=NULL, index=FALSE, file=NULL, destdir=".", deb
     server <- "ftp://ftp.dfo-mpo.gc.ca/BIOWebMaster/BBMP/ODF"
     if (missing(year))
         year <- format(Sys.Date(),"%Y")
-    dodDebug(debug, oce::vectorShow(year))
+    dodDebug(debug, "year = ", year, "\n", sep="")
     server <- paste0(server, "/", year)
-    dodDebug(debug, oce::vectorShow(server))
+    dodDebug(debug, "server = ", server, "\n", sep="")
     if (index) {
-        if (is.null(file)) {
-            file <- paste0(year, "667ODFSUMMARY.tsv")
-        } else {
-            file=paste0(file, ".tsv")
-        }
-        dodDebug(debug, oce::vectorShow(file))
+        file  <- if (is.null(file)) paste0(year, "667ODFSUMMARY.tsv") else paste0(file, ".tsv")
+        dodDebug(debug, "file = ", file, "\n", sep="")
         url <- paste0(server, "/",  paste0(year, "667ODFSUMMARY.tsv"))
-        dodDebug(debug, oce::vectorShow(url))
+        dodDebug(debug, "url = ", url, "\n", sep="")
         dod.download(url, file, destdir)
-        dodDebug(debug, oce::vectorShow(file))
         url <- paste0(server, "/", file)
         file <- paste0(destdir,"/",file)
         return(file)
@@ -87,8 +82,8 @@ dod.ctd.bbmp <- function(year, ID=NULL, index=FALSE, file=NULL, destdir=".", deb
                 file <- ID
             }
         url <- paste0(server, "/", ID)
-        dodDebug(debug, oce::vectorShow(url))
-        dodDebug(debug, oce::vectorShow(ID))
+        dodDebug(debug, "url = ", url, "\n", sep="")
+        dodDebug(debug, "ID = ", ID, "\n", sep="")
         file <- dod.download(url=url, file=ifelse(grepl("ODF", file) == FALSE, paste0(file, ".ODF"), file), destdir=destdir, silent=TRUE,debug=debug)
         return(file)
         #if (read == TRUE) {

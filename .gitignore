@@ -1,9 +1,10 @@
+*.zip
 *.txt
 *.swp
 *.swn
 *.swo
 .DS_Store
-topo*.nc
+*.nc
 .Rproj.user
 .Rhistory
 .RData

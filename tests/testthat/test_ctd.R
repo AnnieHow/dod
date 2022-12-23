@@ -9,6 +9,6 @@ test_that("ctd downloads", {
     expect_error(dod.ctd("BATS"), "ID must be supplied")
     expect_error(dod.ctd("BATS", "junk"), "ID must be a numeric value")
     expect_error(dod.ctd("BATS", 1), "ID must exceed 10000")
-    expect_error(dod.ctd("GTSPP"), "must give an ID")
-    expect_silent(dod.ctd("GTSPP", ID="at198501"))
+    expect_error(dod.ctd("GTSPP"), "must provide basin")
+    expect_error(dod.ctd("GTSPP", basin="error"), "'arg' should be one of")
 })

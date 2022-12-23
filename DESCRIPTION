@@ -6,9 +6,9 @@ Author: Annie Howard and Jaimie Harbin
 Maintainer: Annie Howard <Annie.howard.e@gmail.com>
 Description: The package is used to download various types of oceanographic data including ctd, topography, advanced microwave scanning radiometer, and meteorological data.
 License: GPL (>= 2)
-Imports: oce (>= 1.3.0), utils, methods, ncdf4
+Imports: oce, methods, utils
 Encoding: UTF-8
-Suggests: knitr, testthat, rmarkdown
+Suggests: knitr, ncdf4, ocedata, testthat, rmarkdown
 RoxygenNote: 7.2.2
 BugReports: https://github.com/AnnieHow/dod/issues
 Roxygen: list(markdown = TRUE)
