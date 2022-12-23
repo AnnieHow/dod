@@ -43,7 +43,9 @@
 #'
 #' @family functions that download CTD data
 #'
-#' @examplesIf interactive()
+## @examplesIf interactive()
+#' @examples
+#'\donttest{
 #' # Two examples are shown here.  The first specifies the remote file by a full
 #' # URL, and the second infers such a URL from a subset of an index file. Since
 #' # downloading an index is slow, a common approach is to combine the approaches,
@@ -59,7 +61,7 @@
 #' # data stored in a netcdf file.
 #' process <- function(datafile)
 #' {
-#'     nc <- nc_open(dataFile)
+#'     nc <- nc_open(datafile)
 #'     S <- ncvar_get(nc, "salinity")
 #'     T <- ncvar_get(nc, "temperature")
 #'     z <- ncvar_get(nc, "z")
@@ -96,6 +98,7 @@
 #' focus <- index[which.min(dist), ]
 #' dataFile <- dod.ctd.gtspp(nc=focus$data_URL)
 #' process(dataFile)
+#'}
 #'
 #' @export
 dod.ctd.gtspp <- function(basin, year, month, file=NULL, destdir=".", debug=0, index=FALSE, nc=NULL)

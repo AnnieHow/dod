@@ -2,6 +2,8 @@ pandoc: 2.19.2
 pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
+  buoy: buoy.html
   ctd: ctd.html
-last_built: 2022-10-11T13:25Z
+  dod_package: dod_package.html
+last_built: 2022-12-23T20:33Z
 

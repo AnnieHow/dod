@@ -63,7 +63,7 @@ inventory files are read in \code{.txt} format, which increases download and rea
 time by over an order of magnitude.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\donttest{
 # Two examples are shown here.  The first specifies the remote file by a full
 # URL, and the second infers such a URL from a subset of an index file. Since
 # downloading an index is slow, a common approach is to combine the approaches,
@@ -79,7 +79,7 @@ library(ncdf4)
 # data stored in a netcdf file.
 process <- function(datafile)
 {
-    nc <- nc_open(dataFile)
+    nc <- nc_open(datafile)
     S <- ncvar_get(nc, "salinity")
     T <- ncvar_get(nc, "temperature")
     z <- ncvar_get(nc, "z")
@@ -114,7 +114,8 @@ dist <- geodDist(index$longitude, index$latitude, hlon, hlat)
 focus <- index[which.min(dist), ]
 dataFile <- dod.ctd.gtspp(nc=focus$data_URL)
 process(dataFile)
-\dontshow{\}) # examplesIf}
+}
+
 }
 \seealso{
 Other functions that download CTD data: 
