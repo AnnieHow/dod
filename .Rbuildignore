@@ -1,4 +1,8 @@
+^.lintr$
+^R/.lintr$
+^.*\.dat$
 ^.*\.gz$
+^.*\.swo$
 ^.*\.nc$
 ^.*\.ODF$
 ^.*\.tsv$

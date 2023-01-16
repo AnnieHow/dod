@@ -45,7 +45,7 @@
 #'
 ## @examplesIf interactive()
 #' @examples
-#'\donttest{
+#'\dontrun{
 #' # Two examples are shown here.  The first specifies the remote file by a full
 #' # URL, and the second infers such a URL from a subset of an index file. Since
 #' # downloading an index is slow, a common approach is to combine the approaches,

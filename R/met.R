@@ -37,6 +37,8 @@ dod.met <- function(...)
 #' @param region character value indicating the region. For example, stations in north
 #' America seem to be associated with region `"naconf"` (which is the default).
 #'
+#' @template destdirTemplate
+#'
 #' @param debug integer value indicating level of debugging.
 #' If this is less than 1, no debugging is done. Otherwise,
 #' some functions will print debugging information.
@@ -45,11 +47,13 @@ dod.met <- function(...)
 #'
 #' @examples
 #' # Download
+#' tempdir <- tempfile()
+#' dir.create(tempdir)
 #' station <- "73110"
 #' year <- "2023"
 #' month <- "01"
 #' day <- "08"
-#' file <- dod.met.sounding(station, year=year, month=month, day=day)
+#' file <- dod.met.sounding(station, year=year, month=month, day=day, destdir=tempdir)
 #' # Read data, extracting the table crudely.
 #' lines <- readLines(file)
 #' start <- grep("<PRE>", lines)[1]
@@ -62,8 +66,9 @@ dod.met <- function(...)
 #' # Plot mixing ratio variation with height
 #' plot(data$MIXR, data$HGHT, type="l", cex=0.5, pch=20, col=4,
 #'     xlab="Mixing Ratio", ylab="Height [m]")
+#' unlink(tempdir, recursive=TRUE)
 #' @export
-dod.met.sounding <- function(station="73110", year, month, day, region="naconf", debug=0)
+dod.met.sounding <- function(station="73110", year, month, day, region="naconf", destdir=".", debug=0)
 {
     # https://weather.uwyo.edu/upperair/sounding.html
     # url <- "https://weather.uwyo.edu/cgi-bin/sounding?region=naconf&TYPE=TEXT%3ALIST&YEAR=2023&MONTH=01&FROM=0812&TO=0812&STNM=73110"
@@ -77,11 +82,7 @@ dod.met.sounding <- function(station="73110", year, month, day, region="naconf",
     url <- sprintf("%s?region=%s&TYPE=TEXT%%3ALIST&YEAR=%s&MONTH=%s&FROM=%s&TO=%s&STNM=%s",
         base, region, year, month, from, to, station)
     dodDebug(debug, "url=\"", url, "\"\n", sep="")
-    file <- paste0("sounding", "_", station, "_", year, "_", month, ".dat")
-    dodDebug(debug, "file=\"", file , "\"\n", sep="")
-    status <- download.file(url, file)
-    if (status != 0) {
-        stop("cannot download ", url)
-    }
-    file
+    file <- paste0("/sounding", "_", station, "_", year, "_", month, ".dat")
+    dodDebug(debug, "file=\"", destdir, "/", file , "\"\n", sep="")
+    dod.download(url, destdir=destdir, debug=debug, file=file)
 }

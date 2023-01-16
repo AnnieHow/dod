@@ -10,6 +10,7 @@ dod.met.sounding(
   month,
   day,
   region = "naconf",
+  destdir = ".",
   debug = 0
 )
 }
@@ -29,6 +30,9 @@ supplied, the present day is used.}
 \item{region}{character value indicating the region. For example, stations in north
 America seem to be associated with region \code{"naconf"} (which is the default).}
 
+\item{destdir}{a character value indicating the directory
+in which to store downloaded files.}
+
 \item{debug}{integer value indicating level of debugging.
 If this is less than 1, no debugging is done. Otherwise,
 some functions will print debugging information.}
@@ -43,11 +47,13 @@ Department of Atmospheric science website at
 }
 \examples{
 # Download
+tempdir <- tempfile()
+dir.create(tempdir)
 station <- "73110"
 year <- "2023"
 month <- "01"
 day <- "08"
-file <- dod.met.sounding(station, year=year, month=month, day=day)
+file <- dod.met.sounding(station, year=year, month=month, day=day, destdir=tempdir)
 # Read data, extracting the table crudely.
 lines <- readLines(file)
 start <- grep("<PRE>", lines)[1]
@@ -60,4 +66,5 @@ data <- read.fwf(file=textConnection(table),
 # Plot mixing ratio variation with height
 plot(data$MIXR, data$HGHT, type="l", cex=0.5, pch=20, col=4,
     xlab="Mixing Ratio", ylab="Height [m]")
+unlink(tempdir, recursive=TRUE)
 }
