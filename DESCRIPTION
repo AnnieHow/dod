@@ -1,15 +1,15 @@
 Package: dod
 Type: Package
 Title: Download Oceanographic Data
-Version: 0.1.0
-Author: Annie Howard and Jaimie Harbin
+Version: 0.1.1
+Author: Annie Howard, Jaimie Harbin and Dan Kelley
 Maintainer: Annie Howard <Annie.howard.e@gmail.com>
 Description: The package is used to download various types of oceanographic data including ctd, topography, advanced microwave scanning radiometer, and meteorological data.
 License: GPL (>= 2)
 Imports: oce, methods, utils
 Encoding: UTF-8
 Suggests: knitr, ncdf4, ocedata, testthat, rmarkdown
-RoxygenNote: 7.2.2
+RoxygenNote: 7.2.3
 BugReports: https://github.com/AnnieHow/dod/issues
 Roxygen: list(markdown = TRUE)
 BuildVignettes: true

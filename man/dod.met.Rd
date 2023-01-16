@@ -2,7 +2,7 @@
 % Please edit documentation in R/met.R
 \name{dod.met}
 \alias{dod.met}
-\title{Download meteorological data}
+\title{Download meteorological timeseries data}
 \usage{
 dod.met(...)
 }
