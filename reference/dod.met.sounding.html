@@ -14,7 +14,7 @@ https://weather.uwyo.edu/upperair/sounding.html."><!-- mathjax --><script src="h
     
     <a class="navbar-brand me-2" href="../index.html">dod</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,6 +72,7 @@ Department of Atmospheric science website at
 <span>  <span class="va">day</span>,</span>
 <span>  region <span class="op">=</span> <span class="st">"naconf"</span>,</span>
 <span>  destdir <span class="op">=</span> <span class="st">"."</span>,</span>
+<span>  age <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  debug <span class="op">=</span> <span class="fl">0</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -108,10 +109,19 @@ America seem to be associated with region <code>"naconf"</code> (which is the de
 in which to store downloaded files.</p></dd>
 
 
+<dt>age</dt>
+<dd><p>a numerical value indicating a time interval, in days.
+If the file to be downloaded from the server already exists locally,
+and was created less than <code>age</code> days in the past, it will not be
+downloaded again.  Setting <code>age=0</code> (which is the default)
+forces a download.</p></dd>
+
+
 <dt>debug</dt>
-<dd><p>integer value indicating level of debugging.
-If this is less than 1, no debugging is done. Otherwise,
-some functions will print debugging information.</p></dd>
+<dd><p>an integer value indicating the level of debugging. If
+this exceeds 0, then some debugging messages will be printed. This
+value is passed down to related functions, but with 1 subtracted
+for each pass.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -131,7 +141,7 @@ some functions will print debugging information.</p></dd>
 <span class="r-in"><span><span class="va">month</span> <span class="op">&lt;-</span> <span class="st">"01"</span></span></span>
 <span class="r-in"><span><span class="va">day</span> <span class="op">&lt;-</span> <span class="st">"08"</span></span></span>
 <span class="r-in"><span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu">dod.met.sounding</span><span class="op">(</span><span class="va">station</span>, year<span class="op">=</span><span class="va">year</span>, month<span class="op">=</span><span class="va">month</span>, day<span class="op">=</span><span class="va">day</span>, destdir<span class="op">=</span><span class="va">tempdir</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in dod.download(url, destdir = destdir, debug = debug, file = file):</span> Unable to download "https://weather.uwyo.edu/cgi-bin/sounding?region=naconf&amp;TYPE=TEXT%3ALIST&amp;YEAR=2023&amp;MONTH=01&amp;FROM=0812&amp;TO=0812&amp;STNM=73110" to "/tmp/Rtmppbffk6/file192858eab02e//sounding_73110_2023_01.dat"</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in dod.download(url, destdir = destdir, file = file, age = age,     debug = debug - 1):</span> An error occured when trying to download "https://weather.uwyo.edu/cgi-bin/sounding?region=naconf&amp;TYPE=TEXT%3ALIST&amp;YEAR=2023&amp;MONTH=01&amp;FROM=0812&amp;TO=0812&amp;STNM=73110"</span>
 <span class="r-in"><span><span class="co"># Read data, extracting the table crudely.</span></span></span>
 <span class="r-in"><span><span class="va">lines</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in readLines(file):</span> 'con' is not a connection</span>

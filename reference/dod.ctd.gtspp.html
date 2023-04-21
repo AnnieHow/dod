@@ -14,7 +14,7 @@ somewhat challenging to use; see &amp;#8216;Details&amp;#8217;."><!-- mathjax --
     
     <a class="navbar-brand me-2" href="../index.html">dod</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,9 +71,10 @@ somewhat challenging to use; see ‘Details’.</p>
 <span>  <span class="va">month</span>,</span>
 <span>  file <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  destdir <span class="op">=</span> <span class="st">"."</span>,</span>
-<span>  debug <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  index <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  nc <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  nc <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  age <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  debug <span class="op">=</span> <span class="fl">0</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -108,11 +109,6 @@ file.</p></dd>
 in which to store downloaded files.</p></dd>
 
 
-<dt>debug</dt>
-<dd><p>an integer value indicating the level of debugging. If
-this exceeds 0, then some debugging messages will be printed.</p></dd>
-
-
 <dt>index</dt>
 <dd><p>a boolean value indicating whether the index should be
 downloaded. This is FALSE by default. Note that <code>nc</code> is ignored if
@@ -125,6 +121,21 @@ NB. <code>index</code> is ignored if <code>nc</code> is #' provided, and is a fu
 inferred from <code>basin</code>, <code>year</code> and <code>month</code>, or a URL that leads directly to
 such a file.  The latter case is recognized by <code>nc</code> starting with <code>"http"</code>.
 Note that <code>index</code> is ignored if <code>nc</code> is provided.  See “Examples”.</p></dd>
+
+
+<dt>age</dt>
+<dd><p>a numerical value indicating a time interval, in days.
+If the file to be downloaded from the server already exists locally,
+and was created less than <code>age</code> days in the past, it will not be
+downloaded again.  Setting <code>age=0</code> (which is the default)
+forces a download.</p></dd>
+
+
+<dt>debug</dt>
+<dd><p>an integer value indicating the level of debugging. If
+this exceeds 0, then some debugging messages will be printed. This
+value is passed down to related functions, but with 1 subtracted
+for each pass.</p></dd>
 
 </dl></div>
     <div class="section level2">
