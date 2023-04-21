@@ -1,18 +1,16 @@
 #' Debug dod package functions
 #'
-#' This function is used throughout the `dod` package to catch
-#' bugs and provide assistance to users.
+#' This function is used throughout the `dod` package to provide
+#' information on how processing is being done.
 #'
-#' @param debug integer value indicating level of debugging.
-#' If this is less than 1, no debugging is done. Otherwise,
-#' some functions will print debugging information.
+#' @param ... content passed to [cat()].
 #'
-#' @param ... FILL IN not sure if this pulling from another
-#' package or what.
+#' @param debug integer valaue indicating level of debugging. If
+#' this exceeds zero, then `...` is passed to [cat()], for printing.
 #'
 #' @export
 dodDebug <- function(debug=0, ...)
 {
-    if (debug)
+    if (debug > 0)
         cat(...)
 }

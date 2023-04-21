@@ -10,9 +10,10 @@ dod.ctd.gtspp(
   month,
   file = NULL,
   destdir = ".",
-  debug = 0,
   index = FALSE,
-  nc = NULL
+  nc = NULL,
+  age = 0,
+  debug = 0
 )
 }
 \arguments{
@@ -35,9 +36,6 @@ file.}
 \item{destdir}{a character value indicating the directory
 in which to store downloaded files.}
 
-\item{debug}{an integer value indicating the level of debugging. If
-this exceeds 0, then some debugging messages will be printed.}
-
 \item{index}{a boolean value indicating whether the index should be
 downloaded. This is FALSE by default. Note that \code{nc} is ignored if
 \code{index} is TRUE.
@@ -47,6 +45,17 @@ NB. \code{index} is ignored if \code{nc} is #' provided, and is a full URL.}
 inferred from \code{basin}, \code{year} and \code{month}, or a URL that leads directly to
 such a file.  The latter case is recognized by \code{nc} starting with \code{"http"}.
 Note that \code{index} is ignored if \code{nc} is provided.  See \dQuote{Examples}.}
+
+\item{age}{a numerical value indicating a time interval, in days.
+If the file to be downloaded from the server already exists locally,
+and was created less than \code{age} days in the past, it will not be
+downloaded again.  Setting \code{age=0} (which is the default)
+forces a download.}
+
+\item{debug}{an integer value indicating the level of debugging. If
+this exceeds 0, then some debugging messages will be printed. This
+value is passed down to related functions, but with 1 subtracted
+for each pass.}
 }
 \value{
 \code{\link[=dod.ctd.gtspp]{dod.ctd.gtspp()}} returns the local name of the downloaded file.

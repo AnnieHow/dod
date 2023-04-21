@@ -11,6 +11,7 @@ dod.met.sounding(
   day,
   region = "naconf",
   destdir = ".",
+  age = 0,
   debug = 0
 )
 }
@@ -33,9 +34,16 @@ America seem to be associated with region \code{"naconf"} (which is the default)
 \item{destdir}{a character value indicating the directory
 in which to store downloaded files.}
 
-\item{debug}{integer value indicating level of debugging.
-If this is less than 1, no debugging is done. Otherwise,
-some functions will print debugging information.}
+\item{age}{a numerical value indicating a time interval, in days.
+If the file to be downloaded from the server already exists locally,
+and was created less than \code{age} days in the past, it will not be
+downloaded again.  Setting \code{age=0} (which is the default)
+forces a download.}
+
+\item{debug}{an integer value indicating the level of debugging. If
+this exceeds 0, then some debugging messages will be printed. This
+value is passed down to related functions, but with 1 subtracted
+for each pass.}
 }
 \value{
 The local name of the downloaded file.

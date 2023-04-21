@@ -39,9 +39,9 @@ dod.met <- function(...)
 #'
 #' @template destdirTemplate
 #'
-#' @param debug integer value indicating level of debugging.
-#' If this is less than 1, no debugging is done. Otherwise,
-#' some functions will print debugging information.
+#' @template ageTemplate
+#'
+#' @template debugTemplate
 #'
 #' @return The local name of the downloaded file.
 #'
@@ -68,7 +68,7 @@ dod.met <- function(...)
 #'     xlab="Mixing Ratio", ylab="Height [m]")
 #' unlink(tempdir, recursive=TRUE)
 #' @export
-dod.met.sounding <- function(station="73110", year, month, day, region="naconf", destdir=".", debug=0)
+dod.met.sounding <- function(station="73110", year, month, day, region="naconf", destdir=".", age=0, debug=0)
 {
     # https://weather.uwyo.edu/upperair/sounding.html
     # url <- "https://weather.uwyo.edu/cgi-bin/sounding?region=naconf&TYPE=TEXT%3ALIST&YEAR=2023&MONTH=01&FROM=0812&TO=0812&STNM=73110"
@@ -84,5 +84,5 @@ dod.met.sounding <- function(station="73110", year, month, day, region="naconf",
     dodDebug(debug, "url=\"", url, "\"\n", sep="")
     file <- paste0("/sounding", "_", station, "_", year, "_", month, ".dat")
     dodDebug(debug, "file=\"", destdir, "/", file , "\"\n", sep="")
-    dod.download(url, destdir=destdir, debug=debug, file=file)
+    dod.download(url, destdir=destdir, file=file, age=age, debug=debug-1)
 }

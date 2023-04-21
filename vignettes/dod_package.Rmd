@@ -24,7 +24,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 This package was created as a tool to improve access to various types of oceanographic data from open sources.
 
-## Oceanographic Data Options 
+## Oceanographic Data Options
 
 The following table shows the types of data the package currently downloads and the functions used to do so:
 
@@ -39,7 +39,7 @@ The following table shows the types of data the package currently downloads and 
 
 Expansion of these options is welcomed.
 
-## Development 
+## Development
 
 Contributions to the `dod` package are encouraged. The basic structure of each function involves finding a data source online to use as a `server` containing many files and constructing a `url` from which the function can download specific data.
 

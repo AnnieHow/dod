@@ -9,12 +9,11 @@
 #' @param ID For `MEDS` this argument is either a location name
 #' or ID number.
 #'
-#' @param destdir character value indicating the directory
-#' in which to store downloaded files.
+#' @template destdirTemplate
 #'
-#' @param debug integer value indicating level of debugging.
-#' If this is less than 1, no debugging is done. Otherwise,
-#' some functions will print debugging information.
+#' @template ageTemplate
+#'
+#' @template debugTemplate
 #'
 #' @importFrom utils unzip
 #'
@@ -26,7 +25,7 @@
 #https://www.meds-sdmm.dfo-mpo.gc.ca/alphapro/wave/waveshare/csvData/c44258_csv.zip
 #https://www.meds-sdmm.dfo-mpo.gc.ca/alphapro/wave/waveshare/csvData/c44139_csv.zip
 
-dod.buoy <- function(program, ID=NULL, destdir=".", debug=0)
+dod.buoy <- function(program, ID=NULL, destdir=".", age=age, debug=0)
 {
     if (program == "?")
         stop("Must provide a program argument, possibilities include: MEDS")
@@ -42,7 +41,7 @@ dod.buoy <- function(program, ID=NULL, destdir=".", debug=0)
         url <- paste0(server, "/c", ID, "_csv.zip")
         zipfile <- paste0("c", ID, "_csv.zip")
         dodDebug(debug, url)
-        dod.download(url, zipfile)
+        dod.download(url=url, file=zipfile, age=age, debug=debug-1)
         unzip(zipfile)
         unlink(zipfile)
         # NOTE: we should delete the zipfile too; see ?unlink

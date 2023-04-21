@@ -10,6 +10,7 @@ dod.ctd.bbmp(
   index = FALSE,
   file = NULL,
   destdir = ".",
+  age = 0,
   debug = 0
 )
 }
@@ -33,8 +34,16 @@ the filename is as on the remote data server.}
 \item{destdir}{a character value indicating the directory
 in which to store downloaded files.}
 
+\item{age}{a numerical value indicating a time interval, in days.
+If the file to be downloaded from the server already exists locally,
+and was created less than \code{age} days in the past, it will not be
+downloaded again.  Setting \code{age=0} (which is the default)
+forces a download.}
+
 \item{debug}{an integer value indicating the level of debugging. If
-this exceeds 0, then some debugging messages will be printed.}
+this exceeds 0, then some debugging messages will be printed. This
+value is passed down to related functions, but with 1 subtracted
+for each pass.}
 }
 \value{
 \link{dod.ctd.bbmp} returns a character value naming the file that

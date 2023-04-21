@@ -4,7 +4,7 @@
 \alias{dod.ctd.bats}
 \title{Download CTD data from the Bermuda Atlantic Time Series program}
 \usage{
-dod.ctd.bats(ID, info = FALSE, file = NULL, destdir = ".", debug = 0)
+dod.ctd.bats(ID, info = FALSE, file = NULL, destdir = ".", age = 0, debug = 0)
 }
 \arguments{
 \item{ID}{an integer specifying the ID of the file of interest.
@@ -22,8 +22,16 @@ server is used.}
 \item{destdir}{a character value indicating the directory
 in which to store downloaded files.}
 
+\item{age}{a numerical value indicating a time interval, in days.
+If the file to be downloaded from the server already exists locally,
+and was created less than \code{age} days in the past, it will not be
+downloaded again.  Setting \code{age=0} (which is the default)
+forces a download.}
+
 \item{debug}{an integer value indicating the level of debugging. If
-this exceeds 0, then some debugging messages will be printed.}
+this exceeds 0, then some debugging messages will be printed. This
+value is passed down to related functions, but with 1 subtracted
+for each pass.}
 }
 \value{
 \code{\link[=dod.ctd.bats]{dod.ctd.bats()}} returns the full pathname of the

@@ -7,14 +7,12 @@
 dodDebug(debug = 0, ...)
 }
 \arguments{
-\item{debug}{integer value indicating level of debugging.
-If this is less than 1, no debugging is done. Otherwise,
-some functions will print debugging information.}
+\item{debug}{integer valaue indicating level of debugging. If
+this exceeds zero, then \code{...} is passed to \code{\link[=cat]{cat()}}, for printing.}
 
-\item{...}{FILL IN not sure if this pulling from another
-package or what.}
+\item{...}{content passed to \code{\link[=cat]{cat()}}.}
 }
 \description{
-This function is used throughout the \code{dod} package to catch
-bugs and provide assistance to users.
+This function is used throughout the \code{dod} package to provide
+information on how processing is being done.
 }

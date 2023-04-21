@@ -24,6 +24,8 @@
 #'
 #' @template destdirTemplate
 #'
+#' @template ageTemplate
+#'
 #' @template debugTemplate
 #'
 #' @importFrom utils read.csv
@@ -52,43 +54,34 @@
 #' @family functions that download CTD data
 #'
 #' @export
-dod.ctd.bbmp <- function(year, ID=NULL, index=FALSE, file=NULL, destdir=".", debug=0)
+dod.ctd.bbmp <- function(year, ID=NULL, index=FALSE, file=NULL, destdir=".", age=0, debug=0)
 {
     server <- "ftp://ftp.dfo-mpo.gc.ca/BIOWebMaster/BBMP/ODF"
     if (missing(year))
         year <- format(Sys.Date(),"%Y")
-    dodDebug(debug, "year = ", year, "\n", sep="")
+    dodDebug(debug, "  dod.ctd.bbmp(year=", year,
+        ", ID=", if (is.null(ID)) "NULL" else paste0("\"", ID, "\""),
+        ", index=", index,
+        ", file=\"", file, "\", destdir=\"", destdir, "\"",
+        ", age=", age, ", debug=", debug, ")\n  {\n",sep="")
     server <- paste0(server, "/", year)
-    dodDebug(debug, "server = ", server, "\n", sep="")
     if (index) {
         file  <- if (is.null(file)) paste0(year, "667ODFSUMMARY.tsv") else paste0(file, ".tsv")
-        dodDebug(debug, "file = ", file, "\n", sep="")
         url <- paste0(server, "/",  paste0(year, "667ODFSUMMARY.tsv"))
-        dodDebug(debug, "url = ", url, "\n", sep="")
-        dod.download(url, file, destdir)
+        dod.download(url=url, file=file, destdir=destdir, age=age, debug=debug-1)
         url <- paste0(server, "/", file)
         file <- paste0(destdir,"/",file)
+        dodDebug(debug, "  } dod.ctd.bbmp()\n", sep="")
         return(file)
-        #if (read) {
-        #return(read.csv(file, header=FALSE, skip=3, col.names=c("file", "time")))
-        #}
     } else {
         if (is.null(ID))
             stop("Must provide an ID from the index")
-        if (is.null(file))
-            if (grepl("ODF", ID == TRUE)) {
-                file <- gsub("\\.ODF", "",ID)
-            } else {
-                file <- ID
-            }
+        if (is.null(file)) {
+            file <- if (grepl("ODF", ID == TRUE)) gsub("\\.ODF", "",ID) else ID
+        }
         url <- paste0(server, "/", ID)
-        dodDebug(debug, "url = ", url, "\n", sep="")
-        dodDebug(debug, "ID = ", ID, "\n", sep="")
-        file <- dod.download(url=url, file=ifelse(grepl("ODF", file) == FALSE, paste0(file, ".ODF"), file), destdir=destdir, silent=TRUE,debug=debug)
+        file <- dod.download(url=url, file=ifelse(grepl("ODF", file) == FALSE, paste0(file, ".ODF"), file), destdir=destdir, age=age, silent=TRUE, debug=debug-1)
+        dodDebug(debug, "  } dod.ctd.bbmp()\n", sep="")
         return(file)
-        #if (read == TRUE) {
-        #    t <- oce::read.oce(file)
-        #    return(t)
-        #}
     }
 }

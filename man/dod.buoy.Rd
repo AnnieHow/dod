@@ -4,7 +4,7 @@
 \alias{dod.buoy}
 \title{Download buoy data}
 \usage{
-dod.buoy(program, ID = NULL, destdir = ".", debug = 0)
+dod.buoy(program, ID = NULL, destdir = ".", age = age, debug = 0)
 }
 \arguments{
 \item{program}{argument specifying the desired oceanographic
@@ -13,12 +13,19 @@ program to download buoy data from. Options include \code{MEDS}, etc.}
 \item{ID}{For \code{MEDS} this argument is either a location name
 or ID number.}
 
-\item{destdir}{character value indicating the directory
+\item{destdir}{a character value indicating the directory
 in which to store downloaded files.}
 
-\item{debug}{integer value indicating level of debugging.
-If this is less than 1, no debugging is done. Otherwise,
-some functions will print debugging information.}
+\item{age}{a numerical value indicating a time interval, in days.
+If the file to be downloaded from the server already exists locally,
+and was created less than \code{age} days in the past, it will not be
+downloaded again.  Setting \code{age=0} (which is the default)
+forces a download.}
+
+\item{debug}{an integer value indicating the level of debugging. If
+this exceeds 0, then some debugging messages will be printed. This
+value is passed down to related functions, but with 1 subtracted
+for each pass.}
 }
 \value{
 If \code{index} is TRUE, and \code{program} is \code{"BBMP"} or \code{"BATS"},
