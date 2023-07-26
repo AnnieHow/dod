@@ -4,16 +4,30 @@
 \alias{dod.amsr}
 \title{Download Advanced Microwave Scanning Radiometer data}
 \usage{
-dod.amsr(...)
+dod.amsr(year, month, day, destdir = ".", age = 14, server = "new", debug = 0)
 }
 \arguments{
-\item{...}{arguments passed to
-\code{\link[oce:download.amsr]{oce::download.amsr()}}.}
+\item{year}{integer giving year (defaults to value 3 days in past).}
+
+\item{month}{integer giving month (defaults to value 3 days in past).}
+
+\item{day}{integer giving day (defaults to value 3 days in past).}
+
+\item{destdir}{character giving destination directory (defaults to \code{"."}, the present
+directory).}
+
+\item{age}{integer giving the number of days old a local file has to be, for it to
+be regarded as in need of replacement.}
+
+\item{server}{character value indicating where to get the data.  This may be \code{"new"} (the default)
+for a scheme that worked in year 2023, \code{"old"} for a scheme that worked a few years}
+
+\item{debug}{integer giving debugging level (defaults to 0, to make the function work
+without much output).}
 }
 \value{
-String indicating the full pathname to the downloaded file.
+character value indicating the full pathname to the downloaded file.
 }
 \description{
-This function downloads topographic data using
-\code{\link[oce:download.amsr]{oce::download.amsr()}}.
+This function downloads AMSR data.
 }
