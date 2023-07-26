@@ -46,7 +46,8 @@ dod.met <- function(...)
 #' @return The local name of the downloaded file.
 #'
 #' @examples
-#' # Download
+#'\dontrun{
+#'# Download
 #' tempdir <- tempfile()
 #' dir.create(tempdir)
 #' station <- "73110"
@@ -67,6 +68,8 @@ dod.met <- function(...)
 #' plot(data$MIXR, data$HGHT, type="l", cex=0.5, pch=20, col=4,
 #'     xlab="Mixing Ratio", ylab="Height [m]")
 #' unlink(tempdir, recursive=TRUE)
+#'}
+#'
 #' @export
 dod.met.sounding <- function(station="73110", year, month, day, region="naconf", destdir=".", age=0, debug=0)
 {

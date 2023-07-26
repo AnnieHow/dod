@@ -54,6 +54,7 @@ Department of Atmospheric science website at
 \url{https://weather.uwyo.edu/upperair/sounding.html}.
 }
 \examples{
+\dontrun{
 # Download
 tempdir <- tempfile()
 dir.create(tempdir)
@@ -75,4 +76,6 @@ data <- read.fwf(file=textConnection(table),
 plot(data$MIXR, data$HGHT, type="l", cex=0.5, pch=20, col=4,
     xlab="Mixing Ratio", ylab="Height [m]")
 unlink(tempdir, recursive=TRUE)
+}
+
 }
