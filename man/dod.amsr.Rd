@@ -23,9 +23,9 @@ or just the first two of them if \code{type} is \code{"monthly"}.  If these
 things are provided, then they just match exactly the values in the sought-after
 file on the remote server.  If \code{year} is NULL, then \code{\link[=dod.amsr]{dod.amsr()}} constructs
 a URL that ought to be the most recent available file: 3 days prior
-to the present date for \code{type} of \code{"3day"} or \code{"daily"}, the Saturday
-two weeks prior to the present date for \code{type} of \code{"weekly"}, or
-two months in the past, for \verb{type of }"monthly"`.}
+to the present date (if \code{type} is \code{"3day"} or \code{"daily"}), the Saturday
+two weeks prior to the present date (if \code{type} is \code{"weekly"}), or
+two months in the past (if \code{type} is \code{"monthly"}).}
 
 \item{destdir}{character giving destination directory (defaults to \code{"."}, the present
 directory).  The directory must exist.  (The author uses \code{"~/data/amsr"}.)}

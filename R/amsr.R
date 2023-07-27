@@ -21,9 +21,9 @@
 #' things are provided, then they just match exactly the values in the sought-after
 #' file on the remote server.  If `year` is NULL, then [dod.amsr()] constructs
 #' a URL that ought to be the most recent available file: 3 days prior
-#' to the present date for `type` of `"3day"` or `"daily"`, the Saturday
-#' two weeks prior to the present date for `type` of `"weekly"`, or
-#' two months in the past, for `type of `"monthly"`.
+#' to the present date (if `type` is `"3day"` or `"daily"`), the Saturday
+#' two weeks prior to the present date (if `type` is `"weekly"`), or
+#' two months in the past (if `type` is `"monthly"`).
 #'
 #' @param destdir character giving destination directory (defaults to `"."`, the present
 #' directory).  The directory must exist.  (The author uses `"~/data/amsr"`.)
