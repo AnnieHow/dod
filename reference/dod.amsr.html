@@ -59,21 +59,25 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">dod.amsr</span><span class="op">(</span><span class="va">year</span>, <span class="va">month</span>, <span class="va">day</span>, destdir <span class="op">=</span> <span class="st">"."</span>, age <span class="op">=</span> <span class="fl">14</span>, server <span class="op">=</span> <span class="st">"new"</span>, debug <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">dod.amsr</span><span class="op">(</span></span>
+<span>  <span class="va">year</span>,</span>
+<span>  <span class="va">month</span>,</span>
+<span>  <span class="va">day</span>,</span>
+<span>  destdir <span class="op">=</span> <span class="st">"."</span>,</span>
+<span>  age <span class="op">=</span> <span class="fl">365</span>,</span>
+<span>  server <span class="op">=</span> <span class="st">"https://data.remss.com/amsr2/ocean/L3/v08.2"</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"3day"</span>,</span>
+<span>  debug <span class="op">=</span> <span class="fl">0</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>year</dt>
-<dd><p>integer giving year (defaults to value 3 days in past).</p></dd>
-
-
-<dt>month</dt>
-<dd><p>integer giving month (defaults to value 3 days in past).</p></dd>
-
-
-<dt>day</dt>
-<dd><p>integer giving day (defaults to value 3 days in past).</p></dd>
+    <dl><dt>year, month, day</dt>
+<dd><p>integer values indicating the desired observation time.
+All three are required for <code>server</code> values of <code>"3day"</code> and <code>"daily"</code>,
+but day is not required (and are ignored) for the other two choices of <code>server</code>.
+If these values are not provided, the focus is 3 days prior to the present day.</p></dd>
 
 
 <dt>destdir</dt>
@@ -83,12 +87,24 @@ directory).</p></dd>
 
 <dt>age</dt>
 <dd><p>integer giving the number of days old a local file has to be, for it to
-be regarded as in need of replacement.</p></dd>
+be regarded as in need of replacement. This defaults to a year.</p></dd>
 
 
 <dt>server</dt>
-<dd><p>character value indicating where to get the data.  This may be <code>"new"</code> (the default)
-for a scheme that worked in year 2023, <code>"old"</code> for a scheme that worked a few years</p></dd>
+<dd><p>character value indicating the base server location. The
+default value ought to be used unless the data provider changes their
+web scheme ... but in that case, it is hoped that users will contact
+the developers so that the package can be updated.</p></dd>
+
+
+<dt>type</dt>
+<dd><p>character value indicating where to get the data.  This may be
+<code>"3day"</code> (the default), for a composite covering 3 days of observation, which
+removes most viewing-path and cloud blanks, <code>"daily"</code> for a daily reading,
+<code>"weekly"</code> for a composite covering a week, or <code>"monthly"</code> for a composite
+covering a month.  In the <code>"daily"</code> case, the data arrays are 3D, with the
+third dimension representing ascending and descending traces, but in all the
+other cases, the arrays are 2D.</p></dd>
 
 
 <dt>debug</dt>
@@ -101,6 +117,21 @@ without much output).</p></dd>
     
 
 <p>character value indicating the full pathname to the downloaded file.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="historical-note">Historical note<a class="anchor" aria-label="anchor" href="#historical-note"></a></h2>
+    
+
+<p>In July 2023, the author noticed major changes in the organization of
+the remove server, and also of the data files provided. This required
+major changes to <code>dod.amsr()</code>, especially in regard to the <code>server</code>
+argument and the newly-added <code>type</code> argument. Users are asked to be
+on the lookout for problems.  Also note that <code><a href="https://dankelley.github.io/oce/reference/read.amsr.html" class="external-link">oce::read.amsr()</a></code> will
+need adjustment to read the new file format.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
+    <p>Dan Kelley</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
