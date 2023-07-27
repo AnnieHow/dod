@@ -48,7 +48,6 @@ dod.amsr <- function(year, month, day, destdir=".", age=365,
     server="https://data.remss.com/amsr2/ocean/L3/v08.2",
     type="3day", debug=0)
 {
-    message("type=\"", type, "\"")
     dodDebug(debug, "dod.amsr(type=\"", type, "\", ...) {\n", sep="")
     if (!type %in% c("3day", "daily", "weekly", "monthly"))
         stop("type value \"", type, "\" is not permitted.  Please see documentation")
@@ -64,20 +63,16 @@ dod.amsr <- function(year, month, day, destdir=".", age=365,
     month <- as.integer(month)
     day <- as.integer(day)
     dodDebug(debug, sprintf("year=%d, month=%d, day=%d, type=%s\n", year, month, day, type))
-    if (identical(type, "3day")) {
-        #?https://data.remss.com/amsr2/ocean/L3/v08.2/3day/2023/RSS_AMSR2_ocean_L3_3day_2023-07-24_v08.2.nc
+    if (type %in% c("3day", "daily")) {
         # https://data.remss.com/amsr2/ocean/L3/v08.2/3day/2023/RSS_AMSR2_ocean_L3_3day_2023-07-24_v08.2.nc
         # ^                                           ^    ^                       ^    ^    ^  ^
         # server                                      type year                  type year month day
         url <- sprintf("%s/%s/%d/RSS_AMSR2_ocean_L3_%s_%04d-%02d-%02d_v08.2.nc",
             server, type, year, type, year, month, day)
-        # https://data.remss.com/amsr2/ocean/L3/v08.2/3day/2023/RSS_AMSR2_ocean_L3_3day-2023-07-24_v08.2.nc
-    } else if (identical(type, "daily")) {
-        stop("FIXME daily")
     } else if (identical(type, "weekly")) {
-        stop("FIXME daily")
+        stop("FIXME weekly")
     } else if (identical(type, "monthley")) {
-        stop("FIXME daily")
+        stop("FIXME monthly")
     } else {
         stop("unrecognized '", server, "' value; see documentation.")
     }
