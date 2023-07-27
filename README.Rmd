@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/dod)](https://CRAN.R-project.org/package=dod)
-[![R-CMD-check](https://github.com/dankelley/oce/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dankelley/oce/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/dankelley/dod/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dankelley/dod/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of dod is to make it easier to download various types of oceanographic data from common sources such as BATS, NAOO, MEDS, BBMP. Some similar functions exist in the oce package, but the intention is to retire them as dod matures, because building oce is difficult for some users, and CRAN policies dictate against frequent updates.
