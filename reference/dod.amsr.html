@@ -76,13 +76,20 @@
     <dl><dt>year, month, day</dt>
 <dd><p>integer values indicating the desired observation time.
 All three are required for <code>server</code> values of <code>"3day"</code> and <code>"daily"</code>,
-but day is not required (and are ignored) for the other two choices of <code>server</code>.
-If these values are not provided, the focus is 3 days prior to the present day.</p></dd>
+but day is not required (and is ignored) for the other two choices of <code>server</code>.
+If these values are not provided, reasonable defaults are chosen.  For
+the <code>"3day"</code> and <code>"daily"</code> cases, this default is 3 days prior to the present date.
+For the <code>"weekly"</code> case, it is two Saturdays previous to the present date.  And
+for the <code>"monthly"</code> case, it is two months previous to today's month (e.g. it
+is 5, if today is in July).  Users who choose to specify values for <code>year</code>,
+<code>month</code>, and <code>day</code> for either <code>weekly</code> or <code>monthly</code> data are advised to
+examine the server with a web browser to discover the year-month-day values
+of the available files.</p></dd>
 
 
 <dt>destdir</dt>
 <dd><p>character giving destination directory (defaults to <code>"."</code>, the present
-directory).</p></dd>
+directory).  The directory must exist.  (The author uses <code>"~/data/amsr"</code>.)</p></dd>
 
 
 <dt>age</dt>
@@ -117,6 +124,17 @@ without much output).</p></dd>
     
 
 <p>character value indicating the full pathname to the downloaded file.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>This works by constructing URLs based on the arguments provided.  The author
+is unaware of any documentation that specifies the directory structure on
+the server, and so the construction is based on examining the server
+with a web browser.  Obviously, this is a fragile approach that will
+lead to failed downloads if the remote directory structure changes.  Indeed,
+<code>dod.amsr()</code> was completely rewritten in July 2023, because a previous version
+was seen to fail on that date.  Users are asked to report any failed downloades
+they encounter.</p>
     </div>
     <div class="section level2">
     <h2 id="historical-note">Historical note<a class="anchor" aria-label="anchor" href="#historical-note"></a></h2>
