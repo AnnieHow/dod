@@ -4,23 +4,41 @@
 \alias{dod.amsr}
 \title{Download Advanced Microwave Scanning Radiometer data}
 \usage{
-dod.amsr(year, month, day, destdir = ".", age = 14, server = "new", debug = 0)
+dod.amsr(
+  year,
+  month,
+  day,
+  destdir = ".",
+  age = 365,
+  server = "https://data.remss.com/amsr2/ocean/L3/v08.2",
+  type = "3day",
+  debug = 0
+)
 }
 \arguments{
-\item{year}{integer giving year (defaults to value 3 days in past).}
-
-\item{month}{integer giving month (defaults to value 3 days in past).}
-
-\item{day}{integer giving day (defaults to value 3 days in past).}
+\item{year, month, day}{integer values indicating the desired observation time.
+All three are required for \code{server} values of \code{"3day"} and \code{"daily"},
+but day is not required (and are ignored) for the other two choices of \code{server}.
+If these values are not provided, the focus is 3 days prior to the present day.}
 
 \item{destdir}{character giving destination directory (defaults to \code{"."}, the present
 directory).}
 
 \item{age}{integer giving the number of days old a local file has to be, for it to
-be regarded as in need of replacement.}
+be regarded as in need of replacement. This defaults to a year.}
 
-\item{server}{character value indicating where to get the data.  This may be \code{"new"} (the default)
-for a scheme that worked in year 2023, \code{"old"} for a scheme that worked a few years}
+\item{server}{character value indicating the base server location. The
+default value ought to be used unless the data provider changes their
+web scheme ... but in that case, it is hoped that users will contact
+the developers so that the package can be updated.}
+
+\item{type}{character value indicating where to get the data.  This may be
+\code{"3day"} (the default), for a composite covering 3 days of observation, which
+removes most viewing-path and cloud blanks, \code{"daily"} for a daily reading,
+\code{"weekly"} for a composite covering a week, or \code{"monthly"} for a composite
+covering a month.  In the \code{"daily"} case, the data arrays are 3D, with the
+third dimension representing ascending and descending traces, but in all the
+other cases, the arrays are 2D.}
 
 \item{debug}{integer giving debugging level (defaults to 0, to make the function work
 without much output).}
@@ -30,4 +48,17 @@ character value indicating the full pathname to the downloaded file.
 }
 \description{
 This function downloads AMSR data.
+}
+\section{Historical note}{
+
+In July 2023, the author noticed major changes in the organization of
+the remove server, and also of the data files provided. This required
+major changes to \code{\link[=dod.amsr]{dod.amsr()}}, especially in regard to the \code{server}
+argument and the newly-added \code{type} argument. Users are asked to be
+on the lookout for problems.  Also note that \code{\link[oce:read.amsr]{oce::read.amsr()}} will
+need adjustment to read the new file format.
+}
+
+\author{
+Dan Kelley
 }
