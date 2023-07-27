@@ -123,9 +123,9 @@ dod.amsr <- function(year=NULL, month, day, destdir=".", age=365,
         if (usingDefaultTime) {
             year <- 1900L + today$year
             month <- 1L + today$mon
-            if (month == 2L) {
+            if (month < 3L) {
                 year <- year - 1L
-                month <- 12
+                month <- 12L - 2L + month
             } else {
                 month <- month - 2L
             }
