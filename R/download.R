@@ -45,11 +45,11 @@ dod.download <- function(url=NULL, file=NULL, destdir=".", age=0, silent=TRUE, d
         else
             sprintf("%.2f days", fileAge)
         if (fileAge < age) {
-            dodDebug(debug,"        existing file is ", fileAgeMsg,
-                " so it will not be downloaded\n    } # dod.download()\n", sep="")
+            dodDebug(debug, "        an existing file is ", fileAgeMsg,
+                " old, so it will not be downloaded\n    } # dod.download()\n", sep="")
             return(filepath)
         } else {
-            dodDebug(debug, "      existing file age is ", fileAgeMsg, " old, so must download a newer version\n", sep="")
+            dodDebug(debug, "      an existing file is ", fileAgeMsg, " old, so must download a newer version\n", sep="")
         }
     } else {
         dodDebug(debug, "      new file, so must download\n")

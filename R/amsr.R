@@ -10,20 +10,20 @@
 #' with a web browser.  Obviously, this is a fragile approach that will
 #' lead to failed downloads if the remote directory structure changes.  Indeed,
 #' [dod.amsr()] was completely rewritten in July 2023, because a previous version
-#' was seen to fail on that date.  Users are asked to report any failed downloades
-#' they encounter.
+#' was seen to fail on that date.  Users are asked to report any failed downloads
+#' they encounter.  Careful inspection of the documentation for `year`, `month`
+#' and `day` is, of course, the first step in debugging errors.
 #'
 #' @param year,month,day integer values indicating the desired observation time.
-#' All three are required for `server` values of `"3day"` and `"daily"`,
-#' but day is not required (and is ignored) for the other two choices of `server`.
-#' If these values are not provided, reasonable defaults are chosen.  For
-#' the `"3day"` and `"daily"` cases, this default is 3 days prior to the present date.
-#' For the `"weekly"` case, it is two Saturdays previous to the present date.  And
-#' for the `"monthly"` case, it is two months previous to today's month (e.g. it
-#' is 5, if today is in July).  Users who choose to specify values for `year`,
-#' `month`, and `day` for either `weekly` or `monthly` data are advised to
-#' examine the server with a web browser to discover the year-month-day values
-#' of the available files.
+#' Set `year` to NULL (the default) to default to the most recent data; otherwise
+#' specify all three of these values if `type` is `"3day"`, `"daily"` or `"weekly"`,
+#' or just the first two of them if `type` is `"monthly"`.  If these
+#' things are provided, then they just match exactly the values in the sought-after
+#' file on the remote server.  If `year` is NULL, then [dod.amsr()] constructs
+#' a URL that ought to be the most recent available file: 3 days prior
+#' to the present date for `type` of `"3day"` or `"daily"`, the Saturday
+#' two weeks prior to the present date for `type` of `"weekly"`, or
+#' two months in the past, for `type of `"monthly"`.
 #'
 #' @param destdir character giving destination directory (defaults to `"."`, the present
 #' directory).  The directory must exist.  (The author uses `"~/data/amsr"`.)
@@ -60,7 +60,7 @@
 #' @export
 #'
 #' @author Dan Kelley
-dod.amsr <- function(year, month, day, destdir=".", age=365,
+dod.amsr <- function(year=NULL, month, day, destdir=".", age=365,
     server="https://data.remss.com/amsr2/ocean/L3/v08.2",
     type="3day", debug=0)
 {
@@ -68,32 +68,48 @@ dod.amsr <- function(year, month, day, destdir=".", age=365,
     if (!type %in% c("3day", "daily", "weekly", "monthly"))
         stop("type='", type, "' not permitted; try '3day', 'daily', 'weekly' or 'monthly'")
     # If year, month, day not given, default to 3 days ago.
-    today <- Sys.Date()
-    recent <- as.POSIXlt(today - 3)
-    if (missing(year))
-        year <- 1900 + recent$year
-    if (missing(month))
-        month <- 1 + recent$mon
-    if (missing(day))
-        day <- recent$mday
-    year <- as.integer(year)
-    month <- as.integer(month)
-    day <- as.integer(day)
-    dodDebug(debug, sprintf("year=%d, month=%d, day=%d, type=%s\n", year, month, day, type))
+    today <- as.POSIXlt(Sys.Date())
+    usingDefaultTime <- is.null(year)
+    if (usingDefaultTime) {
+        dodDebug(debug, "year is NULL, so a default time will be used\n")
+    } else {
+        if (missing(month))
+            stop("month must be provided, if year is provided")
+        if (type %in% c("3day", "daily") && missing(day))
+            stop("day must be provided for type of '3day' or 'daily'")
+        # convert to integers (needed for formatting URLs, below)
+        year <- as.integer(year)
+        month <- as.integer(month)
+        day <- as.integer(day)
+    }
     if (type %in% c("3day", "daily")) {
         # https://data.remss.com/amsr2/ocean/L3/v08.2/3day/2023/RSS_AMSR2_ocean_L3_3day_2023-07-24_v08.2.nc
         # ^                                           ^    ^                       ^    ^    ^  ^
         # server                                      type year                  type year month day
+        if (usingDefaultTime) {
+            focus <- as.POSIXlt(Sys.Date() - 3L)
+            year <- 1900L + focus$year
+            month <- 1L + focus$mon
+            day <- focus$mday
+            dodDebug(debug, "defaulting to year=", year, ", month=", month, " and day=", day, "\n", sep="")
+        } else {
+            dodDebug(debug, "user-supplied year=", year, ", month=", month, " and day=", day, "\n", sep="")
+        }
         url <- sprintf("%s/%s/%d/RSS_AMSR2_ocean_L3_%s_%04d-%02d-%02d_v08.2.nc",
             server, type, year, type, year, month, day)
     } else if (identical(type, "weekly")) {
-        dayName <- weekdays(today)
-        offset <- switch(dayName,
-            "Saturday"=0, "Sunday"=1, "Monday"=2, "Tuesday"=3, "Wednesday"=4, "Thursday"=5, "Friday"=6)
-        #print(today)
-        #print(today-offset)
-        #print(today-offset-7)
-        ymd <- format(today - offset - 7)
+        if (usingDefaultTime) {
+            # use the Saturday previous to the most recent Saturday
+            today <- Sys.Date()
+            dayName <- weekdays(today)
+            offset <- switch(dayName,
+                "Saturday"=0, "Sunday"=1, "Monday"=2, "Tuesday"=3, "Wednesday"=4, "Thursday"=5, "Friday"=6)
+            ymd <- format(today - offset - 7L)
+            dodDebug(debug, "defaulting to ymd=\"", ymd, "\"\n")
+        } else {
+            ymd <- sprintf("%4d-%02d-%02d", year, month, day)
+            dodDebug(debug, "user-provided ymd=\"", ymd, "\"\n")
+        }
         # https://data.remss.com/amsr2/ocean/L3/v08.2/weekly/RSS_AMSR2_ocean_L3_weekly_2023-07-15_v08.2.nc
         # ^                                           ^                            ^    ^
         # server                                      type                       type   ymd
@@ -103,6 +119,20 @@ dod.amsr <- function(year, month, day, destdir=".", age=365,
         # https://data.remss.com/amsr2/ocean/L3/v08.2/monthly/RSS_AMSR2_ocean_L3_monthly_2023-05_v08.2.nc
         # ^                                           ^                            ^    ^    ^
         # server                                      type                       type year month
+        # use the month previous to the previous month
+        if (usingDefaultTime) {
+            year <- 1900L + today$year
+            month <- 1L + today$mon
+            if (month == 2L) {
+                year <- year - 1L
+                month <- 12
+            } else {
+                month <- month - 2L
+            }
+            dodDebug(debug, "defaulting to year=", year, ", month=", month, "\n", sep="")
+        } else {
+            dodDebug(debug, "user-supplied year=", year, ", month=", month, "\n", sep="")
+        }
         url <- sprintf("%s/%s/RSS_AMSR2_ocean_L3_%s_%04d-%02d_v08.2.nc",
             server, type, type, year, month)
     } else {

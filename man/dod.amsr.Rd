@@ -5,7 +5,7 @@
 \title{Download Advanced Microwave Scanning Radiometer data}
 \usage{
 dod.amsr(
-  year,
+  year = NULL,
   month,
   day,
   destdir = ".",
@@ -17,16 +17,15 @@ dod.amsr(
 }
 \arguments{
 \item{year, month, day}{integer values indicating the desired observation time.
-All three are required for \code{server} values of \code{"3day"} and \code{"daily"},
-but day is not required (and is ignored) for the other two choices of \code{server}.
-If these values are not provided, reasonable defaults are chosen.  For
-the \code{"3day"} and \code{"daily"} cases, this default is 3 days prior to the present date.
-For the \code{"weekly"} case, it is two Saturdays previous to the present date.  And
-for the \code{"monthly"} case, it is two months previous to today's month (e.g. it
-is 5, if today is in July).  Users who choose to specify values for \code{year},
-\code{month}, and \code{day} for either \code{weekly} or \code{monthly} data are advised to
-examine the server with a web browser to discover the year-month-day values
-of the available files.}
+Set \code{year} to NULL (the default) to default to the most recent data; otherwise
+specify all three of these values if \code{type} is \code{"3day"}, \code{"daily"} or \code{"weekly"},
+or just the first two of them if \code{type} is \code{"monthly"}.  If these
+things are provided, then they just match exactly the values in the sought-after
+file on the remote server.  If \code{year} is NULL, then \code{\link[=dod.amsr]{dod.amsr()}} constructs
+a URL that ought to be the most recent available file: 3 days prior
+to the present date for \code{type} of \code{"3day"} or \code{"daily"}, the Saturday
+two weeks prior to the present date for \code{type} of \code{"weekly"}, or
+two months in the past, for \verb{type of }"monthly"`.}
 
 \item{destdir}{character giving destination directory (defaults to \code{"."}, the present
 directory).  The directory must exist.  (The author uses \code{"~/data/amsr"}.)}
@@ -63,8 +62,9 @@ the server, and so the construction is based on examining the server
 with a web browser.  Obviously, this is a fragile approach that will
 lead to failed downloads if the remote directory structure changes.  Indeed,
 \code{\link[=dod.amsr]{dod.amsr()}} was completely rewritten in July 2023, because a previous version
-was seen to fail on that date.  Users are asked to report any failed downloades
-they encounter.
+was seen to fail on that date.  Users are asked to report any failed downloads
+they encounter.  Careful inspection of the documentation for \code{year}, \code{month}
+and \code{day} is, of course, the first step in debugging errors.
 }
 \section{Historical note}{
 
