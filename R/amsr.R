@@ -4,13 +4,29 @@
 #'
 #' This function downloads AMSR data.
 #'
+#' This works by constructing URLs based on the arguments provided.  The author
+#' is unaware of any documentation that specifies the directory structure on
+#' the server, and so the construction is based on examining the server
+#' with a web browser.  Obviously, this is a fragile approach that will
+#' lead to failed downloads if the remote directory structure changes.  Indeed,
+#' [dod.amsr()] was completely rewritten in July 2023, because a previous version
+#' was seen to fail on that date.  Users are asked to report any failed downloades
+#' they encounter.
+#'
 #' @param year,month,day integer values indicating the desired observation time.
 #' All three are required for `server` values of `"3day"` and `"daily"`,
-#' but day is not required (and are ignored) for the other two choices of `server`.
-#' If these values are not provided, the focus is 3 days prior to the present day.
+#' but day is not required (and is ignored) for the other two choices of `server`.
+#' If these values are not provided, reasonable defaults are chosen.  For
+#' the `"3day"` and `"daily"` cases, this default is 3 days prior to the present date.
+#' For the `"weekly"` case, it is two Saturdays previous to the present date.  And
+#' for the `"monthly"` case, it is two months previous to today's month (e.g. it
+#' is 5, if today is in July).  Users who choose to specify values for `year`,
+#' `month`, and `day` for either `weekly` or `monthly` data are advised to
+#' examine the server with a web browser to discover the year-month-day values
+#' of the available files.
 #'
 #' @param destdir character giving destination directory (defaults to `"."`, the present
-#' directory).
+#' directory).  The directory must exist.  (The author uses `"~/data/amsr"`.)
 #'
 #' @param age integer giving the number of days old a local file has to be, for it to
 #' be regarded as in need of replacement. This defaults to a year.
@@ -50,9 +66,10 @@ dod.amsr <- function(year, month, day, destdir=".", age=365,
 {
     dodDebug(debug, "dod.amsr(type=\"", type, "\", ...) {\n", sep="")
     if (!type %in% c("3day", "daily", "weekly", "monthly"))
-        stop("type value \"", type, "\" is not permitted.  Please see documentation")
+        stop("type='", type, "' not permitted; try '3day', 'daily', 'weekly' or 'monthly'")
     # If year, month, day not given, default to 3 days ago.
-    recent <- as.POSIXlt(Sys.Date() - 3)
+    today <- Sys.Date()
+    recent <- as.POSIXlt(today - 3)
     if (missing(year))
         year <- 1900 + recent$year
     if (missing(month))
@@ -70,11 +87,27 @@ dod.amsr <- function(year, month, day, destdir=".", age=365,
         url <- sprintf("%s/%s/%d/RSS_AMSR2_ocean_L3_%s_%04d-%02d-%02d_v08.2.nc",
             server, type, year, type, year, month, day)
     } else if (identical(type, "weekly")) {
-        stop("FIXME weekly")
-    } else if (identical(type, "monthley")) {
-        stop("FIXME monthly")
+        dayName <- weekdays(today)
+        offset <- switch(dayName,
+            "Saturday"=0, "Sunday"=1, "Monday"=2, "Tuesday"=3, "Wednesday"=4, "Thursday"=5, "Friday"=6)
+        #print(today)
+        #print(today-offset)
+        #print(today-offset-7)
+        ymd <- format(today - offset - 7)
+        # https://data.remss.com/amsr2/ocean/L3/v08.2/weekly/RSS_AMSR2_ocean_L3_weekly_2023-07-15_v08.2.nc
+        # ^                                           ^                            ^    ^
+        # server                                      type                       type   ymd
+        url <- sprintf("%s/%s/RSS_AMSR2_ocean_L3_%s_%s_v08.2.nc",
+            server, type, type, ymd)
+    } else if (identical(type, "monthly")) {
+        # https://data.remss.com/amsr2/ocean/L3/v08.2/monthly/RSS_AMSR2_ocean_L3_monthly_2023-05_v08.2.nc
+        # ^                                           ^                            ^    ^    ^
+        # server                                      type                       type year month
+        url <- sprintf("%s/%s/RSS_AMSR2_ocean_L3_%s_%04d-%02d_v08.2.nc",
+            server, type, type, year, month)
     } else {
-        stop("unrecognized '", server, "' value; see documentation.")
+        # check again (but should not be able to get here)
+        stop("type='", type, "' not permitted; try '3day', 'daily', 'weekly' or 'monthly'")
     }
     file <- gsub(".*/", "", url)
     dodDebug(debug, "url=\"", url, "\"\n", sep="")

@@ -18,11 +18,18 @@ dod.amsr(
 \arguments{
 \item{year, month, day}{integer values indicating the desired observation time.
 All three are required for \code{server} values of \code{"3day"} and \code{"daily"},
-but day is not required (and are ignored) for the other two choices of \code{server}.
-If these values are not provided, the focus is 3 days prior to the present day.}
+but day is not required (and is ignored) for the other two choices of \code{server}.
+If these values are not provided, reasonable defaults are chosen.  For
+the \code{"3day"} and \code{"daily"} cases, this default is 3 days prior to the present date.
+For the \code{"weekly"} case, it is two Saturdays previous to the present date.  And
+for the \code{"monthly"} case, it is two months previous to today's month (e.g. it
+is 5, if today is in July).  Users who choose to specify values for \code{year},
+\code{month}, and \code{day} for either \code{weekly} or \code{monthly} data are advised to
+examine the server with a web browser to discover the year-month-day values
+of the available files.}
 
 \item{destdir}{character giving destination directory (defaults to \code{"."}, the present
-directory).}
+directory).  The directory must exist.  (The author uses \code{"~/data/amsr"}.)}
 
 \item{age}{integer giving the number of days old a local file has to be, for it to
 be regarded as in need of replacement. This defaults to a year.}
@@ -48,6 +55,16 @@ character value indicating the full pathname to the downloaded file.
 }
 \description{
 This function downloads AMSR data.
+}
+\details{
+This works by constructing URLs based on the arguments provided.  The author
+is unaware of any documentation that specifies the directory structure on
+the server, and so the construction is based on examining the server
+with a web browser.  Obviously, this is a fragile approach that will
+lead to failed downloads if the remote directory structure changes.  Indeed,
+\code{\link[=dod.amsr]{dod.amsr()}} was completely rewritten in July 2023, because a previous version
+was seen to fail on that date.  Users are asked to report any failed downloades
+they encounter.
 }
 \section{Historical note}{
 
