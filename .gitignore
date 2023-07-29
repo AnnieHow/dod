@@ -14,6 +14,5 @@
 *.gz
 *.tsv
 *.ODF
-docs
 tests/testthat/testthat-problems.rds
 sounding*dat

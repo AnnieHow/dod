@@ -59,6 +59,7 @@
 #' \sQuote{Examples} section of the present documentation.
 #'
 #' @examples
+#' # This example is not run because it downloads a 12Mb file.
 #' \dontrun{
 #' if (dir.exists("~/data/amsr")) {
 #'     library(dod)

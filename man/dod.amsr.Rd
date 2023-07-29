@@ -77,6 +77,7 @@ within the present package, and will require changes to
 }
 
 \examples{
+# This example is not run because it downloads a 12Mb file.
 \dontrun{
 if (dir.exists("~/data/amsr")) {
     library(dod)
