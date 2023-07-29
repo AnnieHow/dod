@@ -82,7 +82,7 @@ if (dir.exists("~/data/amsr")) {
     library(dod)
     library(oce)
     library(ncdf4)
-    file <- dod.amsr(2023, 7, 24, destdir="~/data/amsr")
+    file <- dod.amsr(destdir="~/data/amsr")
     nc <- nc_open(file)
     lon <- ncvar_get(nc, "lon")
     lat <- ncvar_get(nc, "lat")
