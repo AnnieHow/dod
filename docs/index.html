@@ -68,8 +68,36 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9">
-The package is used to download various types of oceanographic data including ctd, topography, advanced microwave scanning radiometer, and meteorological data.
+  <main id="main" class="col-md-9"><div class="section level1">
+<div class="page-header"><h1 id="dod">dod<a class="anchor" aria-label="anchor" href="#dod"></a>
+</h1></div>
+<!-- badges: start -->
+
+<p>The goal of dod is to make it easier to download various types of oceanographic data from common sources such as BATS, NAOO, MEDS, BBMP. Some similar functions exist in the oce package, but the intention is to retire them as dod matures, because building oce is difficult for some users, and CRAN policies dictate against frequent updates.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can install the development version of dod from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># install.packages("devtools")</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"AnnieHow/dod"</span>)</span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
+<p>The following example shows how to (1) download an index of ctd data files resulting from observations made as part of the BBMP program in the year 2022 and then (2) use functions in the oce package to read and plot the first file in that index.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># 1. Get index</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(dod)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>index <span class="ot">&lt;-</span> <span class="fu">dod.ctd</span>(<span class="st">"BBMP"</span>, <span class="dv">2022</span>, <span class="at">index=</span><span class="cn">TRUE</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>item <span class="ot">&lt;-</span> index[<span class="dv">1</span>, <span class="st">"file"</span>]</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co"># 2. Get the first file, and plot it</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">dod.ctd</span>(<span class="st">"BBMP"</span>, <span class="dv">2022</span>, item)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">library</span>(oce)</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">read.ctd</span>(file))</span></code></pre></div>
+<div class="float">
+<img src="reference/figures/README-example-1.png" alt="Sample CTD plot."><div class="figcaption">Sample CTD plot.</div>
+</div>
+</div>
+</div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
@@ -100,7 +128,13 @@ The package is used to download various types of oceanographic data including ct
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://CRAN.R-project.org/package=dod" class="external-link"><img src="https://www.r-pkg.org/badges/version/dod" alt="CRAN status"></a></li>
+<li><a href="https://github.com/anniehow/dod/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/anniehow/dod/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+</ul>
+</div>
 
   </aside>
 </div>

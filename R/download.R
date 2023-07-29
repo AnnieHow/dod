@@ -37,6 +37,9 @@ dod.download <- function(url=NULL, file=NULL, destdir=".", age=0, silent=TRUE, d
         "destdir=\"", destdir, "\", ",
         "age=", age, ", silent=", silent, ", debug=", debug, ")\n    {\n", sep="")
     filepath <- file.path(destdir, file)
+    # For negative age, set timer to 1000 years
+    if (age < 0)
+        age <- 1000 * 365
     if (file.exists(filepath)) {
         mtime <- file.info(filepath)$mtime
         fileAge <- (as.numeric(Sys.time()) - as.numeric(mtime))/86400

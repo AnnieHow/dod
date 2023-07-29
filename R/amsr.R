@@ -28,9 +28,6 @@
 #' @param destdir character giving destination directory (defaults to `"."`, the present
 #' directory).  The directory must exist.  (The author uses `"~/data/amsr"`.)
 #'
-#' @param age integer giving the number of days old a local file has to be, for it to
-#' be regarded as in need of replacement. This defaults to a year.
-#'
 #' @param server character value indicating the base server location. The
 #' default value ought to be used unless the data provider changes their
 #' web scheme ... but in that case, it is hoped that users will contact
@@ -47,22 +44,45 @@
 #' @param debug integer giving debugging level (defaults to 0, to make the function work
 #' without much output).
 #'
-#' @return character value indicating the full pathname to the downloaded file.
+#' @return `dod.amsr` returns a character value holding the full pathname
+#' of the downloaded file.
 #'
 #' @section Historical note:
-#' In July 2023, the author noticed major changes in the organization of
-#' the remove server, and also of the data files provided. This required
-#' major changes to [dod.amsr()], especially in regard to the `server`
-#' argument and the newly-added `type` argument. Users are asked to be
-#' on the lookout for problems.  Also note that [oce::read.amsr()] will
-#' need adjustment to read the new file format.
+#' Until July 2023, [dod.amsr()] worked by calling [oce::download.amsr()].
+#' However, at that time, the author noticed changes in both
+#' the directory structure of the remote server, and the format of the
+#' data files. The new directory structure was addressed by a complete
+#' rewrite of the code within `dod`, and a severing of the connection
+#' to [oce::download.amsr()].  The new file format cannot be addressed
+#' within the present package, and will require changes to
+#' `oce::read.amsr()`, building upon the method that is shown in the
+#' \sQuote{Examples} section of the present documentation.
+#'
+#' @examples
+#' \dontrun{
+#' if (dir.exists("~/data/amsr")) {
+#'     library(dod)
+#'     library(oce)
+#'     library(ncdf4)
+#'     file <- dod.amsr(2023, 7, 24, destdir="~/data/amsr")
+#'     nc <- nc_open(file)
+#'     lon <- ncvar_get(nc, "lon")
+#'     lat <- ncvar_get(nc, "lat")
+#'     SST <- ncvar_get(nc, "SST")
+#'     U <- ncvar_get(nc, "wind_speed_AW")
+#'     par(mfrow=c(2, 1))
+#'     imagep(lon, lat, SST, asp=1, col=oceColorsTurbo, xaxs="i")
+#'     imagep(lon, lat, U, asp=1, zlim=c(0,15), col=oceColorsTurbo, xaxs="i")
+#'     nc_close(nc)
+#' }
+#'}
 #'
 #' @export
 #'
 #' @author Dan Kelley
-dod.amsr <- function(year=NULL, month, day, destdir=".", age=365,
-    server="https://data.remss.com/amsr2/ocean/L3/v08.2",
-    type="3day", debug=0)
+dod.amsr <- function(year=NULL, month, day, destdir=".",
+    server="https://data.remss.com/amsr2/ocean/L3/v08.2", type="3day",
+    debug=0)
 {
     dodDebug(debug, "dod.amsr(type=\"", type, "\", ...) {\n", sep="")
     if (!type %in% c("3day", "daily", "weekly", "monthly"))
@@ -142,7 +162,7 @@ dod.amsr <- function(year=NULL, month, day, destdir=".", age=365,
     file <- gsub(".*/", "", url)
     dodDebug(debug, "url=\"", url, "\"\n", sep="")
     dodDebug(debug, "file=\"", file, "\"\n", sep="")
-    rval <- dod.download(url, destdir=destdir, file=file, age=age, debug=debug-1, silent=debug==0)
+    rval <- dod.download(url, destdir=destdir, file=file, age=-1, debug=debug-1, silent=debug==0)
     dodDebug(debug, "} # dod.amsr\n", sep="")
     rval
 }

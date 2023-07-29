@@ -87,7 +87,9 @@ in which to store downloaded files.</p></dd>
 If the file to be downloaded from the server already exists locally,
 and was created less than <code>age</code> days in the past, it will not be
 downloaded again.  Setting <code>age=0</code> (which is the default)
-forces a download.</p></dd>
+forces a download, so that existing files will always be updated.
+By contrast, setting <code>age</code> to a negative number prevents the
+updating of files that already exist locally.</p></dd>
 
 
 <dt>debug</dt>

@@ -64,7 +64,6 @@
 <span>  <span class="va">month</span>,</span>
 <span>  <span class="va">day</span>,</span>
 <span>  destdir <span class="op">=</span> <span class="st">"."</span>,</span>
-<span>  age <span class="op">=</span> <span class="fl">365</span>,</span>
 <span>  server <span class="op">=</span> <span class="st">"https://data.remss.com/amsr2/ocean/L3/v08.2"</span>,</span>
 <span>  type <span class="op">=</span> <span class="st">"3day"</span>,</span>
 <span>  debug <span class="op">=</span> <span class="fl">0</span></span>
@@ -89,11 +88,6 @@ two months in the past (if <code>type</code> is <code>"monthly"</code>).</p></dd
 <dt>destdir</dt>
 <dd><p>character giving destination directory (defaults to <code>"."</code>, the present
 directory).  The directory must exist.  (The author uses <code>"~/data/amsr"</code>.)</p></dd>
-
-
-<dt>age</dt>
-<dd><p>integer giving the number of days old a local file has to be, for it to
-be regarded as in need of replacement. This defaults to a year.</p></dd>
 
 
 <dt>server</dt>
@@ -122,7 +116,8 @@ without much output).</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>character value indicating the full pathname to the downloaded file.</p>
+<p><code>dod.amsr</code> returns a character value holding the full pathname
+of the downloaded file.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -140,18 +135,40 @@ and <code>day</code> is, of course, the first step in debugging errors.</p>
     <h2 id="historical-note">Historical note<a class="anchor" aria-label="anchor" href="#historical-note"></a></h2>
     
 
-<p>In July 2023, the author noticed major changes in the organization of
-the remove server, and also of the data files provided. This required
-major changes to <code>dod.amsr()</code>, especially in regard to the <code>server</code>
-argument and the newly-added <code>type</code> argument. Users are asked to be
-on the lookout for problems.  Also note that <code><a href="https://dankelley.github.io/oce/reference/read.amsr.html" class="external-link">oce::read.amsr()</a></code> will
-need adjustment to read the new file format.</p>
+<p>Until July 2023, <code>dod.amsr()</code> worked by calling <code><a href="https://dankelley.github.io/oce/reference/download.amsr.html" class="external-link">oce::download.amsr()</a></code>.
+However, at that time, the author noticed changes in both
+the directory structure of the remote server, and the format of the
+data files. The new directory structure was addressed by a complete
+rewrite of the code within <code>dod</code>, and a severing of the connection
+to <code><a href="https://dankelley.github.io/oce/reference/download.amsr.html" class="external-link">oce::download.amsr()</a></code>.  The new file format cannot be addressed
+within the present package, and will require changes to
+<code><a href="https://dankelley.github.io/oce/reference/read.amsr.html" class="external-link">oce::read.amsr()</a></code>, building upon the method that is shown in the
+‘Examples’ section of the present documentation.</p>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
     <p>Dan Kelley</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.exists</a></span><span class="op">(</span><span class="st">"~/data/amsr"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://anniehow.github.io/dod/" class="external-link">dod</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dankelley.github.io/oce/" class="external-link">oce</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://cirrus.ucsd.edu/~pierce/ncdf/" class="external-link">ncdf4</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="va">file</span> <span class="op">&lt;-</span> <span class="fu">dod.amsr</span><span class="op">(</span><span class="fl">2023</span>, <span class="fl">7</span>, <span class="fl">24</span>, destdir<span class="op">=</span><span class="st">"~/data/amsr"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="va">nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ncdf4/man/nc_open.html" class="external-link">nc_open</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="va">lon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ncdf4/man/ncvar_get.html" class="external-link">ncvar_get</a></span><span class="op">(</span><span class="va">nc</span>, <span class="st">"lon"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="va">lat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ncdf4/man/ncvar_get.html" class="external-link">ncvar_get</a></span><span class="op">(</span><span class="va">nc</span>, <span class="st">"lat"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="va">SST</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ncdf4/man/ncvar_get.html" class="external-link">ncvar_get</a></span><span class="op">(</span><span class="va">nc</span>, <span class="st">"SST"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://dankelley.github.io/oce/reference/imagep.html" class="external-link">imagep</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span>, <span class="va">SST</span>, asp<span class="op">=</span><span class="fl">1</span>, col<span class="op">=</span><span class="va">oceColorsTurbo</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/pkg/ncdf4/man/nc_close.html" class="external-link">nc_close</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 

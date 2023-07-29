@@ -27,7 +27,9 @@ in which to store downloaded files.}
 If the file to be downloaded from the server already exists locally,
 and was created less than \code{age} days in the past, it will not be
 downloaded again.  Setting \code{age=0} (which is the default)
-forces a download.}
+forces a download, so that existing files will always be updated.
+By contrast, setting \code{age} to a negative number prevents the
+updating of files that already exist locally.}
 
 \item{silent}{logical value passed to \code{\link[=download.file]{download.file()}}, which
 does the downloading.  The default, TRUE, indicates not to show

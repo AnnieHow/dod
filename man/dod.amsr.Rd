@@ -9,7 +9,6 @@ dod.amsr(
   month,
   day,
   destdir = ".",
-  age = 365,
   server = "https://data.remss.com/amsr2/ocean/L3/v08.2",
   type = "3day",
   debug = 0
@@ -30,9 +29,6 @@ two months in the past (if \code{type} is \code{"monthly"}).}
 \item{destdir}{character giving destination directory (defaults to \code{"."}, the present
 directory).  The directory must exist.  (The author uses \code{"~/data/amsr"}.)}
 
-\item{age}{integer giving the number of days old a local file has to be, for it to
-be regarded as in need of replacement. This defaults to a year.}
-
 \item{server}{character value indicating the base server location. The
 default value ought to be used unless the data provider changes their
 web scheme ... but in that case, it is hoped that users will contact
@@ -50,7 +46,8 @@ other cases, the arrays are 2D.}
 without much output).}
 }
 \value{
-character value indicating the full pathname to the downloaded file.
+\code{dod.amsr} returns a character value holding the full pathname
+of the downloaded file.
 }
 \description{
 This function downloads AMSR data.
@@ -68,14 +65,37 @@ and \code{day} is, of course, the first step in debugging errors.
 }
 \section{Historical note}{
 
-In July 2023, the author noticed major changes in the organization of
-the remove server, and also of the data files provided. This required
-major changes to \code{\link[=dod.amsr]{dod.amsr()}}, especially in regard to the \code{server}
-argument and the newly-added \code{type} argument. Users are asked to be
-on the lookout for problems.  Also note that \code{\link[oce:read.amsr]{oce::read.amsr()}} will
-need adjustment to read the new file format.
+Until July 2023, \code{\link[=dod.amsr]{dod.amsr()}} worked by calling \code{\link[oce:download.amsr]{oce::download.amsr()}}.
+However, at that time, the author noticed changes in both
+the directory structure of the remote server, and the format of the
+data files. The new directory structure was addressed by a complete
+rewrite of the code within \code{dod}, and a severing of the connection
+to \code{\link[oce:download.amsr]{oce::download.amsr()}}.  The new file format cannot be addressed
+within the present package, and will require changes to
+\code{oce::read.amsr()}, building upon the method that is shown in the
+\sQuote{Examples} section of the present documentation.
 }
 
+\examples{
+\dontrun{
+if (dir.exists("~/data/amsr")) {
+    library(dod)
+    library(oce)
+    library(ncdf4)
+    file <- dod.amsr(2023, 7, 24, destdir="~/data/amsr")
+    nc <- nc_open(file)
+    lon <- ncvar_get(nc, "lon")
+    lat <- ncvar_get(nc, "lat")
+    SST <- ncvar_get(nc, "SST")
+    U <- ncvar_get(nc, "wind_speed_AW")
+    par(mfrow=c(2, 1))
+    imagep(lon, lat, SST, asp=1, col=oceColorsTurbo, xaxs="i")
+    imagep(lon, lat, U, asp=1, zlim=c(0,15), col=oceColorsTurbo, xaxs="i")
+    nc_close(nc)
+}
+}
+
+}
 \author{
 Dan Kelley
 }
