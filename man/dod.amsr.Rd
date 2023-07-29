@@ -90,7 +90,9 @@ if (dir.exists("~/data/amsr")) {
     U <- ncvar_get(nc, "wind_speed_AW")
     par(mfrow=c(2, 1))
     imagep(lon, lat, SST, asp=1, col=oceColorsTurbo, xaxs="i")
+    mtext("SST [degC]")
     imagep(lon, lat, U, asp=1, zlim=c(0,15), col=oceColorsTurbo, xaxs="i")
+    mtext("Wind [m/s]")
     nc_close(nc)
 }
 }
